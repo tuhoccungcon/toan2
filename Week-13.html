@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="vi" data-lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TUẦN 13 / WEEK 13</title>
+<style>
+:root {
+  --bg: #f4f9ff;
+  --card: #ffffff;
+  --pri: #1976d2;
+  --pri-light: #e3f2fd;
+  --acc: #ff9800;
+  --ok: #2e7d32;
+  --err: #c62828;
+  --warn: #ef6c00;
+  --txt: #212121;
+  --bdr: #bbdefb;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 82px 14px 40px;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 20px; line-height: 1.5;
+  background: var(--bg); color: var(--txt);
+}
+html[data-lang="vi"] .en { display: none !important; }
+html[data-lang="en"] .vi { display: none !important; }
+
+/* Topbar */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: #fff; border-bottom: 3px solid var(--pri);
+  padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.prog-wrap { flex: 1; max-width: 440px; }
+.prog-txt { font-weight: 700; font-size: 17px; color: var(--pri); margin-bottom: 3px; }
+.prog-bar { height: 12px; background: #e0e0e0; border-radius: 6px; overflow: hidden; }
+.prog-fill { height: 100%; width: 0%; background: linear-gradient(90deg,#42a5f5,#1976d2); transition: width 0.25s; }
+.lang-switch { display: flex; gap: 4px; flex-wrap: wrap; }
+.lang-btn {
+  min-height: 48px; padding: 6px 14px; font-size: 18px; font-weight: 700;
+  border: 2px solid var(--pri); background: #fff; color: var(--pri);
+  border-radius: 10px; cursor: pointer;
+}
+.lang-btn.active { background: var(--pri); color: #fff; }
+.parent-btn {
+  min-height: 48px; padding: 6px 12px; font-size: 16px; font-weight: 700;
+  border: 2px solid #6d4c41; background: #efebe9; color: #4e342e;
+  border-radius: 10px; cursor: pointer;
+}
+
+.container { max-width: 960px; margin: 0 auto; }
+h1 { text-align: center; color: var(--pri); font-size: 32px; margin: 12px 0 18px; }
+h2.part-title {
+  background: var(--pri); color: #fff; padding: 10px 16px;
+  border-radius: 12px; font-size: 24px; margin: 24px 0 14px;
+}
+.section-guide {
+  font-style: italic; font-weight: 700; color: #0d47a1;
+  margin: 12px 4px; font-size: 21px;
+}
+
+/* Vocabulary */
+details.vocab {
+  background: #fff8e1; border: 2px solid #ffe082; border-radius: 12px;
+  padding: 10px 16px; margin-bottom: 18px;
+}
+details.vocab summary {
+  font-weight: 700; font-size: 20px; cursor: pointer; color: #e65100;
+}
+.vocab-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 8px 16px; margin-top: 10px; font-size: 18px;
+}
+.vocab-item { background: #fff; padding: 6px 10px; border-radius: 8px; border: 1px solid #ffe082; }
+
+/* Card */
+.card {
+  background: var(--card); border: 2px solid var(--bdr); border-radius: 16px;
+  padding: 16px 18px; margin-bottom: 18px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.04);
+}
+.ex-head { font-weight: 700; font-size: 22px; color: #0d47a1; margin-bottom: 12px; }
+.q-row { margin: 14px 0; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px 18px; }
+
+/* Inputs */
+input.inline-inp {
+  font-size: 20px; padding: 6px 10px; width: 160px; max-width: 100%;
+  border: none; border-bottom: 3px solid var(--pri); background: #f0f7ff;
+  border-radius: 6px 6px 0 0; text-align: center; font-weight: 700; color: #0d47a1;
+}
+input.inline-inp:focus { outline: 2px solid var(--acc); background: #fffde7; }
+
+/* Matching (Bài 1) */
+.match-wrap {
+  position: relative; display: flex; justify-content: space-between;
+  gap: 60px; max-width: 680px; margin: 12px auto; user-select: none;
+}
+.match-col { display: flex; flex-direction: column; gap: 10px; width: 42%; z-index: 2; }
+.match-item {
+  min-height: 52px; padding: 10px 12px; border: 2.5px solid #1976d2;
+  background: #fff; border-radius: 10px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.match-item.selected { background: #fff59d; border-color: #f57f17; }
+.match-item.sample { background: #e8f5e9; border-color: #4caf50; cursor: default; }
+.match-svg {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 1;
+}
+
+/* Sơ đồ hình Bài 2 */
+.schema-row {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+  margin: 16px 0; padding: 12px 10px; background: #fafcff; border-radius: 12px;
+}
+.schema-num { font-weight: 700; width: 28px; }
+.shape-box {
+  position: relative; width: 92px; height: 84px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.shape-box svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.shape-box input, .shape-box .fixed-num {
+  position: relative; z-index: 2; width: 54px; text-align: center;
+  font-size: 20px; font-weight: 700; border: none; border-bottom: 2px dashed var(--pri);
+  background: transparent; color: #0d47a1;
+}
+.shape-box .fixed-num { border: none; color: #111; }
+.shape-box input.tri-inp { margin-top: 18px; width: 46px; }
+.shape-box input:focus { outline: none; background: rgba(255,249,196,0.85); border-radius: 4px; }
+.arrow-seg {
+  display: inline-flex; flex-direction: column; align-items: center; min-width: 78px;
+}
+.arrow-lbl { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+.arrow-line {
+  width: 68px; height: 3px; background: #212121; position: relative;
+}
+.arrow-line::after {
+  content: ""; position: absolute; right: -2px; top: -5px;
+  border-left: 10px solid #212121; border-top: 6px solid transparent; border-bottom: 6px solid transparent;
+}
+
+/* Điền dấu >, <, = (Bài 5) */
+.cmp-row { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 21px; }
+.cmp-select {
+  width: 64px; height: 48px; font-size: 24px; font-weight: 700;
+  text-align: center; border: 2.5px solid var(--pri); border-radius: 10px;
+  background: #fff; color: #0d47a1; cursor: pointer;
+}
+
+/* Khoanh trắc nghiệm (Bài 6) */
+.mc-opts-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; }
+.mc-btn {
+  min-height: 50px; padding: 8px 18px; font-size: 20px;
+  border: 2px solid #90caf9; background: #fff; border-radius: 12px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.mc-letter {
+  width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--pri);
+  display: inline-flex; align-items: center; justify-content: center; font-weight: 700;
+}
+.mc-btn.active { background: #e3f2fd; border-color: var(--pri); font-weight: 700; }
+.mc-btn.active .mc-letter { background: var(--pri); color: #fff; border-color: #0d47a1; }
+
+/* Đúng / Sai (Bài 7) */
+.tf-options { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 8px; align-items: center; }
+.tf-item { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; }
+.tf-box {
+  display: inline-flex; border: 2px solid var(--pri); border-radius: 10px; overflow: hidden;
+}
+.tf-btn {
+  min-width: 46px; min-height: 46px; font-size: 19px; font-weight: 700;
+  border: none; background: #fff; color: var(--pri); cursor: pointer;
+}
+.tf-btn + .tf-btn { border-left: 1.5px solid var(--bdr); }
+.tf-btn.active-T { background: #2e7d32; color: #fff; }
+.tf-btn.active-F { background: #c62828; color: #fff; }
+
+/* Tự luận */
+.work-box {
+  background: #f9fbe7; border: 2px dashed #c0ca33; border-radius: 12px;
+  padding: 12px; margin-top: 8px;
+}
+.work-box label { font-weight: 700; font-size: 18px; display: block; margin-bottom: 4px; color: #33691e; }
+.work-area {
+  width: 100%; min-height: 80px; font-size: 19px; padding: 8px;
+  border: 1.5px solid #cddc39; border-radius: 8px; resize: vertical; font-family: inherit;
+}
+.ans-line { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.ans-line input.num-inp {
+  width: 120px; font-size: 20px; padding: 6px 8px; border: 2px solid var(--pri);
+  border-radius: 8px; font-weight: 700; text-align: center;
+}
+.ans-line input.unit-inp {
+  width: 190px; font-size: 20px; padding: 6px 8px; border: 2px solid #64b5f6;
+  border-radius: 8px;
+}
+
+/* Feedback & Buttons */
+.fb { font-weight: 700; font-size: 18px; margin-left: 6px; }
+.fb.ok { color: var(--ok); }
+.fb.err { color: var(--err); }
+.fb.warn { color: var(--warn); }
+.card-actions { margin-top: 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.btn {
+  min-height: 46px; padding: 8px 16px; font-size: 18px; font-weight: 700;
+  border: none; border-radius: 10px; cursor: pointer;
+}
+.btn-check { background: var(--pri); color: #fff; }
+.btn-show { background: var(--acc); color: #fff; display: none; }
+.btn-clear { background: #eceff1; color: #37474f; border: 1px solid #b0bec5; }
+.card-msg { font-weight: 700; font-size: 18px; }
+.ans-reveal {
+  margin-top: 10px; padding: 10px 12px; background: #fff3e0;
+  border-left: 4px solid var(--acc); border-radius: 8px; font-size: 18px; display: none;
+}
+
+/* Footer actions */
+.footer-actions {
+  display: flex; justify-content: center; gap: 16px; margin: 28px 0; flex-wrap: wrap;
+}
+.btn-submit { background: #2e7d32; color: #fff; font-size: 22px; padding: 12px 28px; min-height: 54px; }
+.btn-reset { background: #d32f2f; color: #fff; font-size: 22px; padding: 12px 28px; min-height: 54px; }
+#summaryBox {
+  background: #fff; border: 3px solid var(--pri); border-radius: 16px;
+  padding: 18px; margin-top: 16px; display: none;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="prog-wrap">
+    <div class="prog-txt">
+      <span class="vi">Tiến độ: <span id="progCountVi">0/0</span> ô</span>
+      <span class="en">Progress: <span id="progCountEn">0/0</span> boxes</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+  </div>
+  <div class="lang-switch">
+    <button type="button" class="lang-btn active" id="btnVi" onclick="setLang('vi')">🇻🇳 Tiếng Việt</button>
+    <button type="button" class="lang-btn" id="btnEn" onclick="setLang('en')">🇬🇧 English</button>
+    <button type="button" class="parent-btn" onclick="openParentMode()">
+      <span class="vi">🔒 Chế độ ba mẹ</span><span class="en">🔒 Parent mode</span>
+    </button>
+  </div>
+</div>
+
+<div class="container">
+  <h1><span class="vi">TUẦN 13</span><span class="en">WEEK 13</span></h1>
+
+  <details class="vocab">
+    <summary><span class="vi">📘 Từ vựng / Vocabulary</span><span class="en">📘 Vocabulary / Từ vựng</span></summary>
+    <div class="vocab-grid">
+      <div class="vocab-item"><b>số liền trước</b> – the number just before</div>
+      <div class="vocab-item"><b>số có một / hai chữ số</b> – a one-digit / two-digit number</div>
+      <div class="vocab-item"><b>lớn nhất / nhỏ nhất</b> – the largest / the smallest</div>
+      <div class="vocab-item"><b>hiệu / số bị trừ / số trừ</b> – difference / minuend / subtrahend</div>
+      <div class="vocab-item"><b>giá trị của y</b> – the value of y</div>
+      <div class="vocab-item"><b>nhiều hơn / bằng nhau</b> – more than / equal</div>
+      <div class="vocab-item"><b>xăng-ti-mét (cm) / mét (m)</b> – centimetre (cm) / metre (m)</div>
+      <div class="vocab-item"><b>ki-lô-gam (kg) / lít (l)</b> – kilogram (kg) / litre (l)</div>
+      <div class="vocab-item"><b>Đúng (Đ) / Sai (S)</b> – True (T) / False (F)</div>
+    </div>
+  </details>
+
+  <!-- ==================== PHẦN I ==================== -->
+  <h2 class="part-title">
+    <span class="vi">Phần I. Trắc nghiệm khách quan</span>
+    <span class="en">Part I. Objective questions</span>
+  </h2>
+
+  <!-- Phần I - Bài 1 -->
+  <div class="card" id="card_p1_b1">
+    <div class="ex-head">
+      <span class="vi">Bài 1. <i>Nối (theo mẫu) :</i></span>
+      <span class="en">Exercise 1. <i>Match (follow the example):</i></span>
+    </div>
+    <p style="font-size:17px;color:#555;margin-top:0;">
+      <span class="vi">💡 Bấm một ô bên trái rồi bấm một ô bên phải để nối.</span>
+      <span class="en">💡 Tap a box on the left then tap a box on the right to match.</span>
+    </p>
+    <div class="match-wrap" id="matchWrap">
+      <svg class="match-svg" id="matchSvg"></svg>
+      <div class="match-col">
+        <div class="match-item sample" id="mL_a"><span>a) 15 – 6 =</span></div>
+        <div class="match-item" id="mL_b" onclick="clickMatch('L','b')"><span>b) 16 – 8 =</span><span id="fb_p1_b1_b" class="fb"></span></div>
+        <div class="match-item" id="mL_c" onclick="clickMatch('L','c')"><span>c) 34 – 18 =</span><span id="fb_p1_b1_c" class="fb"></span></div>
+        <div class="match-item" id="mL_d" onclick="clickMatch('L','d')"><span>d) 64 – 39 =</span><span id="fb_p1_b1_d" class="fb"></span></div>
+        <div class="match-item" id="mL_e" onclick="clickMatch('L','e')"><span>e) 54 – 27 =</span><span id="fb_p1_b1_e" class="fb"></span></div>
+      </div>
+      <div class="match-col">
+        <div class="match-item" id="mR_1" onclick="clickMatch('R','1')"><span>1) 14 – 6</span></div>
+        <div class="match-item sample" id="mR_2"><span>2) 16 – 7</span></div>
+        <div class="match-item" id="mR_3" onclick="clickMatch('R','3')"><span>3) 54 – 38</span></div>
+        <div class="match-item" id="mR_4" onclick="clickMatch('R','4')"><span>4) 64 – 37</span></div>
+        <div class="match-item" id="mR_5" onclick="clickMatch('R','5')"><span>5) 94 – 69</span></div>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-clear" onclick="clearMatches()"><span class="vi">Xóa nối</span><span class="en">Clear lines</span></button>
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b1')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b1" onclick="showAns('p1_b1')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b1"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b1"></div>
+  </div>
+
+  <!-- Phần I - Bài 2 -->
+  <div class="card" id="card_p1_b2">
+    <div class="ex-head">
+      <span class="vi">Bài 2. <i>Số ?</i></span>
+      <span class="en">Exercise 2. <i>Write the missing number.</i></span>
+    </div>
+
+    <!-- Câu 1: Hình tròn (?) -> + 23 -> Ngôi sao nhiều cánh -> - 16 -> Hình tam giác -> + 6 -> Hình vuông (54) -->
+    <div class="schema-row">
+      <span class="schema-num">1.</span>
+      <!-- Hình tròn -->
+      <div class="shape-box">
+        <svg viewBox="0 0 92 84"><ellipse cx="46" cy="42" rx="40" ry="34" fill="#fff" stroke="#111" stroke-width="2.2"/></svg>
+        <input type="text" id="p1_b2_c1" class="track-inp" placeholder="?">
+      </div>
+      <span id="fb_p1_b2_c1" class="fb"></span>
+      <div class="arrow-seg"><span class="arrow-lbl">+ 23</span><div class="arrow-line"></div></div>
+      <!-- Ngôi sao nhiều cánh -->
+      <div class="shape-box">
+        <svg viewBox="0 0 100 100">
+          <polygon points="50,3 60,26 79,11 74,35 97,36 79,52 96,68 73,69 78,92 59,76 50,98 41,76 22,92 27,69 4,68 21,52 3,36 26,35 21,11 40,26" fill="#fff" stroke="#111" stroke-width="2.2"/>
+        </svg>
+        <input type="text" id="p1_b2_c1_m1" class="track-inp">
+      </div>
+      <div class="arrow-seg"><span class="arrow-lbl">– 16</span><div class="arrow-line"></div></div>
+      <!-- Hình tam giác -->
+      <div class="shape-box">
+        <svg viewBox="0 0 92 84"><polygon points="46,6 6,78 86,78" fill="#fff" stroke="#111" stroke-width="2.2"/></svg>
+        <input type="text" id="p1_b2_c1_m2" class="tri-inp track-inp">
+      </div>
+      <div class="arrow-seg"><span class="arrow-lbl">+ 6</span><div class="arrow-line"></div></div>
+      <!-- Hình vuông (54) -->
+      <div class="shape-box">
+        <svg viewBox="0 0 92 84"><rect x="10" y="8" width="72" height="68" fill="#fff" stroke="#111" stroke-width="2.2"/></svg>
+        <span class="fixed-num">54</span>
+      </div>
+    </div>
+
+    <!-- Câu 2: Hình tam giác (?) -> + 57 -> Hình vuông -> - 15 -> Ngôi sao nhiều cánh -> + 25 -> Hình tròn (84) -->
+    <div class="schema-row">
+      <span class="schema-num">2.</span>
+      <!-- Hình tam giác (?) -->
+      <div class="shape-box">
+        <svg viewBox="0 0 92 84"><polygon points="46,6 6,78 86,78" fill="#fff" stroke="#111" stroke-width="2.2"/></svg>
+        <input type="text" id="p1_b2_c2" class="tri-inp track-inp" placeholder="?">
+      </div>
+      <span id="fb_p1_b2_c2" class="fb"></span>
+      <div class="arrow-seg"><span class="arrow-lbl">+ 57</span><div class="arrow-line"></div></div>
+      <!-- Hình vuông -->
+      <div class="shape-box">
+        <svg viewBox="0 0 92 84"><rect x="10" y="8" width="72" height="68" fill="#fff" stroke="#111" stroke-width="2.2"/></svg>
+        <input type="text" id="p1_b2_c2_m1" class="track-inp">
+      </div>
+      <div class="arrow-seg"><span class="arrow-lbl">– 15</span><div class="arrow-line"></div></div>
+      <!-- Ngôi sao nhiều cánh -->
+      <div class="shape-box">
+        <svg viewBox="0 0 100 100">
+          <polygon points="50,3 60,26 79,11 74,35 97,36 79,52 96,68 73,69 78,92 59,76 50,98 41,76 22,92 27,69 4,68 21,52 3,36 26,35 21,11 40,26" fill="#fff" stroke="#111" stroke-width="2.2"/>
+        </svg>
+        <input type="text" id="p1_b2_c2_m2" class="track-inp">
+      </div>
+      <div class="arrow-seg"><span class="arrow-lbl">+ 25</span><div class="arrow-line"></div></div>
+      <!-- Hình tròn (84) -->
+      <div class="shape-box">
+        <svg viewBox="0 0 92 84"><ellipse cx="46" cy="42" rx="40" ry="34" fill="#fff" stroke="#111" stroke-width="2.2"/></svg>
+        <span class="fixed-num">84</span>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b2')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b2" onclick="showAns('p1_b2')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b2"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b2"></div>
+  </div>
+
+  <div class="section-guide">
+    <span class="vi">Điền chữ hoặc số thích hợp vào chỗ trống.</span>
+    <span class="en">Fill in each blank with a suitable word or number.</span>
+  </div>
+
+  <!-- Phần I - Bài 3 -->
+  <div class="card" id="card_p1_b3">
+    <div class="ex-head"><span class="vi">Bài 3.</span><span class="en">Exercise 3.</span></div>
+    <div class="q-row">
+      <span class="vi">1. Số cần thêm vào số liền trước của số lớn nhất có một chữ số để được kết quả bằng 17 là :</span>
+      <span class="en">1. The number to add to the number just before the largest one-digit number to get the result of 17 is:</span>
+      <input type="text" id="p1_b3_c1" class="inline-inp track-inp"><span id="fb_p1_b3_c1" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">2. Số cần thêm vào số liền trước của số nhỏ nhất có hai chữ số để được kết quả bằng 16 là :</span>
+      <span class="en">2. The number to add to the number just before the smallest two-digit number to get the result of 16 is:</span>
+      <input type="text" id="p1_b3_c2" class="inline-inp track-inp"><span id="fb_p1_b3_c2" class="fb"></span>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b3')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b3" onclick="showAns('p1_b3')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b3"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b3"></div>
+  </div>
+
+  <!-- Phần I - Bài 4 -->
+  <div class="card" id="card_p1_b4">
+    <div class="ex-head"><span class="vi">Bài 4.</span><span class="en">Exercise 4.</span></div>
+    <div class="q-row">
+      <span class="vi">1. Giá trị thích hợp của y để y – 12 = 62 – 28 là :</span>
+      <span class="en">1. The suitable value of y so that y – 12 = 62 – 28 is:</span>
+      <input type="text" id="p1_b4_c1" class="inline-inp track-inp"><span id="fb_p1_b4_c1" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">2. Giá trị thích hợp của y để y – 26 = 53 – 27 là :</span>
+      <span class="en">2. The suitable value of y so that y – 26 = 53 – 27 is:</span>
+      <input type="text" id="p1_b4_c2" class="inline-inp track-inp"><span id="fb_p1_b4_c2" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">3. Giá trị thích hợp của y để 23 + y = 94 – 39 là :</span>
+      <span class="en">3. The suitable value of y so that 23 + y = 94 – 39 is:</span>
+      <input type="text" id="p1_b4_c3" class="inline-inp track-inp"><span id="fb_p1_b4_c3" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">4. Giá trị thích hợp của y để y + 14 = 82 – 35 là :</span>
+      <span class="en">4. The suitable value of y so that y + 14 = 82 – 35 is:</span>
+      <input type="text" id="p1_b4_c4" class="inline-inp track-inp"><span id="fb_p1_b4_c4" class="fb"></span>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b4')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b4" onclick="showAns('p1_b4')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b4"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b4"></div>
+  </div>
+
+  <!-- Phần I - Bài 5 -->
+  <div class="card" id="card_p1_b5">
+    <div class="ex-head">
+      <span class="vi">Bài 5. <i>Điền "&gt;", "&lt;" hoặc "=" vào ô trống cho thích hợp.</i></span>
+      <span class="en">Exercise 5. <i>Write "&gt;", "&lt;" or "=" in each box to make it correct.</i></span>
+    </div>
+    <div class="grid-2">
+      <div class="cmp-row">
+        <span>1. &nbsp; 18 – 9</span>
+        <select id="p1_b5_c1" class="cmp-select track-inp">
+          <option value=""></option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+        </select>
+        <span>54 – 47</span>
+        <span id="fb_p1_b5_c1" class="fb"></span>
+      </div>
+      <div class="cmp-row">
+        <span>2. &nbsp; 15 – 8</span>
+        <select id="p1_b5_c2" class="cmp-select track-inp">
+          <option value=""></option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+        </select>
+        <span>24 – 16</span>
+        <span id="fb_p1_b5_c2" class="fb"></span>
+      </div>
+      <div class="cmp-row">
+        <span>3. &nbsp; 16 – 8</span>
+        <select id="p1_b5_c3" class="cmp-select track-inp">
+          <option value=""></option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+        </select>
+        <span>64 – 58</span>
+        <span id="fb_p1_b5_c3" class="fb"></span>
+      </div>
+      <div class="cmp-row">
+        <span>4. &nbsp; 17 – 9</span>
+        <select id="p1_b5_c4" class="cmp-select track-inp">
+          <option value=""></option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+        </select>
+        <span>34 – 26</span>
+        <span id="fb_p1_b5_c4" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b5')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b5" onclick="showAns('p1_b5')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b5"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b5"></div>
+  </div>
+
+  <!-- Phần I - Bài 6 -->
+  <div class="card" id="card_p1_b6">
+    <div class="ex-head">
+      <span class="vi">Bài 6. <i>Khoanh vào chữ đặt trước đáp án đúng.</i></span>
+      <span class="en">Exercise 6. <i>Circle the letter in front of the correct answer.</i></span>
+    </div>
+
+    <div class="q-row">
+      <div>
+        <span class="vi">1. Hiệu của số đo lớn nhất và số đo nhỏ nhất trong các số đo : 64cm, 38cm, 17cm, 45cm, 59cm là :</span>
+        <span class="en">1. The difference between the largest measurement and the smallest measurement among: 64cm, 38cm, 17cm, 45cm, 59cm is:</span>
+        <span id="fb_p1_b6_c1" class="fb"></span>
+      </div>
+      <div class="mc-opts-row">
+        <button type="button" class="mc-btn" id="mc_p1_b6_c1_A" onclick="selectMC('p1_b6_c1','A')">
+          <span class="mc-letter">A</span><span>47</span>
+        </button>
+        <button type="button" class="mc-btn" id="mc_p1_b6_c1_B" onclick="selectMC('p1_b6_c1','B')">
+          <span class="mc-letter">B</span><span>26cm</span>
+        </button>
+        <button type="button" class="mc-btn" id="mc_p1_b6_c1_C" onclick="selectMC('p1_b6_c1','C')">
+          <span class="mc-letter">C</span><span>47cm.</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="q-row">
+      <div>
+        <span class="vi">2. Hiệu của số đo lớn nhất và số đo nhỏ nhất trong các số đo : 54kg, 29kg, 16kg, 35kg, 49kg là :</span>
+        <span class="en">2. The difference between the largest measurement and the smallest measurement among: 54kg, 29kg, 16kg, 35kg, 49kg is:</span>
+        <span id="fb_p1_b6_c2" class="fb"></span>
+      </div>
+      <div class="mc-opts-row">
+        <button type="button" class="mc-btn" id="mc_p1_b6_c2_A" onclick="selectMC('p1_b6_c2','A')">
+          <span class="mc-letter">A</span><span>35kg</span>
+        </button>
+        <button type="button" class="mc-btn" id="mc_p1_b6_c2_B" onclick="selectMC('p1_b6_c2','B')">
+          <span class="mc-letter">B</span><span>33kg</span>
+        </button>
+        <button type="button" class="mc-btn" id="mc_p1_b6_c2_C" onclick="selectMC('p1_b6_c2','C')">
+          <span class="mc-letter">C</span><span>38kg.</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b6')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b6" onclick="showAns('p1_b6')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b6"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b6"></div>
+  </div>
+
+  <!-- Phần I - Bài 7 -->
+  <div class="card" id="card_p1_b7">
+    <div class="ex-head">
+      <span class="vi">Bài 7. <i>Đúng ghi Đ, sai ghi S vào ô trống.</i></span>
+      <span class="en">Exercise 7. <i>Write T for true or F for false in each box.</i></span>
+    </div>
+
+    <div class="q-row">
+      <div>
+        <span class="vi">1. Số bị trừ là 18. Số trừ là số lớn nhất có một chữ số. Vậy hiệu là :</span>
+        <span class="en">1. The minuend is 18. The subtrahend is the largest one-digit number. So the difference is:</span>
+      </div>
+      <div class="tf-options">
+        <div class="tf-item">
+          <span>A. 1</span>
+          <div class="tf-box">
+            <button type="button" class="tf-btn" id="tf_p1_b7_c1_A_D" onclick="selectTF('p1_b7_c1_A','Đ')"><span class="vi">Đ</span><span class="en">T</span></button>
+            <button type="button" class="tf-btn" id="tf_p1_b7_c1_A_S" onclick="selectTF('p1_b7_c1_A','S')"><span class="vi">S</span><span class="en">F</span></button>
+          </div>
+          <span id="fb_p1_b7_c1_A" class="fb"></span>
+        </div>
+        <div class="tf-item">
+          <span>B. 9</span>
+          <div class="tf-box">
+            <button type="button" class="tf-btn" id="tf_p1_b7_c1_B_D" onclick="selectTF('p1_b7_c1_B','Đ')"><span class="vi">Đ</span><span class="en">T</span></button>
+            <button type="button" class="tf-btn" id="tf_p1_b7_c1_B_S" onclick="selectTF('p1_b7_c1_B','S')"><span class="vi">S</span><span class="en">F</span></button>
+          </div>
+          <span id="fb_p1_b7_c1_B" class="fb"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-row">
+      <div>
+        <span class="vi">2. Số bị trừ là 16. Số trừ là số liền trước của số nhỏ nhất có hai chữ số. Vậy hiệu là :</span>
+        <span class="en">2. The minuend is 16. The subtrahend is the number just before the smallest two-digit number. So the difference is:</span>
+      </div>
+      <div class="tf-options">
+        <div class="tf-item">
+          <span>A. 6</span>
+          <div class="tf-box">
+            <button type="button" class="tf-btn" id="tf_p1_b7_c2_A_D" onclick="selectTF('p1_b7_c2_A','Đ')"><span class="vi">Đ</span><span class="en">T</span></button>
+            <button type="button" class="tf-btn" id="tf_p1_b7_c2_A_S" onclick="selectTF('p1_b7_c2_A','S')"><span class="vi">S</span><span class="en">F</span></button>
+          </div>
+          <span id="fb_p1_b7_c2_A" class="fb"></span>
+        </div>
+        <div class="tf-item">
+          <span>B. 7</span>
+          <div class="tf-box">
+            <button type="button" class="tf-btn" id="tf_p1_b7_c2_B_D" onclick="selectTF('p1_b7_c2_B','Đ')"><span class="vi">Đ</span><span class="en">T</span></button>
+            <button type="button" class="tf-btn" id="tf_p1_b7_c2_B_S" onclick="selectTF('p1_b7_c2_B','S')"><span class="vi">S</span><span class="en">F</span></button>
+          </div>
+          <span id="fb_p1_b7_c2_B" class="fb"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b7')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b7" onclick="showAns('p1_b7')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b7"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b7"></div>
+  </div>
+
+  <!-- ==================== PHẦN II ==================== -->
+  <h2 class="part-title">
+    <span class="vi">Phần II. Tự luận</span>
+    <span class="en">Part II. Written problems</span>
+  </h2>
+
+  <!-- Phần II - Bài 1 -->
+  <div class="card" id="card_p2_b1">
+    <div class="ex-head"><span class="vi">Bài 1.</span><span class="en">Exercise 1.</span></div>
+    <p>
+      <span class="vi">Trong vườn có 34 cây cam và cây bưởi. Số cây bưởi là số lớn nhất có một chữ số. Hỏi trong vườn có bao nhiêu cây cam ?</span>
+      <span class="en">In the garden, there are 34 orange trees and pomelo trees. The number of pomelo trees is the largest one-digit number. How many orange trees are there in the garden?</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b1_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b1_c1_so" class="num-inp track-inp" placeholder="Số / Number">
+        <input type="text" id="p2_b1_c1_dv" class="unit-inp track-inp" placeholder="cây cam / orange trees">
+        <span id="fb_p2_b1_c1" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b1')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b1" onclick="showAns('p2_b1')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b1"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b1"></div>
+  </div>
+
+  <!-- Phần II - Bài 2 -->
+  <div class="card" id="card_p2_b2">
+    <div class="ex-head"><span class="vi">Bài 2.</span><span class="en">Exercise 2.</span></div>
+    <p>
+      <span class="vi">Sau khi bỏ 15 quả cam từ rổ thứ nhất sang rổ thứ hai thì rổ thứ hai có 24 quả. Hỏi lúc đầu rổ thứ hai có bao nhiêu quả cam ?</span>
+      <span class="en">After putting 15 oranges from the first basket into the second basket, the second basket has 24 oranges. How many oranges did the second basket have at first?</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b2_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b2_c1_so" class="num-inp track-inp" placeholder="Số / Number">
+        <input type="text" id="p2_b2_c1_dv" class="unit-inp track-inp" placeholder="quả cam / oranges">
+        <span id="fb_p2_b2_c1" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b2')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b2" onclick="showAns('p2_b2')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b2"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b2"></div>
+  </div>
+
+  <!-- Phần II - Bài 3 -->
+  <div class="card" id="card_p2_b3">
+    <div class="ex-head"><span class="vi">Bài 3.</span><span class="en">Exercise 3.</span></div>
+    <p>
+      <span class="vi">Lớp 2A có 44 học sinh trong đó có 28 học sinh nam. Hỏi lớp 2A có bao nhiêu học sinh nữ ?</span>
+      <span class="en">Class 2A has 44 students, of which 28 are male students. How many female students does class 2A have?</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b3_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b3_c1_so" class="num-inp track-inp" placeholder="Số / Number">
+        <input type="text" id="p2_b3_c1_dv" class="unit-inp track-inp" placeholder="học sinh nữ / girls">
+        <span id="fb_p2_b3_c1" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b3')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b3" onclick="showAns('p2_b3')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b3"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b3"></div>
+  </div>
+
+  <!-- Phần II - Bài 4 -->
+  <div class="card" id="card_p2_b4">
+    <div class="ex-head"><span class="vi">Bài 4.</span><span class="en">Exercise 4.</span></div>
+    <p>
+      <span class="vi">Thùng đựng 16<i>l</i> dầu. Hỏi cần phải rót thêm vào thùng bao nhiêu lít dầu nữa để trong thùng có tất cả 54<i>l</i> dầu ?</span>
+      <span class="en">A barrel holds 16<i>l</i> of oil. How many more litres of oil need to be poured into the barrel so that there are 54<i>l</i> of oil in total?</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b4_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b4_c1_so" class="num-inp track-inp" placeholder="Số / Number">
+        <input type="text" id="p2_b4_c1_dv" class="unit-inp track-inp" placeholder="lít dầu / l">
+        <span id="fb_p2_b4_c1" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b4')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b4" onclick="showAns('p2_b4')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b4"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b4"></div>
+  </div>
+
+  <!-- Phần II - Bài 5 -->
+  <div class="card" id="card_p2_b5">
+    <div class="ex-head"><span class="vi">Bài 5.</span><span class="en">Exercise 5.</span></div>
+    <p>
+      <span class="vi">Máy thứ nhất dệt được 44m vải và nhiều hơn máy thứ hai 15m vải. Hỏi máy thứ hai dệt được bao nhiêu mét vải ?</span>
+      <span class="en">The first machine wove 44m of cloth, which is 15m of cloth more than the second machine. How many metres of cloth did the second machine weave?</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b5_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b5_c1_so" class="num-inp track-inp" placeholder="Số / Number">
+        <input type="text" id="p2_b5_c1_dv" class="unit-inp track-inp" placeholder="mét vải / m">
+        <span id="fb_p2_b5_c1" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b5')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b5" onclick="showAns('p2_b5')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b5"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b5"></div>
+  </div>
+
+  <!-- Phần II - Bài 6 -->
+  <div class="card" id="card_p2_b6">
+    <div class="ex-head"><span class="vi">Bài 6.</span><span class="en">Exercise 6.</span></div>
+    <p>
+      <span class="vi">Lan gấp được 15 con ngựa. Hoa gấp được 9 con ngựa. Hỏi Hoa phải gấp thêm bao nhiêu con ngựa nữa để số con ngựa của hai bạn bằng nhau ?</span>
+      <span class="en">Lan folded 15 paper horses. Hoa folded 9 paper horses. How many more paper horses does Hoa need to fold so that both friends have an equal number of paper horses?</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b6_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b6_c1_so" class="num-inp track-inp" placeholder="Số / Number">
+        <input type="text" id="p2_b6_c1_dv" class="unit-inp track-inp" placeholder="con ngựa / horses">
+        <span id="fb_p2_b6_c1" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b6')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b6" onclick="showAns('p2_b6')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b6"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b6"></div>
+  </div>
+
+  <!-- Phần II - Bài 7 -->
+  <div class="card" id="card_p2_b7">
+    <div class="ex-head">
+      <span class="vi">Bài 7. Đặt một đề toán theo tóm tắt sau rồi giải bài toán đó :</span>
+      <span class="en">Exercise 7. Write a word problem based on the summary below and then solve it:</span>
+    </div>
+    <div style="text-align:center;margin:10px 0;">
+      <svg width="560" height="175" viewBox="0 0 560 175" style="max-width:100%;background:#fff;border:1px solid #e0e0e0;border-radius:10px;">
+        <!-- Dòng 1: Số con gà -->
+        <text x="16" y="72" font-size="18" font-weight="bold" class="vi">Số con gà :</text>
+        <text x="16" y="72" font-size="18" font-weight="bold" class="en">Chickens:</text>
+        <line x1="135" y1="66" x2="345" y2="66" stroke="#111" stroke-width="2.5"/>
+        <!-- Ngoặc nhọn trên đoạn gà -->
+        <path d="M135,62 Q135,48 155,48 L225,48 Q240,48 240,36 Q240,48 255,48 L325,48 Q345,48 345,62" fill="none" stroke="#111" stroke-width="1.8" stroke-dasharray="3,2"/>
+        <text x="218" y="28" font-size="17" font-weight="bold" class="vi">? con</text>
+        <text x="210" y="28" font-size="17" font-weight="bold" class="en">? chickens</text>
+
+        <!-- Đường gióng thẳng đứng -->
+        <line x1="135" y1="62" x2="135" y2="122" stroke="#111" stroke-width="1.8" stroke-dasharray="4,3"/>
+        <line x1="345" y1="66" x2="345" y2="118" stroke="#111" stroke-width="1.8" stroke-dasharray="4,3"/>
+
+        <!-- Dòng 2: Số con vịt -->
+        <text x="16" y="122" font-size="18" font-weight="bold" class="vi">Số con vịt :</text>
+        <text x="16" y="122" font-size="18" font-weight="bold" class="en">Ducks:</text>
+        <line x1="135" y1="116" x2="475" y2="116" stroke="#111" stroke-width="2.5"/>
+        <line x1="475" y1="108" x2="475" y2="124" stroke="#111" stroke-width="2.5"/>
+
+        <!-- Ngoặc phần hơn (6 con) -->
+        <path d="M345,112 Q345,102 360,102 L398,102 Q410,102 410,92 Q410,102 422,102 L460,102 Q475,102 475,112" fill="none" stroke="#111" stroke-width="1.8" stroke-dasharray="3,2"/>
+        <text x="390" y="85" font-size="17" font-weight="bold" class="vi">6 con</text>
+        <text x="386" y="85" font-size="17" font-weight="bold" class="en">6 ducks</text>
+
+        <!-- Ngoặc dưới toàn bộ đoạn vịt (15 con) -->
+        <path d="M135,120 Q135,136 160,136 L290,136 Q305,136 305,148 Q305,136 320,136 L450,136 Q475,136 475,120" fill="none" stroke="#111" stroke-width="1.8" stroke-dasharray="3,2"/>
+        <text x="280" y="168" font-size="17" font-weight="bold" class="vi">15 con</text>
+        <text x="275" y="168" font-size="17" font-weight="bold" class="en">15 ducks</text>
+      </svg>
+    </div>
+    <div class="work-box">
+      <label><span class="vi">Đề toán và bài giải của em (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Your word problem and solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b7_c1" class="work-area track-inp" placeholder="Em viết đề toán và lời giải vào đây..."></textarea>
+    </div>
+  </div>
+
+  <div class="footer-actions">
+    <button type="button" class="btn btn-submit" onclick="submitAll()"><span class="vi">🏆 Nộp bài</span><span class="en">🏆 Submit</span></button>
+    <button type="button" class="btn btn-reset" onclick="resetAll()"><span class="vi">🔄 Làm lại</span><span class="en">🔄 Start over</span></button>
+  </div>
+
+  <div id="summaryBox"></div>
+</div>
+
+<script>
+const STORAGE_KEY = "baitap_tuan13";
+const LANG_KEY = "baitap_lang";
+const PARENT_PIN = "1234";
+
+// Dữ liệu đáp án từ ảnh 4
+const ANSWER_KEY = {
+  p1_b1_b: { kieu: "noi", dapan: "1" },
+  p1_b1_c: { kieu: "noi", dapan: "3" },
+  p1_b1_d: { kieu: "noi", dapan: "5" },
+  p1_b1_e: { kieu: "noi", dapan: "4" },
+
+  p1_b2_c1: { kieu: "so", dapan: "41", alt: ["41"] },
+  p1_b2_c2: { kieu: "so", dapan: "17", alt: ["17"] },
+
+  p1_b3_c1: { kieu: "so", dapan: "9", alt: ["9"] },
+  p1_b3_c2: { kieu: "so", dapan: "7", alt: ["7"] },
+
+  p1_b4_c1: { kieu: "so", dapan: "y = 46", alt: ["46","y=46"] },
+  p1_b4_c2: { kieu: "so", dapan: "y = 52", alt: ["52","y=52"] },
+  p1_b4_c3: { kieu: "so", dapan: "y = 32", alt: ["32","y=32"] },
+  p1_b4_c4: { kieu: "so", dapan: "y = 33", alt: ["33","y=33"] },
+
+  p1_b5_c1: { kieu: "so", dapan: ">", alt: [">"] },
+  p1_b5_c2: { kieu: "so", dapan: "<", alt: ["<"] },
+  p1_b5_c3: { kieu: "so", dapan: ">", alt: [">"] },
+  p1_b5_c4: { kieu: "so", dapan: "=", alt: ["="] },
+
+  p1_b6_c1: { kieu: "chon", dapan: "C" },
+  p1_b6_c2: { kieu: "chon", dapan: "C" },
+
+  p1_b7_c1_A: { kieu: "dungsai", dapan: "S" },
+  p1_b7_c1_B: { kieu: "dungsai", dapan: "Đ" },
+  p1_b7_c2_A: { kieu: "dungsai", dapan: "S" },
+  p1_b7_c2_B: { kieu: "dungsai", dapan: "Đ" },
+
+  p2_b1_c1: { kieu: "dapso", so: "25", donvi: ["cây cam","cay cam","cây","cay","orange trees","trees","orange tree"] },
+  p2_b2_c1: { kieu: "dapso", so: "9", donvi: ["quả cam","qua cam","quả","qua","oranges","orange"] },
+  p2_b3_c1: { kieu: "dapso", so: "16", donvi: ["học sinh nữ","hoc sinh nu","học sinh","hoc sinh","bạn nữ","ban nu","female students","girls","students"] },
+  p2_b4_c1: { kieu: "dapso", so: "38", donvi: ["lít dầu","lit dau","lít","lit","l","litres of oil","liters of oil","litres","liters","litre","liter"] },
+  p2_b5_c1: { kieu: "dapso", so: "29", donvi: ["mét vải","met vai","m vải","m vai","mét","met","m","metres of cloth","meters of cloth","metres","meters","metre","meter"] },
+  p2_b6_c1: { kieu: "dapso", so: "6", donvi: ["con ngựa","con ngua","con","ngựa","ngua","paper horses","horses","horse"] }
+};
+
+const CARD_MAP = {
+  p1_b1: ["p1_b1_b","p1_b1_c","p1_b1_d","p1_b1_e"],
+  p1_b2: ["p1_b2_c1","p1_b2_c2"],
+  p1_b3: ["p1_b3_c1","p1_b3_c2"],
+  p1_b4: ["p1_b4_c1","p1_b4_c2","p1_b4_c3","p1_b4_c4"],
+  p1_b5: ["p1_b5_c1","p1_b5_c2","p1_b5_c3","p1_b5_c4"],
+  p1_b6: ["p1_b6_c1","p1_b6_c2"],
+  p1_b7: ["p1_b7_c1_A","p1_b7_c1_B","p1_b7_c2_A","p1_b7_c2_B"],
+  p2_b1: ["p2_b1_c1"],
+  p2_b2: ["p2_b2_c1"],
+  p2_b3: ["p2_b3_c1"],
+  p2_b4: ["p2_b4_c1"],
+  p2_b5: ["p2_b5_c1"],
+  p2_b6: ["p2_b6_c1"]
+};
+
+let state = { inputs: {}, matches: { b:"", c:"", d:"", e:"" }, mc: {}, tf: {}, attempts: {} };
+let selMatch = null;
+
+function bi(vi, en) {
+  return `<span class="vi">${vi}</span><span class="en">${en}</span>`;
+}
+function curLang() {
+  return document.documentElement.getAttribute("data-lang") || "vi";
+}
+function setLang(lang) {
+  document.documentElement.setAttribute("lang", lang);
+  document.documentElement.setAttribute("data-lang", lang);
+  document.getElementById("btnVi").classList.toggle("active", lang === "vi");
+  document.getElementById("btnEn").classList.toggle("active", lang === "en");
+  try { localStorage.setItem(LANG_KEY, lang); } catch(e) {}
+}
+
+function normMath(str) {
+  return (str || "").toString().toLowerCase()
+    .replace(/[–—−]/g, "-")
+    .replace(/\s+/g, "");
+}
+
+// Matching logic
+function clickMatch(side, key) {
+  if (!selMatch) {
+    selMatch = { side, key };
+    highlightMatch();
+    return;
+  }
+  if (selMatch.side === side) {
+    selMatch = (selMatch.key === key) ? null : { side, key };
+    highlightMatch();
+    return;
+  }
+  const lKey = side === "L" ? key : selMatch.key;
+  const rKey = side === "R" ? key : selMatch.key;
+  if (lKey === "a" || rKey === "2") { selMatch = null; highlightMatch(); return; }
+  for (let k of ["b","c","d","e"]) {
+    if (state.matches[k] === rKey) state.matches[k] = "";
+  }
+  state.matches[lKey] = rKey;
+  selMatch = null;
+  highlightMatch();
+  drawMatches();
+  saveState();
+  updateProgress();
+}
+
+function highlightMatch() {
+  document.querySelectorAll(".match-item").forEach(el => el.classList.remove("selected"));
+  if (selMatch) {
+    const el = document.getElementById(`m${selMatch.side}_${selMatch.key}`);
+    if (el) el.classList.add("selected");
+  }
+}
+
+function clearMatches() {
+  state.matches = { b:"", c:"", d:"", e:"" };
+  drawMatches();
+  saveState();
+  updateProgress();
+}
+
+function drawMatches() {
+  const svg = document.getElementById("matchSvg");
+  const wrap = document.getElementById("matchWrap");
+  if (!svg || !wrap) return;
+  const wRect = wrap.getBoundingClientRect();
+  svg.innerHTML = "";
+
+  const pairs = [{ l:"a", r:"2", sample:true }];
+  for (let k of ["b","c","d","e"]) {
+    if (state.matches[k]) pairs.push({ l:k, r:state.matches[k], sample:false });
+  }
+  pairs.forEach(p => {
+    const lEl = document.getElementById(`mL_${p.l}`);
+    const rEl = document.getElementById(`mR_${p.r}`);
+    if (!lEl || !rEl) return;
+    const lR = lEl.getBoundingClientRect();
+    const rR = rEl.getBoundingClientRect();
+    const x1 = lR.right - wRect.left;
+    const y1 = lR.top + lR.height/2 - wRect.top;
+    const x2 = rR.left - wRect.left;
+    const y2 = rR.top + rR.height/2 - wRect.top;
+    const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+    line.setAttribute("x1", x1); line.setAttribute("y1", y1);
+    line.setAttribute("x2", x2); line.setAttribute("y2", y2);
+    line.setAttribute("stroke", p.sample ? "#388e3c" : "#1976d2");
+    line.setAttribute("stroke-width", "3");
+    svg.appendChild(line);
+  });
+}
+
+// Multiple choice
+function selectMC(qId, opt) {
+  state.mc[qId] = (state.mc[qId] === opt) ? "" : opt;
+  ["A","B","C"].forEach(le => {
+    const btn = document.getElementById(`mc_${qId}_${le}`);
+    if (btn) btn.classList.toggle("active", state.mc[qId] === le);
+  });
+  saveState();
+  updateProgress();
+}
+
+// True / False (Đ / S)
+function selectTF(qId, val) {
+  state.tf[qId] = (state.tf[qId] === val) ? "" : val;
+  updateTFUI(qId);
+  saveState();
+  updateProgress();
+}
+
+function updateTFUI(qId) {
+  const v = state.tf[qId] || "";
+  const btnD = document.getElementById(`tf_${qId}_D`);
+  const btnS = document.getElementById(`tf_${qId}_S`);
+  if (btnD) btnD.classList.toggle("active-T", v === "Đ");
+  if (btnS) btnS.classList.toggle("active-F", v === "S");
+}
+
+// Grading single item
+function gradeItem(key) {
+  const cfg = ANSWER_KEY[key];
+  if (!cfg) return { score: 0, max: 0 };
+
+  if (cfg.kieu === "so") {
+    const el = document.getElementById(key);
+    const raw = el ? el.value.trim() : "";
+    const fb = document.getElementById(`fb_${key}`);
+    if (!raw) { if (fb) fb.innerHTML = ""; return { score: 0, max: 1, empty: true }; }
+    const nVal = normMath(raw).replace(/^0+(?=\d)/, "");
+    const ok = (cfg.alt || [cfg.dapan]).some(a => normMath(a).replace(/^0+(?=\d)/, "") === nVal);
+    if (fb) {
+      fb.className = "fb " + (ok ? "ok" : "err");
+      fb.innerHTML = ok ? "✔" : "✘";
+    }
+    return { score: ok ? 1 : 0, max: 1 };
+  }
+
+  if (cfg.kieu === "noi") {
+    const letter = key.split("_").pop();
+    const val = state.matches[letter] || "";
+    const fb = document.getElementById(`fb_${key}`);
+    if (!val) { if (fb) fb.innerHTML = ""; return { score: 0, max: 1, empty: true }; }
+    const ok = val === cfg.dapan;
+    if (fb) {
+      fb.className = "fb " + (ok ? "ok" : "err");
+      fb.innerHTML = ok ? "✔" : "✘";
+    }
+    return { score: ok ? 1 : 0, max: 1 };
+  }
+
+  if (cfg.kieu === "chon") {
+    const val = state.mc[key] || "";
+    const fb = document.getElementById(`fb_${key}`);
+    if (!val) { if (fb) fb.innerHTML = ""; return { score: 0, max: 1, empty: true }; }
+    const ok = val === cfg.dapan;
+    if (fb) {
+      fb.className = "fb " + (ok ? "ok" : "err");
+      fb.innerHTML = ok ? "✔" : "✘";
+    }
+    return { score: ok ? 1 : 0, max: 1 };
+  }
+
+  if (cfg.kieu === "dungsai") {
+    const val = state.tf[key] || "";
+    const fb = document.getElementById(`fb_${key}`);
+    if (!val) { if (fb) fb.innerHTML = ""; return { score: 0, max: 1, empty: true }; }
+    const ok = val === cfg.dapan;
+    if (fb) {
+      fb.className = "fb " + (ok ? "ok" : "err");
+      fb.innerHTML = ok ? "✔" : "✘";
+    }
+    return { score: ok ? 1 : 0, max: 1 };
+  }
+
+  if (cfg.kieu === "dapso") {
+    const soEl = document.getElementById(`${key}_so`);
+    const dvEl = document.getElementById(`${key}_dv`);
+    const fb = document.getElementById(`fb_${key}`);
+    const rawSo = soEl ? soEl.value.trim() : "";
+    const rawDv = dvEl ? dvEl.value.trim().toLowerCase() : "";
+    if (!rawSo && !rawDv) { if (fb) fb.innerHTML = ""; return { score: 0, max: 1, empty: true }; }
+    const nums = (rawSo.match(/\d+/g) || []).map(x => x.replace(/^0+(?=\d)/, ""));
+    const numOk = nums.includes(cfg.so);
+    const dvOk = cfg.donvi.some(d => rawDv === d.toLowerCase() || rawSo.toLowerCase().includes(d.toLowerCase()));
+    if (!numOk) {
+      if (fb) { fb.className = "fb err"; fb.innerHTML = "✘"; }
+      return { score: 0, max: 1 };
+    }
+    if (dvOk) {
+      if (fb) { fb.className = "fb ok"; fb.innerHTML = "✔"; }
+      return { score: 1, max: 1 };
+    } else {
+      if (fb) {
+        fb.className = "fb warn";
+        fb.innerHTML = "⚠ " + bi("Đúng số rồi, nhớ ghi đơn vị nhé!", "The number is right, remember the unit!");
+      }
+      return { score: 0.5, max: 1 };
+    }
+  }
+  return { score: 0, max: 1 };
+}
+
+function checkCard(cardId) {
+  const keys = CARD_MAP[cardId] || [];
+  let total = 0, max = 0;
+  keys.forEach(k => {
+    const r = gradeItem(k);
+    total += r.score;
+    max += r.max;
+  });
+  const msgEl = document.getElementById(`msg_${cardId}`);
+  const showBtn = document.getElementById(`show_${cardId}`);
+  if (total === max && max > 0) {
+    if (msgEl) { msgEl.style.color = "#2e7d32"; msgEl.innerHTML = bi("🎉 Giỏi quá!", "🎉 Great job!"); }
+  } else {
+    state.attempts[cardId] = (state.attempts[cardId] || 0) + 1;
+    if (msgEl) { msgEl.style.color = "#c62828"; msgEl.innerHTML = bi("💪 Thử lại nhé!", "💪 Try again!"); }
+    if (state.attempts[cardId] >= 2 && showBtn) showBtn.style.display = "inline-block";
+  }
+}
+
+function formatReveal(cardId) {
+  const keys = CARD_MAP[cardId] || [];
+  const lines = keys.map(k => {
+    const c = ANSWER_KEY[k];
+    if (!c) return "";
+    const label = k.replace(/^p\d+_b\d+_/, "");
+    if (c.kieu === "so" || c.kieu === "chon") return `<b>${label}:</b> ${c.dapan}`;
+    if (c.kieu === "dungsai") {
+      const enVal = c.dapan === "Đ" ? "T" : "F";
+      return `<b>${label}:</b> <span class="vi">${c.dapan}</span><span class="en">${enVal}</span>`;
+    }
+    if (c.kieu === "noi") return `<b>${label})</b> → <b>${c.dapan})</b>`;
+    if (c.kieu === "dapso") return `<b>Đáp số / Answer:</b> ${c.so} ${c.donvi[0]}`;
+    return "";
+  });
+  return lines.join(" &nbsp;|&nbsp; ");
+}
+
+function showAns(cardId) {
+  const rev = document.getElementById(`rev_${cardId}`);
+  if (!rev) return;
+  rev.innerHTML = formatReveal(cardId);
+  rev.style.display = "block";
+}
+
+function openParentMode() {
+  const lang = curLang();
+  const pin = prompt(lang === "vi" ? "Nhập mã ba mẹ (mặc định 1234):" : "Enter parent PIN (default 1234):");
+  if (pin === PARENT_PIN) {
+    Object.keys(CARD_MAP).forEach(cid => showAns(cid));
+  } else if (pin !== null) {
+    alert(lang === "vi" ? "Mã không đúng!" : "Incorrect PIN!");
+  }
+}
+
+function fmtScore(n) {
+  const s = (Math.round(n * 10) / 10).toString();
+  return curLang() === "vi" ? s.replace(".", ",") : s;
+}
+
+function submitAll() {
+  let sc = 0, max = 0;
+  Object.keys(CARD_MAP).forEach(cid => {
+    CARD_MAP[cid].forEach(k => {
+      const r = gradeItem(k);
+      sc += r.score;
+      max += r.max;
+    });
+  });
+  const box = document.getElementById("summaryBox");
+  box.style.display = "block";
+  const pct = max ? sc / max : 0;
+  let praise = bi("Cố gắng thêm chút nữa nhé!", "Keep practicing!");
+  if (pct >= 0.9) praise = bi("🌟 Xuất sắc! Con làm bài rất tốt!", "🌟 Excellent! You did a great job!");
+  else if (pct >= 0.7) praise = bi("👍 Khá lắm! Xem lại vài câu chưa đúng nhé!", "👍 Good job! Review a few missed items!");
+
+  box.innerHTML = `
+    <h3 style="margin-top:0;color:#1976d2;">${bi("📊 Kết quả nộp bài", "📊 Submission Result")}</h3>
+    <p style="font-size:24px;font-weight:700;">
+      ${bi("Điểm số:", "Score:")} <span style="color:#2e7d32">${fmtScore(sc)} / ${max}</span>
+    </p>
+    <p>${praise}</p>
+    <p style="font-size:17px;color:#555;">
+      ${bi("Lưu ý: Bài 7 Phần II và phần lời giải tự luận ba mẹ kiểm tra giúp bé nhé.", "Note: Parents, please check Part II Exercise 7 and written solutions.")}
+    </p>
+  `;
+  try {
+    const hist = JSON.parse(localStorage.getItem(STORAGE_KEY + "_history") || "[]");
+    hist.push({ time: new Date().toISOString(), score: sc, max: max });
+    localStorage.setItem(STORAGE_KEY + "_history", JSON.stringify(hist));
+  } catch(e) {}
+  box.scrollIntoView({ behavior: "smooth" });
+}
+
+function resetAll() {
+  const lang = curLang();
+  if (!confirm(lang === "vi" ? "Con có chắc muốn xóa hết để làm lại từ đầu không?" : "Are you sure you want to clear all answers and start over?")) return;
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  location.reload();
+}
+
+function saveState() {
+  const inputs = {};
+  document.querySelectorAll(".track-inp").forEach(el => { inputs[el.id] = el.value; });
+  state.inputs = inputs;
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const savedLang = localStorage.getItem(LANG_KEY);
+    if (savedLang === "en" || savedLang === "vi") setLang(savedLang);
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (data.inputs) {
+      Object.keys(data.inputs).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = data.inputs[id];
+      });
+    }
+    if (data.matches) state.matches = data.matches;
+    if (data.mc) {
+      state.mc = data.mc;
+      Object.keys(state.mc).forEach(qId => {
+        const val = state.mc[qId];
+        if (val) {
+          const btn = document.getElementById(`mc_${qId}_${val}`);
+          if (btn) btn.classList.add("active");
+        }
+      });
+    }
+    if (data.tf) {
+      state.tf = data.tf;
+      Object.keys(state.tf).forEach(qId => updateTFUI(qId));
+    }
+  } catch(e) {}
+}
+
+function updateProgress() {
+  let done = 0, total = 0;
+  document.querySelectorAll(".track-inp").forEach(el => {
+    total++;
+    if (el.value.trim() !== "") done++;
+  });
+  // 4 nối (b,c,d,e) + 2 câu khoanh (Bài 6) + 4 ý Đ/S (Bài 7) = 10
+  total += 10;
+  ["b","c","d","e"].forEach(k => { if (state.matches[k]) done++; });
+  ["p1_b6_c1","p1_b6_c2"].forEach(k => { if (state.mc[k]) done++; });
+  ["p1_b7_c1_A","p1_b7_c1_B","p1_b7_c2_A","p1_b7_c2_B"].forEach(k => { if (state.tf[k]) done++; });
+
+  document.getElementById("progCountVi").textContent = `${done}/${total}`;
+  document.getElementById("progCountEn").textContent = `${done}/${total}`;
+  const pct = total ? Math.round((done/total)*100) : 0;
+  document.getElementById("progFill").style.width = pct + "%";
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  loadState();
+  drawMatches();
+  updateProgress();
+  document.querySelectorAll(".track-inp").forEach(el => {
+    el.addEventListener("input", () => { saveState(); updateProgress(); });
+    el.addEventListener("change", () => { saveState(); updateProgress(); });
+  });
+  window.addEventListener("resize", drawMatches);
+});
+</script>
+</body>
+</html>

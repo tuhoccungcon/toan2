@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="vi" data-lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài tập toán lớp 2 - Tuần 25 / Grade 2 Math - Week 25</title>
+<script>/* nhớ ngôn ngữ đã chọn, chạy sớm để không bị nháy */try{var l=localStorage.getItem("baitap_lang");if(l==="en"||l==="vi"){document.documentElement.setAttribute("data-lang",l);document.documentElement.setAttribute("lang",l);}}catch(e){}</script>
+<style>
+/* ===== Giao diện chung ===== */
+:root{--bg:#fff7e6;--card:#ffffff;--ink:#2b2b3a;--main:#4f8cff;--main2:#2f6fe0;--ok:#1e9e5a;--warn:#d99a00;--bad:#d9434e;--line:#cfd8ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Roboto,Arial,sans-serif;font-size:21px;line-height:1.75;background:var(--bg);color:var(--ink)}
+header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:3px solid var(--main);padding:6px 14px 8px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+header h1{margin:0;font-size:28px;text-align:center;color:var(--main2)}
+.tien{height:14px;background:#e7edf9;border-radius:99px;overflow:hidden;margin-top:4px}
+#bar{height:100%;width:0;background:linear-gradient(90deg,#4f8cff,#37c38a);transition:width .3s}
+#tiendo{display:block;text-align:center;font-size:16px;color:#556}
+main{max-width:880px;margin:0 auto;padding:12px 14px 60px}
+.luuy{font-size:16px;color:#667;text-align:center;margin:6px 0 0}
+h2.phan{margin:26px 0 6px;font-size:26px;color:#1b3a8c}
+p.hd{margin:12px 2px 8px;font-weight:700;font-style:italic}
+.bai{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 18px 14px;margin:14px 0;box-shadow:0 3px 0 rgba(79,140,255,.12)}
+.bai h3{margin:0 0 4px;font-size:22px;color:#1b3a8c}
+.bai p{margin:4px 0}
+.dong{margin:6px 0;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.dong .so{font-weight:700;min-width:28px}
+.blk{display:block}
+/* ===== Ô nhập ===== */
+.slot{display:inline-flex;flex-wrap:wrap;align-items:center;gap:4px 8px;vertical-align:middle}
+.slot.blk{display:flex;width:100%}
+.in,.ta{font:inherit;font-size:22px;border:none;border-bottom:3px dashed #8aa4d6;background:#f4f8ff;border-radius:8px 8px 0 0;padding:2px 8px;color:#143;outline:none}
+.in:focus,.ta:focus{background:#e6f0ff;border-bottom-color:var(--main2)}
+.w-s{width:84px}.w-m{width:170px}.w-l{width:300px;max-width:100%}.w-xl{width:540px;max-width:100%}
+.ta{width:100%;border:2px dashed #8aa4d6;border-radius:12px;padding:8px 10px;line-height:1.5;resize:vertical}
+.giai label,.dapso{font-weight:700}
+.giai{margin-top:8px}
+.dapso{margin-top:8px;display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.dsb,.ch,.daub{font:inherit;cursor:pointer;border:3px solid #9db4e3;background:#fff;color:#234;border-radius:12px;min-width:52px;min-height:52px;padding:2px 12px}
+.dsb.on{background:#fff0b8;border-color:#e0a100;font-weight:700}
+.daub{width:56px;font-size:30px;font-weight:700;border-radius:10px}
+.daub.on{background:#fff0b8;border-color:#e0a100}
+.choices{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.ch{text-align:left;border-radius:14px;padding:4px 16px;border-color:#cdd8f0}
+.ch.on{border:4px solid #e0334c;border-radius:999px;background:#fff1f3;font-weight:700}
+/* ===== Dấu chấm điểm ===== */
+.mk{font-weight:700;font-size:22px}
+.mk small{font-size:15px;font-weight:400;margin-left:4px}
+.slot.ok .in,.slot.ok .ta{border-color:var(--ok);background:#e8f8ef}.slot.ok .mk{color:var(--ok)}
+.slot.gan .in,.slot.gan .ta{border-color:var(--warn);background:#fff8e1}.slot.gan .mk{color:var(--warn)}
+.slot.sai .in,.slot.sai .ta{border-color:var(--bad);background:#fdeceb}.slot.sai .mk{color:var(--bad)}
+.slot.ok .dsb.on,.slot.ok .ch.on,.slot.ok .daub.on{outline:3px solid var(--ok)}
+.slot.sai .dsb.on,.slot.sai .ch.on,.slot.sai .daub.on{outline:3px solid var(--bad)}
+.slot.gan .daub.on{outline:3px solid var(--warn)}
+.dapan-slot,.dapan-note{display:none;color:#0b6b3a;background:#e6f7ee;border-radius:8px;padding:0 8px;font-size:18px;font-weight:600}
+.dapan-note{padding:6px 10px;margin-top:8px}
+body.phuhuynh .dapan-slot,.bai.lo .dapan-slot{display:inline-block}
+body.phuhuynh .dapan-note,.bai.lo .dapan-note{display:block}
+/* ===== Nút bấm ===== */
+.btn{font:inherit;font-weight:700;cursor:pointer;border:none;border-radius:14px;padding:8px 20px;min-height:52px;background:var(--main);color:#fff;box-shadow:0 4px 0 var(--main2)}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--main2)}
+.btn.phu{background:#8a93a8;box-shadow:0 4px 0 #6b748a}
+.btn.nop{background:#25b36b;box-shadow:0 4px 0 #168a50;font-size:24px;padding:10px 30px}
+.btn.lam{background:#f08a24;box-shadow:0 4px 0 #c46c10}
+.btn[hidden]{display:none}
+.chan{margin-top:10px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.tb{font-size:18px;font-weight:600}
+.hanh{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:26px 0 10px}
+#ketqua{display:none;background:#fff;border:3px solid #25b36b;border-radius:18px;padding:12px 20px;margin:14px 0}
+#ketqua h2{margin:4px 0;color:#168a50}
+#ketqua .diem{font-size:28px;font-weight:700}
+#ketqua ul{margin:6px 0 6px 22px;padding:0;font-size:19px}
+.small{font-size:17px;color:#556}
+/* ===== Hình vẽ ===== */
+.hinh{max-width:100%}
+.ngang{display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+.sodo7{position:relative;width:100%;max-width:460px;aspect-ratio:400/130}
+.sodo7 svg{position:absolute;inset:0;width:100%;height:100%}
+.sodo7 .lb{position:absolute;left:0;display:flex;align-items:center;gap:4px}
+.board{position:relative;width:200px;height:308px;background:#fffdf5;border:2px solid #e3d9b8;border-radius:10px;touch-action:none}
+.board svg,.board canvas{position:absolute;inset:0;width:100%;height:100%}
+.board canvas{touch-action:none;cursor:crosshair}
+.mini{width:260px;max-width:100%}
+@media(max-width:560px){body{font-size:19px}.bai{padding:10px 12px}.w-xl{width:100%}}
+.cauhoi{border-top:2px dashed var(--line);margin-top:10px;padding-top:6px}
+/* ----- Bài nối ----- */
+.noi{position:relative;display:grid;grid-template-columns:minmax(170px,290px) minmax(50px,150px) minmax(110px,150px);max-width:620px;margin:8px 0}
+.noi-col{display:flex;flex-direction:column}
+.noi .noi-l,.noi .noi-r{display:flex;align-items:center;gap:8px;min-height:50px;padding:2px 12px;border:2px solid #333;background:#fff;margin-top:-2px;cursor:pointer;user-select:none}
+.noi .noi-col>:first-child{margin-top:0}
+.noi .noi-l.mau{cursor:default;background:#f2f2f2}
+.noi .noi-l.sel{background:#fff0b8;border-color:#e0a100}
+.noi .noi-r:hover{background:#eef4ff}
+.noi .noi-l.ok{background:#e8f8ef}.noi .noi-l.sai{background:#fdeceb}
+.noi-svg{position:absolute;left:0;top:0;pointer-events:none;overflow:visible}
+.noi-svg line{stroke:#2f6fe0;stroke-width:3;stroke-linecap:round}
+.noi-svg line.mau{stroke:#333;stroke-width:2}
+.noi-svg line.ok{stroke:#1e9e5a}.noi-svg line.sai{stroke:#d9434e}
+
+/* ===== Song ngữ Việt - Anh ===== */
+html[data-lang="vi"] .en{display:none!important}
+html[data-lang="en"] .vi{display:none!important}
+header .hd-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px 12px}
+header .hd-top h1{text-align:left}
+.lang{display:inline-flex;border:3px solid var(--main);border-radius:14px;overflow:hidden}
+.lg{font:inherit;font-size:17px;font-weight:700;min-height:48px;padding:2px 14px;border:none;background:#fff;color:var(--main2);cursor:pointer}
+.lg.on{background:var(--main);color:#fff}
+.dong{align-items:flex-start}
+.dong > .so + span{flex:1 1 240px;min-width:0}
+.tuvung{margin:10px 0;background:#fff;border:2px solid var(--line);border-radius:14px;padding:4px 14px}
+.tuvung summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}
+.tuvung ul{columns:2 260px;margin:4px 0 8px 18px;padding:0;font-size:19px;line-height:1.6}
+
+.chuoi2.sm .ov .nv{font-size:clamp(9px,2.7vw,17px)}
+
+.w-op{width:52px;text-align:center}
+.chuoi2.sm{--w:clamp(36px,9.6vw,86px);--h:clamp(28px,7vw,50px)}
+.ab{display:flex;flex-wrap:wrap;gap:6px 28px;align-items:center;margin:4px 0 6px 14px}
+.cmpwrap{display:inline-flex;vertical-align:middle;margin:0 6px}
+.cmpwrap .choices{display:inline-flex!important;flex-direction:row!important;flex-wrap:nowrap!important;gap:4px;width:auto!important}
+.cmpwrap .ch{display:inline-block!important;width:auto!important;min-width:38px;padding:2px 8px!important;font-size:1.1em;font-weight:700;text-align:center}
+
+.chuoi2{--w:clamp(46px,12.5vw,96px);--h:clamp(32px,8vw,54px);display:flex;align-items:center;flex:1 1 0;min-width:0;margin:26px 0 12px}
+.ov{position:relative;flex:0 0 var(--w);width:var(--w);height:var(--h);border:2.5px solid #222;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+.ov .slot,.ov .nv{margin:0;flex-wrap:nowrap}
+.ov .nv{font-size:clamp(12px,3.4vw,20px);font-weight:700}
+.ov .in.w-n{width:calc(var(--w)*.8);min-width:0;text-align:center;padding:0;background:transparent;border-bottom:2px dashed #8aa4d6;border-radius:0;font-size:clamp(12px,3.4vw,20px);font-weight:700}
+.ov .in.w-n::placeholder{color:#8aa4d6}
+.ov .mk{position:absolute;right:0;top:-24px;font-size:16px;white-space:nowrap}
+.ov .mk small{display:none}
+.ov .dapan-slot{position:absolute;top:100%;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:14px}
+.ov .slot.ok .in{background:#e8f8ef}.ov .slot.sai .in{background:#fdeceb}
+.sodo{align-items:center!important}
+.ar{position:relative;flex:1 1 0;min-width:22px;height:var(--h)}
+.ar::before{content:"";position:absolute;left:0;right:7px;top:50%;height:2px;background:#222}
+.ar::after{content:"";position:absolute;right:0;top:calc(50% - 5px);border-left:8px solid #222;border-top:5px solid transparent;border-bottom:5px solid transparent}
+.ar b{position:absolute;left:50%;top:calc(50% - 24px);transform:translateX(-50%);font-size:clamp(10px,3vw,16px);white-space:nowrap}
+.tt{margin:2px 0 2px 14px}
+
+/* ===== Sơ đồ mũi tên (Bài 1) ===== */
+.sodo{align-items:center!important}
+.chuoi{--n:clamp(38px,9.5vw,72px);display:flex;align-items:center;flex:1 1 0;min-width:0;margin:24px 0 8px}
+.nd{position:relative;flex:0 0 var(--n);width:var(--n);height:var(--n);display:inline-block}
+.nd svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.nd svg *{fill:#fff;stroke:#222;stroke-width:2.5;stroke-linejoin:round}
+.nd .slot,.nd .nv{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);flex-wrap:nowrap;margin:0}
+.nd.tri .slot,.nd.tri .nv{top:64%}
+.nd .nv{font-size:clamp(15px,4vw,22px);font-weight:700}
+.nd .in.w-n{width:calc(var(--n)*.6);min-width:0;text-align:center;padding:0;background:transparent;border-bottom:2px dashed #8aa4d6;border-radius:0;font-size:clamp(14px,3.8vw,22px);font-weight:700}
+.nd .in.w-n::placeholder{color:#8aa4d6}
+.nd .mk{position:absolute;left:100%;top:-18px;font-size:18px;white-space:nowrap}
+.nd .mk small{display:none}
+.nd .dapan-slot{position:absolute;top:100%;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:15px;padding:0 6px}
+.nd .slot.ok .in{background:#e8f8ef}.nd .slot.sai .in{background:#fdeceb}
+.ar{position:relative;flex:1 1 0;min-width:24px;height:var(--n)}
+.ar::before{content:"";position:absolute;left:0;right:7px;top:50%;height:2px;background:#222}
+.ar::after{content:"";position:absolute;right:0;top:calc(50% - 5px);border-left:8px solid #222;border-top:5px solid transparent;border-bottom:5px solid transparent}
+.ar b{position:absolute;left:50%;top:calc(50% - 26px);transform:translateX(-50%);font-size:clamp(12px,3.3vw,17px);white-space:nowrap}
+.fig{width:min(100%,300px);height:auto;margin:6px 0 10px}
+.tt{margin:2px 0 2px 14px}
+</style>
+</head>
+<body>
+<header>
+  <div class="hd-top">
+    <h1><span class="vi">TUẦN 25</span><span class="en">WEEK 25</span></h1>
+    <div class="lang" role="group" aria-label="Ngôn ngữ / Language">
+      <button type="button" class="lg on" data-l="vi" aria-pressed="true">🇻🇳 Tiếng Việt</button>
+      <button type="button" class="lg" data-l="en" aria-pressed="false">🇬🇧 English</button>
+    </div>
+  </div>
+  <div class="tien"><div id="bar"></div></div>
+  <span id="tiendo"></span>
+</header>
+<main>
+<details class="tuvung"><summary><span class="vi">📘 Từ vựng</span><span class="en">📘 Vocabulary</span></summary>
+<ul>
+  <li>phép chia – division</li>
+  <li>thương – quotient</li>
+  <li>số tròn chục – round-ten number</li>
+  <li>giờ – hour / o’clock</li>
+  <li>giờ rưỡi – half past</li>
+  <li>phút – minute</li>
+  <li>tan học – finish school</li>
+  <li>sớm hơn – earlier</li>
+  <li>nhanh hơn – faster</li>
+  <li>chuyến đò – ferry trip</li>
+  <li>người lái đò – ferryman</li>
+  <li>rổ – basket</li>
+  <li>hồng – persimmon</li>
+  <li>đường gấp khúc – broken line</li>
+  <li>đoạn – segment</li>
+  <li>đề-xi-mét (dm) – decimetre (dm)</li>
+  <li>lít (l) – litre (l)</li>
+</ul></details>
+<p class="luuy"><span class="vi">Khi gõ phép tính, dấu trừ em gõ là “-”, dấu cộng là “+”.</span><span class="en">When you type a calculation, use “-” for minus and “+” for plus.</span></p>
+
+<h2 class="phan"><span class="vi">Phần I. Trắc nghiệm khách quan</span><span class="en">Part I. Objective questions</span></h2>
+<p class="hd"><span class="vi">Điền chữ hoặc số thích hợp vào chỗ trống.</span><span class="en">Fill in each blank with a suitable word or number.</span></p>
+
+<section class="bai" data-bai="p1_b1" data-ten-vi="Phần I - Bài 1" data-ten-en="Part I - Exercise 1">
+  <h3><span class="vi">Bài 1.</span><span class="en">Exercise 1.</span></h3>
+  <p class="small"><span class="vi">(Viết các số cách nhau bằng dấu chấm phẩy, ví dụ: 3 ; 5 ; 7. Viết theo thứ tự nào cũng được.)</span><span class="en">(Write the numbers separated by semicolons, for example: 3 ; 5 ; 7. Any order is fine.)</span></p>
+  <div class="dong"><span class="so">1.</span><span><span class="vi">Thương của số có hai chữ số nhỏ hơn 50 có chữ số hàng đơn vị bằng 5 chia cho 5 có thể là các số :</span><span class="en">The quotients when a two-digit number less than 50 with 5 as its units digit is divided by 5 can be the numbers:</span> <span class="slot" data-id="p1_b1_c1" data-kind="text" data-w="l"></span></span></div>
+  <div class="dong"><span class="so">2.</span><span><span class="vi">Thương của số tròn chục có hai chữ số nhỏ hơn 60 chia cho 5 có thể là các số :</span><span class="en">The quotients when a two-digit round-ten number less than 60 is divided by 5 can be the numbers:</span> <span class="slot" data-id="p1_b1_c2" data-kind="text" data-w="l"></span></span></div>
+  <div class="dong"><span class="so">3.</span><span><span class="vi">Thương của số tròn chục nhỏ nhất có hai chữ số chia cho 5 là :</span><span class="en">The quotient when the smallest two-digit round-ten number is divided by 5 is:</span> <span class="slot" data-id="p1_b1_c3" data-kind="text" data-w="s" data-num="1"></span></span></div>
+</section>
+
+<section class="bai" data-bai="p1_b2" data-ten-vi="Phần I - Bài 2" data-ten-en="Part I - Exercise 2">
+  <h3><span class="vi">Bài 2.</span><span class="en">Exercise 2.</span></h3>
+  <div class="dong"><span class="so">1.</span><span><span class="vi">Khi chia số có một chữ số cho 5 ta được thương là số có một chữ số. Vậy các phép chia đó là :</span><span class="en">When a one-digit number is divided by 5, the quotient is a one-digit number. So the division is:</span> <span class="slot" data-id="p1_b2_c1" data-kind="text" data-w="m"></span></span></div>
+  <div class="dong"><span class="so">2.</span><span><span class="vi">Khi chia số có hai chữ số cho 5 ta được thương là số có một chữ số. Vậy các phép chia đó là :</span><span class="en">When a two-digit number is divided by 5, the quotient is a one-digit number. So the divisions are:</span></span></div>
+  <div class="ab"><span>a) <span class="slot" data-id="p1_b2_c2_a" data-kind="text" data-w="m"></span></span><span>b) <span class="slot" data-id="p1_b2_c2_b" data-kind="text" data-w="m"></span></span><span>c) <span class="slot" data-id="p1_b2_c2_c" data-kind="text" data-w="m"></span></span><span>d) <span class="slot" data-id="p1_b2_c2_d" data-kind="text" data-w="m"></span></span><span>e) <span class="slot" data-id="p1_b2_c2_e" data-kind="text" data-w="m"></span></span><span>g) <span class="slot" data-id="p1_b2_c2_g" data-kind="text" data-w="m"></span></span><span>h) <span class="slot" data-id="p1_b2_c2_h" data-kind="text" data-w="m"></span></span><span>i) <span class="slot" data-id="p1_b2_c2_i" data-kind="text" data-w="m"></span></span></div>
+</section>
+
+<section class="bai" data-bai="p1_b3" data-ten-vi="Phần I - Bài 3" data-ten-en="Part I - Exercise 3">
+  <p><b><span class="vi">Bài 3.</span><span class="en">Exercise 3.</span></b> <b><i><span class="vi">Điền dấu “>”, “<” hoặc “=” vào ô trống cho thích hợp.</span><span class="en">Write “>”, “<” or “=” in each box to make it correct.</span></i></b></p>
+  <div class="dong"><span class="so">1.</span><span>30cm : 6 <span class="slot cmpwrap" data-id="p1_b3_c1" data-kind="choice"><span class="choices"><button type="button" class="ch" data-v="&lt;">&lt;</button><button type="button" class="ch" data-v="=">=</button><button type="button" class="ch" data-v="&gt;">&gt;</button></span></span> 2dm : 2</span></div>
+  <div class="dong"><span class="so">2.</span><span>4dm × 5 <span class="slot cmpwrap" data-id="p1_b3_c2" data-kind="choice"><span class="choices"><button type="button" class="ch" data-v="&lt;">&lt;</button><button type="button" class="ch" data-v="=">=</button><button type="button" class="ch" data-v="&gt;">&gt;</button></span></span> 5cm × 10 + 16dm</span></div>
+  <div class="dong"><span class="so">3.</span><span>25cm : 5 + 7cm <span class="slot cmpwrap" data-id="p1_b3_c3" data-kind="choice"><span class="choices"><button type="button" class="ch" data-v="&lt;">&lt;</button><button type="button" class="ch" data-v="=">=</button><button type="button" class="ch" data-v="&gt;">&gt;</button></span></span> 3dm : 3 – 9cm</span></div>
+  <div class="dong"><span class="so">4.</span><span>45dm : 5 – 80cm <span class="slot cmpwrap" data-id="p1_b3_c4" data-kind="choice"><span class="choices"><button type="button" class="ch" data-v="&lt;">&lt;</button><button type="button" class="ch" data-v="=">=</button><button type="button" class="ch" data-v="&gt;">&gt;</button></span></span> 4cm × 5 – 1dm</span></div>
+</section>
+
+<section class="bai" data-bai="p1_b4" data-ten-vi="Phần I - Bài 4" data-ten-en="Part I - Exercise 4">
+  <h3><span class="vi">Bài 4.</span><span class="en">Exercise 4.</span></h3>
+  <div class="dong"><span class="so">1.</span><span><span class="vi">An bắt đầu học ở trường từ 8 giờ. An học trong 3 giờ. Vậy, An tan học lúc</span><span class="en">An starts school at 8 o’clock. An studies for 3 hours. So, An finishes school at</span> <span class="slot" data-id="p1_b4_c1" data-kind="text" data-w="s" data-num="1"></span> <span class="vi">giờ.</span><span class="en">o’clock.</span></span></div>
+  <div class="dong"><span class="so">2.</span><span><span class="vi">Lan làm xong bài tập ở nhà lúc 21 giờ. Lan đã làm bài tập trong 2 giờ. Vậy, Lan bắt đầu làm bài tập lúc</span><span class="en">Lan finished her homework at home at 21 o’clock. Lan spent 2 hours on her homework. So, Lan started her homework at</span> <span class="slot" data-id="p1_b4_c2" data-kind="text" data-w="s" data-num="1"></span> <span class="vi">giờ.</span><span class="en">o’clock.</span></span></div>
+  <div class="dong"><span class="so">3.</span><span><span class="vi">Hàng ngày, Minh ngủ trong 9 giờ, học trong 5 giờ. Vậy thời gian cả ngủ và học của Minh là :</span><span class="en">Every day, Minh sleeps for 9 hours and studies for 5 hours. So the total time Minh spends sleeping and studying is:</span> <span class="slot" data-id="p1_b4_c3" data-kind="text" data-w="m"></span></span></div>
+  <div class="dong"><span class="so">4.</span><span><span class="vi">Mẹ làm việc xong lúc 17 giờ. Mẹ làm việc trong 4 giờ. Vậy mẹ bắt đầu làm việc lúc</span><span class="en">Mom finished work at 17 o’clock. Mom worked for 4 hours. So Mom started work at</span> <span class="slot" data-id="p1_b4_c4" data-kind="text" data-w="s" data-num="1"></span> <span class="vi">giờ</span><span class="en">o’clock</span></span></div>
+  <p class="small"><span class="vi">(Ở câu 3, nhớ ghi cả đơn vị, ví dụ: 14 giờ.)</span><span class="en">(In question 3, remember to write the unit too, for example: 14 hours.)</span></p>
+</section>
+
+<section class="bai" data-bai="p1_b5" data-ten-vi="Phần I - Bài 5" data-ten-en="Part I - Exercise 5">
+  <p><b><span class="vi">Bài 5.</span><span class="en">Exercise 5.</span></b> <b><i><span class="vi">Nối (theo mẫu) :</span><span class="en">Match (follow the example):</span></i></b></p>
+  <p class="small"><span class="vi">(Bấm vào phép tính bên trái, rồi bấm vào kết quả bên phải để nối. Bấm lại cùng kết quả để bỏ nối.)</span><span class="en">(Tap a calculation on the left, then tap a result on the right to connect them. Tap the same result again to remove the link.)</span></p>
+  <div class="noi">
+    <div class="noi-col">
+      <div class="noi-l mau" data-mau="2">a) 5 × 2 : 2 =</div>
+      <span class="slot noi-l" data-id="p1_b5_b" data-kind="noi">b) 6 : 3 × 5 =</span>
+      <span class="slot noi-l" data-id="p1_b5_c" data-kind="noi">c) 2 × 9 : 3 =</span>
+      <span class="slot noi-l" data-id="p1_b5_d" data-kind="noi">d) 9 : 3 × 4 =</span>
+      <span class="slot noi-l" data-id="p1_b5_e" data-kind="noi">e) 2 × 2 : 2 =</span>
+      <span class="slot noi-l" data-id="p1_b5_g" data-kind="noi">g) 35 : 5 – 3 =</span>
+    </div>
+    <div></div>
+    <div class="noi-col">
+      <div class="noi-r" data-key="1">1) 2 × 5</div>
+      <div class="noi-r" data-key="2">2) 10 : 2</div>
+      <div class="noi-r" data-key="3">3) 2 × 3</div>
+      <div class="noi-r" data-key="4">4) 4 : 2</div>
+      <div class="noi-r" data-key="5">5) 4 × 3</div>
+      <div class="noi-r" data-key="6">6) 4 × 4 – 12</div>
+    </div>
+    <svg class="noi-svg" aria-hidden="true"></svg>
+  </div>
+  <div class="chan"><button class="btn phu noi-xoa" type="button"><span class="vi">Xóa nối</span><span class="en">Clear links</span></button></div>
+</section>
+
+<p class="hd"><span class="vi">Đúng ghi Đ, sai ghi S vào ô trống.</span><span class="en">Write T (true) if it is correct and F (false) if it is wrong in the box.</span></p>
+
+<section class="bai" data-bai="p1_b6" data-ten-vi="Phần I - Bài 6" data-ten-en="Part I - Exercise 6">
+  <h3><span class="vi">Bài 6.</span><span class="en">Exercise 6.</span></h3>
+  <div class="dong"><span class="so">1.</span><span><span class="vi">Lan tập thể dục từ 6 giờ đến 6 giờ rưỡi. Vậy, Lan tập thể dục trong :</span><span class="en">Lan did exercise from 6 o’clock to half past 6. So, Lan exercised for:</span></span></div>
+  <div class="ab"><span>A. <span class="vi">6 giờ rưỡi</span><span class="en">6 and a half hours</span> <span class="slot" data-id="p1_b6_c1_a" data-kind="ds"></span></span><span>B. <span class="vi">30 phút</span><span class="en">30 minutes</span> <span class="slot" data-id="p1_b6_c1_b" data-kind="ds"></span></span></div>
+  <div class="dong"><span class="so">2.</span><span><span class="vi">Minh đọc truyện từ 5 giờ đến 6 giờ. Vậy, Minh đọc truyện trong :</span><span class="en">Minh read a story from 5 o’clock to 6 o’clock. So, Minh read for:</span></span></div>
+  <div class="ab"><span>A. <span class="vi">60 phút</span><span class="en">60 minutes</span> <span class="slot" data-id="p1_b6_c2_a" data-kind="ds"></span></span><span>B. <span class="vi">6 giờ</span><span class="en">6 hours</span> <span class="slot" data-id="p1_b6_c2_b" data-kind="ds"></span></span></div>
+</section>
+
+<section class="bai" data-bai="p1_b7" data-ten-vi="Phần I - Bài 7" data-ten-en="Part I - Exercise 7">
+  <h3><span class="vi">Bài 7.</span><span class="en">Exercise 7.</span></h3>
+  <div class="dong"><span class="so">1.</span><span><span class="vi">Hoa đi từ A lúc 7 giờ và đến B lúc 9 giờ. An cũng đi từ A lúc 7 giờ và đến B lúc 8 giờ 30 phút. Vậy :</span><span class="en">Hoa travels from A at 7 o’clock and arrives at B at 9 o’clock. An also travels from A at 7 o’clock and arrives at B at 8:30. So:</span></span></div>
+  <div class="ab"><span>A. <span class="vi">Hoa đi nhanh hơn An</span><span class="en">Hoa travels faster than An</span> <span class="slot" data-id="p1_b7_c1_a" data-kind="ds"></span></span></div>
+  <div class="ab"><span>B. <span class="vi">An đi nhanh hơn Hoa</span><span class="en">An travels faster than Hoa</span> <span class="slot" data-id="p1_b7_c1_b" data-kind="ds"></span></span></div>
+  <div class="dong"><span class="so">2.</span><span><span class="vi">Anh ngủ dậy lúc 6 giờ. Em ngủ dậy lúc 6 giờ rưỡi. Vậy :</span><span class="en">The older brother wakes up at 6 o’clock. The younger one wakes up at half past 6. So:</span></span></div>
+  <div class="ab"><span>A. <span class="vi">Anh dậy sớm hơn em</span><span class="en">The older brother wakes up earlier than the younger one</span> <span class="slot" data-id="p1_b7_c2_a" data-kind="ds"></span></span></div>
+  <div class="ab"><span>B. <span class="vi">Em dậy sớm hơn anh</span><span class="en">The younger one wakes up earlier than the older brother</span> <span class="slot" data-id="p1_b7_c2_b" data-kind="ds"></span></span></div>
+</section>
+
+<h2 class="phan"><span class="vi">Phần II. Tự luận</span><span class="en">Part II. Written problems</span></h2>
+
+<section class="bai" data-bai="p2_b1" data-ten-vi="Phần II - Bài 1" data-ten-en="Part II - Exercise 1">
+  <p><b><span class="vi">Bài 1.</span><span class="en">Exercise 1.</span></b> <span class="vi">Có 25 người muốn qua sông. Mỗi chuyến đò chỉ chở được 5 người không kể người lái đò. Vậy cần mấy chuyến đò để chở hết số người trên qua sông ?</span><span class="en">25 people want to cross a river. Each ferry trip can carry only 5 people, not counting the ferryman. So how many ferry trips are needed to carry all those people across the river?</span></p>
+  <div class="giai"><label><span class="vi">Bài giải</span><span class="en">Solution</span></label><span class="slot blk" data-id="p2_b1_giai" data-kind="ta" data-rows="4" data-nocount="1"></span></div>
+  <div class="dapso"><span class="vi">Đáp số:</span><span class="en">Answer:</span> <span class="slot" data-id="p2_b1_c1" data-kind="text" data-w="xl"></span></div>
+</section>
+
+<section class="bai" data-bai="p2_b2" data-ten-vi="Phần II - Bài 2" data-ten-en="Part II - Exercise 2">
+  <p><b><span class="vi">Bài 2.</span><span class="en">Exercise 2.</span></b> <span class="vi">Chuyển 11<i>l</i> dầu từ thùng thứ nhất sang thùng thứ hai thì thùng thứ hai có 30<i>l</i> dầu. Hỏi :</span><span class="en">11 <i>l</i> of oil is moved from the first container to the second container, and then the second container has 30 <i>l</i> of oil. Questions:</span></p>
+  <div class="cauhoi">
+    <p><span class="vi">1. Trước khi chuyển, thùng thứ hai có bao nhiêu lít dầu ?</span><span class="en">1. Before the move, how many litres of oil did the second container have?</span></p>
+    <div class="giai"><label><span class="vi">Bài giải</span><span class="en">Solution</span></label><span class="slot blk" data-id="p2_b2_c1_giai" data-kind="ta" data-rows="3" data-nocount="1"></span></div>
+    <div class="dapso"><span class="vi">Đáp số:</span><span class="en">Answer:</span> <span class="slot" data-id="p2_b2_c1" data-kind="text" data-w="xl"></span></div>
+  </div>
+  <div class="cauhoi">
+    <p><span class="vi">2. Nếu chia đều 30<i>l</i> dầu ở thùng thứ hai vào 5 can như nhau thì mỗi can có bao nhiêu lít dầu ?</span><span class="en">2. If the 30 <i>l</i> of oil in the second container is shared equally into 5 identical cans, how many litres of oil does each can have?</span></p>
+    <div class="giai"><label><span class="vi">Bài giải</span><span class="en">Solution</span></label><span class="slot blk" data-id="p2_b2_c2_giai" data-kind="ta" data-rows="3" data-nocount="1"></span></div>
+    <div class="dapso"><span class="vi">Đáp số:</span><span class="en">Answer:</span> <span class="slot" data-id="p2_b2_c2" data-kind="text" data-w="xl"></span></div>
+  </div>
+</section>
+
+<section class="bai" data-bai="p2_b3" data-ten-vi="Phần II - Bài 3" data-ten-en="Part II - Exercise 3">
+  <p><b><span class="vi">Bài 3.</span><span class="en">Exercise 3.</span></b> <span class="vi">Đặt một đề toán theo tóm tắt dưới đây :</span><span class="en">Make up a word problem from the summary below:</span></p>
+  <p class="tt"><span class="vi">Có : 35 lít dầu</span><span class="en">Has: 35 litres of oil</span></p>
+  <p class="tt"><span class="vi">Chia đều : 5 can</span><span class="en">Shared equally: 5 cans</span></p>
+  <p class="tt"><span class="vi">Mỗi can : ? lít dầu</span><span class="en">Each can: ? litres of oil</span></p>
+  <div class="giai"><label><span class="vi">Bài làm</span><span class="en">Your work</span></label><span class="slot blk" data-id="p2_b3_giai" data-kind="ta" data-rows="5"></span></div>
+</section>
+
+<section class="bai" data-bai="p2_b4" data-ten-vi="Phần II - Bài 4" data-ten-en="Part II - Exercise 4">
+  <p><b><span class="vi">Bài 4.</span><span class="en">Exercise 4.</span></b> <span class="vi">Một đường gấp khúc dài 50cm được chia thành 5 đoạn bằng nhau. Hỏi mỗi đoạn dài bao nhiêu đề-xi-mét ?</span><span class="en">A broken line 50 cm long is divided into 5 equal segments. How many decimetres long is each segment?</span></p>
+  <div class="giai"><label><span class="vi">Bài giải</span><span class="en">Solution</span></label><span class="slot blk" data-id="p2_b4_giai" data-kind="ta" data-rows="4" data-nocount="1"></span></div>
+  <div class="dapso"><span class="vi">Đáp số:</span><span class="en">Answer:</span> <span class="slot" data-id="p2_b4_c1" data-kind="text" data-w="xl"></span></div>
+</section>
+
+<section class="bai" data-bai="p2_b5" data-ten-vi="Phần II - Bài 5" data-ten-en="Part II - Exercise 5">
+  <p><b><span class="vi">Bài 5.</span><span class="en">Exercise 5.</span></b> <span class="vi">Có bốn chục quả hồng chia đều vào các rổ, mỗi rổ có 5 quả. Hỏi có tất cả bao nhiêu rổ ?</span><span class="en">There are four tens (40) of persimmons shared equally into baskets, 5 persimmons in each basket. How many baskets are there altogether?</span></p>
+  <div class="giai"><label><span class="vi">Bài giải</span><span class="en">Solution</span></label><span class="slot blk" data-id="p2_b5_giai" data-kind="ta" data-rows="4" data-nocount="1"></span></div>
+  <div class="dapso"><span class="vi">Đáp số:</span><span class="en">Answer:</span> <span class="slot" data-id="p2_b5_c1" data-kind="text" data-w="xl"></span></div>
+</section>
+
+<section class="bai" data-bai="p2_b6" data-ten-vi="Phần II - Bài 6" data-ten-en="Part II - Exercise 6">
+  <p><b><span class="vi">Bài 6.</span><span class="en">Exercise 6.</span></b> <span class="vi">Minh đến trường lúc 8 giờ sáng và tan học lúc 4 giờ chiều. Hỏi Minh đã ở trường trong bao nhiêu giờ ?</span><span class="en">Minh arrives at school at 8 in the morning and finishes school at 4 in the afternoon. How many hours was Minh at school?</span></p>
+  <div class="giai"><label><span class="vi">Bài giải</span><span class="en">Solution</span></label><span class="slot blk" data-id="p2_b6_giai" data-kind="ta" data-rows="4" data-nocount="1"></span></div>
+  <div class="dapso"><span class="vi">Đáp số:</span><span class="en">Answer:</span> <span class="slot" data-id="p2_b6_c1" data-kind="text" data-w="xl"></span></div>
+</section>
+
+<section class="bai" data-bai="p2_b7" data-ten-vi="Phần II - Bài 7" data-ten-en="Part II - Exercise 7">
+  <p><b><span class="vi">Bài 7.</span><span class="en">Exercise 7.</span></b> <span class="vi">Mẹ đi làm lúc 7 giờ sáng. Mẹ về nhà lúc 5 giờ chiều. Hỏi mẹ đi làm trong bao nhiêu giờ ?</span><span class="en">Mom goes to work at 7 in the morning. Mom comes home at 5 in the afternoon. How many hours did Mom work?</span></p>
+  <div class="giai"><label><span class="vi">Bài giải</span><span class="en">Solution</span></label><span class="slot blk" data-id="p2_b7_giai" data-kind="ta" data-rows="4" data-nocount="1"></span></div>
+  <div class="dapso"><span class="vi">Đáp số:</span><span class="en">Answer:</span> <span class="slot" data-id="p2_b7_c1" data-kind="text" data-w="xl"></span></div>
+</section>
+
+<div class="hanh">
+  <button class="btn nop" id="btnNop" type="button"><span class="vi">Nộp bài</span><span class="en">Submit</span></button>
+  <button class="btn lam" id="btnLam" type="button"><span class="vi">Làm lại</span><span class="en">Start over</span></button>
+  <button class="btn phu" id="btnPhu" type="button" hidden><span class="vi">Chế độ ba mẹ</span><span class="en">Parent mode</span></button>
+</div>
+<div id="ketqua"></div>
+</main>
+
+<!-- ================= SCRIPT 1: DỮ LIỆU + HÀM CHẤM (không đụng tới giao diện) ================= -->
+<script id="logic">
+var KEY_STORE = "baitap_tuan25";
+var LANG_KEY = "baitap_lang"; /* khóa ghi nhớ ngôn ngữ, dùng chung mọi tuần */
+var MA_BA_ME = "1234"; /* mã vào chế độ ba mẹ, đổi ở đây */
+
+/* ANSWER_KEY: lấy từ ảnh đáp án (ảnh 4-5). Sửa tay được; xóa hết các mục để tắt chế độ chấm.
+   kieu: so | chu | ngay | dungsai | chon | noi | dapso
+   Chấp nhận đáp án gõ bằng tiếng Việt HOẶC tiếng Anh ở mọi chế độ.
+   donvi: phần tử đầu là cách viết tiếng Việt, phần tử cuối là cách viết tiếng Anh dùng để hiển thị. */
+var ANSWER_KEY = {
+  p1_b1_c1:{kieu:"tapso",set:[3,5,7,9]},
+  p1_b1_c2:{kieu:"tapso",set:[2,4,6,8,10]},
+  p1_b1_c3:{kieu:"so",dapan:"2"},
+  p1_b2_c1:{kieu:"chia",a:5,d:5,r:1},
+  p1_b2_c2_a:{kieu:"chiap",d:5,ds:[10, 15, 20, 25, 30, 35, 40, 45],show:10,nhom:"b2_2"},
+  p1_b2_c2_b:{kieu:"chiap",d:5,ds:[10, 15, 20, 25, 30, 35, 40, 45],show:15,nhom:"b2_2"},
+  p1_b2_c2_c:{kieu:"chiap",d:5,ds:[10, 15, 20, 25, 30, 35, 40, 45],show:20,nhom:"b2_2"},
+  p1_b2_c2_d:{kieu:"chiap",d:5,ds:[10, 15, 20, 25, 30, 35, 40, 45],show:25,nhom:"b2_2"},
+  p1_b2_c2_e:{kieu:"chiap",d:5,ds:[10, 15, 20, 25, 30, 35, 40, 45],show:30,nhom:"b2_2"},
+  p1_b2_c2_g:{kieu:"chiap",d:5,ds:[10, 15, 20, 25, 30, 35, 40, 45],show:35,nhom:"b2_2"},
+  p1_b2_c2_h:{kieu:"chiap",d:5,ds:[10, 15, 20, 25, 30, 35, 40, 45],show:40,nhom:"b2_2"},
+  p1_b2_c2_i:{kieu:"chiap",d:5,ds:[10, 15, 20, 25, 30, 35, 40, 45],show:45,nhom:"b2_2"},
+  p1_b3_c1:{kieu:"chon",dapan:"<"},
+  p1_b3_c2:{kieu:"chon",dapan:"<"},
+  p1_b3_c3:{kieu:"chon",dapan:">"},
+  p1_b3_c4:{kieu:"chon",dapan:"="},
+  p1_b4_c1:{kieu:"so",dapan:"11"},
+  p1_b4_c2:{kieu:"so",dapan:"19"},
+  p1_b4_c3:{kieu:"dapso",tu:[],so:"14",donvi:["giờ","hour","o'clock","hours"]},
+  p1_b4_c4:{kieu:"so",dapan:"13"},
+  p1_b5_b:{kieu:"noi",dapan:"1"},
+  p1_b5_c:{kieu:"noi",dapan:"3"},
+  p1_b5_d:{kieu:"noi",dapan:"5"},
+  p1_b5_e:{kieu:"noi",dapan:"4"},
+  p1_b5_g:{kieu:"noi",dapan:"6"},
+  p1_b6_c1_a:{kieu:"dungsai",dapan:"S"},
+  p1_b6_c1_b:{kieu:"dungsai",dapan:"Đ"},
+  p1_b6_c2_a:{kieu:"dungsai",dapan:"Đ"},
+  p1_b6_c2_b:{kieu:"dungsai",dapan:"S"},
+  p1_b7_c1_a:{kieu:"dungsai",dapan:"S"},
+  p1_b7_c1_b:{kieu:"dungsai",dapan:"Đ"},
+  p1_b7_c2_a:{kieu:"dungsai",dapan:"Đ"},
+  p1_b7_c2_b:{kieu:"dungsai",dapan:"S"},
+  p2_b1_c1:{kieu:"dapso",tu:[],so:"5",donvi:["chuyến","chuyến đò","trip","crossing","crossings","ferry trip","ferry trips","trips"]},
+  p2_b2_c1:{kieu:"dapso",tu:[],so:"19",donvi:["lít","l","liter","liters","litre","litres"]},
+  p2_b2_c2:{kieu:"dapso",tu:[],so:"6",donvi:["lít","l","liter","liters","litre","litres"]},
+  p2_b4_c1:{kieu:"dapso",tu:[],so:"1",donvi:["dm","đề-xi-mét","đề xi mét","decimetre","decimetres","decimeters","dm"]},
+  p2_b5_c1:{kieu:"dapso",tu:[],so:"8",donvi:["rổ","basket","baskets"]},
+  p2_b6_c1:{kieu:"dapso",tu:[],so:"8",donvi:["giờ","hour","o'clock","hours"]},
+  p2_b7_c1:{kieu:"dapso",tu:[],so:"10",donvi:["giờ","hour","o'clock","hours"]}
+};
+/* Ghi chú đáp án cho các bài không chấm tự động (chỉ hiện ở chế độ ba mẹ): { mã_bài: [tiếng Việt, English] } */
+var ANSWER_NOTES = {};
+var HAS_KEY = Object.keys(ANSWER_KEY).length > 0;
+/* Tên tháng tiếng Anh để hiển thị và để chấp nhận khi bé gõ "19 July", "July 19th" */
+var MONTH_EN = ["","January","February","March","April","May","June","July","August","September","October","November","December"];
+var MONTHS = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12,
+              jan:1,feb:2,mar:3,apr:4,jun:6,jul:7,aug:8,sep:9,sept:9,oct:10,nov:11,dec:12};
+
+/* ----- Ngôn ngữ: mọi chữ có hai bản vi / en, CSS ẩn bản không dùng ----- */
+function getLang(){ return document.documentElement.getAttribute("data-lang") === "en" ? "en" : "vi"; }
+function bi(vi, en){ return '<span class="vi">' + vi + '</span><span class="en">' + en + '</span>'; }
+function tx(vi, en){ return getLang() === "en" ? en : vi; } /* cho alert / confirm / prompt */
+function numOf(v){ var n = Number(String(v).replace(",", ".")); return isNaN(n) ? 0 : n; }
+function fmtEn(x){ return (Math.round(numOf(x) * 2) / 2).toString(); }
+function fmtVi(x){ return fmtEn(x).replace(".", ","); }
+
+/* ----- Trạng thái bài làm (giá trị lưu không phụ thuộc ngôn ngữ: Đ/S, số, chữ bé gõ) ----- */
+var S = {v:{}, att:{}};
+try {
+  var raw = localStorage.getItem(KEY_STORE);
+  if (raw) { S = JSON.parse(raw); if (!S.v) S.v = {}; if (!S.att) S.att = {}; }
+} catch (e) {}
+function save(){ try { localStorage.setItem(KEY_STORE, JSON.stringify(S)); } catch (e) {} }
+
+/* ----- Chuẩn hóa chuỗi ----- */
+function nfc(s){ return (s||"").toString().normalize("NFC"); }
+function cleanText(s){ return nfc(s).toLowerCase().replace(/[.,;:!?]+$/,"").replace(/\s+/g," ").trim(); }
+function noAccent(s){ return cleanText(s).normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/g,"d"); }
+function normExpr(s){ return nfc(s).toLowerCase().replace(/[–−—‒]/g,"-").replace(/\s+/g,"").replace(/[.=]+$/,""); }
+function parseExpr(s){
+  var m = normExpr(s).match(/^(\d+)([+\-])(\d+)(?:=(\d+))?$/);
+  return m ? {a:+m[1], op:m[2], b:+m[3], r:(m[4]===undefined?null:+m[4])} : null;
+}
+function sameExpr(inp, exp){
+  var x = parseExpr(inp), y = parseExpr(exp);
+  if (!x || !y || x.op !== y.op) return false;
+  if (y.r !== null && x.r !== null && x.r !== y.r) return false;
+  if (x.op === "+") return (x.a===y.a && x.b===y.b) || (x.a===y.b && x.b===y.a); /* phép cộng đổi chỗ được */
+  return x.a===y.a && x.b===y.b; /* phép trừ phải đúng thứ tự */
+}
+function parseDiv(s){
+  var t = nfc(s).toLowerCase().replace(/[÷:\/]/g,":").replace(/\s+/g,"").replace(/[.]+$/,"");
+  var m = t.match(/^(\d+):(\d+)(?:=(\d+))?$/);
+  return m ? {a:+m[1], b:+m[2], r:(m[3]===undefined?null:+m[3])} : null;
+}
+function parseMul(s){
+  var t = nfc(s).toLowerCase().replace(/[×x*·]/g,"*").replace(/\s+/g,"").replace(/[.]+$/,"");
+  var m = t.match(/^(\d+)\*(\d+)(?:=(\d+))?$/);
+  return m ? {a:+m[1], b:+m[2], r:(m[3]===undefined?null:+m[3])} : null;
+}
+function parseSum(s){
+  var t = nfc(s).replace(/\s+/g,"").replace(/[.]+$/,"");
+  var m = t.match(/^(\d+(?:\+\d+)*)(?:=(\d+))?$/); if (!m) return null;
+  var parts = m[1].split("+").map(Number);
+  return {parts:parts, r:(m[2]===undefined?null:+m[2])};
+}
+function fmtExpr(e){ return e.replace(/-/g," – ").replace(/\+/g," + ").replace(/=/g," = "); }
+
+function parseDate(s){
+  var low = cleanText(s).replace(/(\d)(st|nd|rd|th)\b/g, "$1");
+  var nums = (low.match(/\d+/g) || []).map(Number);
+  var words = low.match(/[a-z]+/g) || [], mon = null;
+  words.forEach(function(w){ if (MONTHS[w]) mon = MONTHS[w]; });
+  if (mon !== null) return nums.length >= 1 ? {d:nums[0], m:mon} : null;
+  if (nums.length >= 2) return {d:nums[0], m:nums[1]};
+  return null;
+}
+
+/* Chữ hiển thị đáp án đúng theo ngôn ngữ (ở chế độ ba mẹ / sau khi bấm "Xem đáp án") */
+function fmtAns(k, lang){
+  var en = lang === "en";
+  switch (k.kieu){
+    case "phep": return fmtExpr(k.dapan);
+    case "tapso": return k.set.join(" ; ");
+    case "chia": return k.a + " : " + k.d + " = " + k.r;
+    case "chiap": return k.show + " : " + k.d + " = " + (k.show / k.d);
+    case "nhanp": return k.show[0] + " × " + k.show[1] + " = " + (k.show[0]*k.show[1]);
+    case "nhan": return k.a + " × " + k.b + " = " + k.r;
+    case "tong": var a = []; for (var q=0;q<k.n;q++) a.push(k.t); return a.join(" + ");
+    case "chu": return en && k.en && k.en.length ? k.en[0] : k.dapan;
+    case "dungsai": return en ? (k.dapan === "Đ" ? "T" : "F") : k.dapan;
+    case "noi": return k.dapan + ")";
+    case "ngay": return en ? (k.d + " " + MONTH_EN[k.m]) : (k.d + " tháng " + k.m);
+    case "dapso":
+      if (k.hien) return en ? k.hien[1] : k.hien[0];
+      var u = (k.donvi && k.donvi.length) ? (en ? k.donvi[k.donvi.length - 1] : k.donvi[0]) : "";
+      return k.so + (u ? " " + u : "");
+    default: return k.dapan;
+  }
+}
+
+/* ----- Chấm một ô: trả về {st: dung|gan|sai|trong, sc, msg:[vi,en]} ----- */
+function gradeCell(id){
+  var k = ANSWER_KEY[id]; if (!k) return null;
+  var val = (S.v[id] || "").toString();
+  if (!val.trim()) return {st:"trong", sc:0};
+  var ok = false, t, low, na, nums, okNum, okTu, okDv, acc;
+  switch (k.kieu){
+    case "so":
+      t = val.replace(/\s/g,"").replace(/^y=/i,"").replace(/[.,;]+$/,"").replace(/(\d)(st|nd|rd|th)$/i,"$1");
+      ok = (/^\d+$/.test(t) && /^\d+$/.test(k.dapan)) ? Number(t) === Number(k.dapan) : cleanText(t) === cleanText(k.dapan);
+      return ok ? {st:"dung",sc:1} : {st:"sai",sc:0};
+    case "chu":
+      acc = [k.dapan].concat(k.en || []).concat(k.them || []);
+      if (acc.some(function(a){ return cleanText(val) === cleanText(a); })) return {st:"dung",sc:1};
+      if (noAccent(val) === noAccent(k.dapan)) return {st:"gan",sc:0.5,msg:["Đúng chữ rồi, nhớ gõ dấu nhé!","The word is right, remember the accent marks!"]};
+      return {st:"sai",sc:0};
+    case "phep":
+      return sameExpr(val, k.dapan) ? {st:"dung",sc:1} : {st:"sai",sc:0};
+    case "tapso":
+      nums = (val.match(/\d+/g) || []).map(Number);
+      if (!nums.length) return {st:"sai",sc:0};
+      var uniq = nums.filter(function(x,i){ return nums.indexOf(x) === i; });
+      return (uniq.length === nums.length && nums.length === k.set.length && k.set.every(function(x){ return nums.indexOf(x) >= 0; })) ? {st:"dung",sc:1} : {st:"sai",sc:0};
+    case "chia":
+      if (k.bare && /^\d+$/.test(val.trim())) return Number(val) === k.r ? {st:"dung",sc:1} : {st:"sai",sc:0};
+      t = parseDiv(val);
+      return (t && t.a === k.a && t.b === k.d && (t.r === null || t.r === k.r)) ? {st:"dung",sc:1} : {st:"sai",sc:0};
+    case "chiap":
+      var X;
+      if (k.bare && /^\d+$/.test(val.trim())) X = Number(val) * k.d;
+      else {
+        t = parseDiv(val);
+        if (!t || t.b !== k.d || t.a % k.d !== 0 || (t.r !== null && t.r !== t.a / k.d)) return {st:"sai",sc:0};
+        X = t.a;
+      }
+      if (k.ds.indexOf(X) < 0) return {st:"sai",sc:0};
+      var kk = Object.keys(ANSWER_KEY);
+      for (var w = 0; w < kk.length && kk[w] !== id; w++){
+        var oo = ANSWER_KEY[kk[w]];
+        if (oo.kieu === "chiap" && oo.nhom === k.nhom){
+          var ov2 = S.v[kk[w]] || "", Y = null, ot2;
+          if (oo.bare && /^\d+$/.test(ov2.trim())) Y = Number(ov2) * oo.d;
+          else { ot2 = parseDiv(ov2); if (ot2) Y = ot2.a; }
+          if (Y === X) return {st:"sai",sc:0,msg:["Phép chia này trùng với ô trước, hãy viết phép khác!","This is the same as an earlier box, write a different division!"]};
+        }
+      }
+      return {st:"dung",sc:1};
+    case "nhanp":
+      t = parseMul(val);
+      if (!t || t.a < 1 || t.b < 1) return {st:"sai",sc:0};
+      var pr = t.a * t.b;
+      if (t.r !== null && t.r !== pr) return {st:"sai",sc:0};
+      if (k.a && t.a !== k.a) return {st:"sai",sc:0};
+      if (k.p.indexOf(pr) < 0) return {st:"sai",sc:0};
+      if (k.d1 && (t.a > 9 || t.b > 9)) return {st:"sai",sc:0};
+      var ks = Object.keys(ANSWER_KEY);
+      for (var q = 0; q < ks.length && ks[q] !== id; q++){
+        var o = ANSWER_KEY[ks[q]];
+        if (o.kieu === "nhanp" && o.nhom === k.nhom){
+          var ot = parseMul(S.v[ks[q]] || "");
+          if (ot && ot.a === t.a && ot.b === t.b) return {st:"sai",sc:0,msg:["Phép nhân này trùng với ô trước, hãy viết phép khác!","This is the same as an earlier box, write a different multiplication!"]};
+        }
+      }
+      return {st:"dung",sc:1};
+    case "nhan":
+      t = parseMul(val);
+      return (t && t.a === k.a && t.b === k.b && (t.r === null || t.r === k.r)) ? {st:"dung",sc:1} : {st:"sai",sc:0};
+    case "tong":
+      t = parseSum(val);
+      return (t && t.parts.length === k.n && t.parts.every(function(x){ return x === k.t; }) && (t.r === null || t.r === k.t*k.n)) ? {st:"dung",sc:1} : {st:"sai",sc:0};
+    case "ngay":
+      t = parseDate(val);
+      return (t && t.d === k.d && t.m === k.m) ? {st:"dung",sc:1} : {st:"sai",sc:0};
+    case "dungsai": case "chon": case "noi":
+      return val === k.dapan ? {st:"dung",sc:1} : {st:"sai",sc:0};
+    case "dapso":
+      low = cleanText(val); na = noAccent(val);
+      nums = (val.match(/\d+/g) || []).map(Number);
+      okNum = nums.indexOf(Number(k.so)) >= 0;
+      okTu = (k.tu || []).every(function(gr){ return gr.some(function(w){ return low.indexOf(cleanText(w)) >= 0 || na.indexOf(noAccent(w)) >= 0; }); });
+      okDv = !k.donvi || !k.donvi.length || k.donvi.some(function(u){ return low.indexOf(cleanText(u)) >= 0 || na.indexOf(noAccent(u)) >= 0; });
+      if (okNum && okTu && okDv) return {st:"dung",sc:1};
+      if (okNum && okTu) return {st:"gan",sc:0.5,msg:["Đúng số rồi, nhớ ghi đơn vị nhé!","The number is right, remember the unit!"]};
+      return {st:"sai",sc:0};
+  }
+  return {st:"sai",sc:0};
+}
+</script>
+
+<!-- ================= SCRIPT 2: GIAO DIỆN ================= -->
+<script>
+(function(){
+  var SL = {}, NOIS = [];
+  var slots = Array.prototype.slice.call(document.querySelectorAll(".slot"));
+  var cards = Array.prototype.slice.call(document.querySelectorAll(".bai"));
+  var langBtns = Array.prototype.slice.call(document.querySelectorAll(".lg"));
+  var phu = document.getElementById("btnPhu");
+
+  function redrawNoi(){ NOIS.forEach(function(f){ f(); }); }
+
+  /* ----- Nút chuyển ngôn ngữ: đổi ngay, không tải lại, không mất bài ----- */
+  function refreshPhuBtn(){
+    var on = document.body.classList.contains("phuhuynh");
+    phu.innerHTML = on ? bi("Tắt chế độ ba mẹ", "Exit parent mode") : bi("Chế độ ba mẹ", "Parent mode");
+  }
+  function applyLang(l, persist){
+    var h = document.documentElement;
+    h.setAttribute("data-lang", l); h.setAttribute("lang", l);
+    langBtns.forEach(function(b){
+      var on = b.dataset.l === l;
+      b.classList.toggle("on", on); b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    if (persist){ try { localStorage.setItem(LANG_KEY, l); } catch (e) {} }
+    updateProgress(); refreshPhuBtn(); redrawNoi();
+  }
+  langBtns.forEach(function(b){ b.addEventListener("click", function(){ applyLang(b.dataset.l, true); }); });
+
+  function setVal(id, v){
+    S.v[id] = v; save();
+    var s = SL[id]; if (s) clearMark(s);
+    updateProgress();
+  }
+  function clearMark(s){
+    s.classList.remove("ok","gan","sai");
+    var m = s.querySelector(".mk"); if (m) m.innerHTML = "";
+  }
+  function showMark(s, r){
+    clearMark(s);
+    var m = s.querySelector(".mk"); if (!m || !r) return;
+    var msg = r.msg ? "<small>" + bi(r.msg[0], r.msg[1]) + "</small>" : "";
+    if (r.st === "dung"){ s.classList.add("ok"); m.textContent = "✔"; }
+    else if (r.st === "gan"){ s.classList.add("gan"); m.innerHTML = "⚠" + msg; }
+    else if (r.st === "sai"){ s.classList.add("sai"); m.innerHTML = "✘" + msg; }
+    redrawNoi();
+  }
+
+  /* ----- Tạo ô nhập theo loại (mỗi ô chỉ có MỘT bản, dùng chung cho hai ngôn ngữ) ----- */
+  slots.forEach(function(slot){
+    var id = slot.dataset.id, kind = slot.dataset.kind;
+    SL[id] = slot;
+    if (kind === "text"){
+      var i = document.createElement("input");
+      i.type = "text"; i.className = "in w-" + (slot.dataset.w || "m");
+      i.setAttribute("autocomplete","off"); i.setAttribute("autocapitalize","off"); i.spellcheck = false;
+      if (slot.dataset.ph) i.placeholder = slot.dataset.ph;
+      if (slot.dataset.num) i.inputMode = "numeric";
+      i.value = S.v[id] || "";
+      i.addEventListener("input", function(){ setVal(id, i.value); });
+      slot.appendChild(i);
+    } else if (kind === "ta"){
+      var t = document.createElement("textarea");
+      t.className = "ta"; t.rows = +(slot.dataset.rows || 4); t.spellcheck = false;
+      t.value = S.v[id] || "";
+      t.addEventListener("input", function(){ setVal(id, t.value); });
+      slot.appendChild(t);
+    } else if (kind === "ds"){
+      ["Đ","S"].forEach(function(l){
+        var b = document.createElement("button"); b.type = "button"; b.className = "dsb"; b.dataset.v = l;
+        b.innerHTML = bi(l, l === "Đ" ? "T" : "F"); /* hiển thị Đ/S hoặc T/F, giá trị lưu vẫn là Đ/S */
+        b.addEventListener("click", function(){ setVal(id, S.v[id] === l ? "" : l); sync(slot); });
+        slot.appendChild(b);
+      });
+      sync(slot);
+    } else if (kind === "choice"){
+      Array.prototype.forEach.call(slot.querySelectorAll(".ch"), function(b){
+        b.addEventListener("click", function(){ setVal(id, S.v[id] === b.dataset.v ? "" : b.dataset.v); sync(slot); });
+      });
+      sync(slot);
+    }
+    var mk = document.createElement("span"); mk.className = "mk"; slot.appendChild(mk);
+    if (ANSWER_KEY[id]){
+      var da = document.createElement("span"); da.className = "dapan-slot";
+      da.innerHTML = bi("Đáp án: " + fmtAns(ANSWER_KEY[id], "vi"), "Answer: " + fmtAns(ANSWER_KEY[id], "en"));
+      slot.appendChild(da);
+    }
+  });
+
+  function sync(slot){
+    var id = slot.dataset.id, v = S.v[id] || "";
+    Array.prototype.forEach.call(slot.querySelectorAll(".dsb,.ch"), function(b){ b.classList.toggle("on", b.dataset.v === v); });
+  }
+
+  /* ----- Bài nối: bấm phép tính bên trái rồi bấm kết quả bên phải ----- */
+  function initNoi(wrap){
+    var svg = wrap.querySelector(".noi-svg");
+    var lefts = Array.prototype.slice.call(wrap.querySelectorAll(".noi-l"));
+    var rights = Array.prototype.slice.call(wrap.querySelectorAll(".noi-r"));
+    var sel = null;
+    function pt(el, side){
+      var a = el.getBoundingClientRect(), b = wrap.getBoundingClientRect();
+      return {x:(side === "r" ? a.right : a.left) - b.left, y:(a.top + a.bottom)/2 - b.top};
+    }
+    function draw(){
+      var b = wrap.getBoundingClientRect(), h = "";
+      svg.setAttribute("width", b.width); svg.setAttribute("height", b.height);
+      svg.setAttribute("viewBox", "0 0 " + b.width + " " + b.height);
+      lefts.forEach(function(l){
+        var key = l.dataset.mau || (l.dataset.id ? S.v[l.dataset.id] : "");
+        if (!key) return;
+        var r = rights.filter(function(x){ return x.dataset.key === key; })[0]; if (!r) return;
+        var p = pt(l, "r"), q = pt(r, "l");
+        var cls = l.dataset.mau ? "mau" : (l.classList.contains("ok") ? "ok" : (l.classList.contains("sai") ? "sai" : ""));
+        h += '<line class="' + cls + '" x1="' + p.x + '" y1="' + p.y + '" x2="' + q.x + '" y2="' + q.y + '"/>';
+      });
+      svg.innerHTML = h;
+    }
+    lefts.forEach(function(l){
+      if (l.dataset.mau) return;
+      l.addEventListener("click", function(){
+        sel = (sel === l) ? null : l;
+        lefts.forEach(function(x){ x.classList.toggle("sel", x === sel); });
+      });
+    });
+    rights.forEach(function(r){
+      r.addEventListener("click", function(){
+        if (!sel) return;
+        var id = sel.dataset.id;
+        setVal(id, S.v[id] === r.dataset.key ? "" : r.dataset.key);
+        sel.classList.remove("sel"); sel = null; draw();
+      });
+    });
+    var xoa = wrap.parentNode.querySelector(".noi-xoa");
+    if (xoa) xoa.addEventListener("click", function(){
+      lefts.forEach(function(l){ if (l.dataset.id) setVal(l.dataset.id, ""); l.classList.remove("sel"); });
+      sel = null; draw();
+    });
+    NOIS.push(draw); draw();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".noi"), initNoi);
+  window.addEventListener("resize", redrawNoi);
+  window.addEventListener("load", redrawNoi);
+
+  /* ----- Thanh tiến độ ----- */
+  function updateProgress(){
+    var all = slots.filter(function(s){ return !s.dataset.nocount; });
+    var done = all.filter(function(s){ return (S.v[s.dataset.id] || "").toString().trim() !== ""; }).length;
+    document.getElementById("bar").style.width = (all.length ? done*100/all.length : 0) + "%";
+    document.getElementById("tiendo").innerHTML = bi("Đã làm " + done + " / " + all.length + " ô", "Done " + done + " / " + all.length + " boxes");
+  }
+
+  /* ----- Chấm theo từng bài ----- */
+  function keyedSlots(card){ return Array.prototype.slice.call(card.querySelectorAll(".slot")).filter(function(s){ return ANSWER_KEY[s.dataset.id]; }); }
+  function checkCard(card){
+    var r = {sc:0, n:0, wrong:0, empty:0, near:0};
+    keyedSlots(card).forEach(function(s){
+      var g = gradeCell(s.dataset.id); showMark(s, g);
+      r.n++; r.sc += g.sc;
+      if (g.st === "sai") r.wrong++; else if (g.st === "trong") r.empty++; else if (g.st === "gan") r.near++;
+    });
+    return r;
+  }
+
+  cards.forEach(function(card){
+    var bai = card.dataset.bai, n = keyedSlots(card).length;
+    var note = ANSWER_NOTES[bai];
+    if (note){ var dn = document.createElement("div"); dn.className = "dapan-note"; dn.innerHTML = bi("Đáp án: " + note[0], "Answer: " + note[1]); card.appendChild(dn); }
+    if (!HAS_KEY || !n) return;
+    var f = document.createElement("div"); f.className = "chan";
+    f.innerHTML = '<button type="button" class="btn kt">' + bi("Kiểm tra", "Check") + '</button>' +
+                  '<button type="button" class="btn phu xem" hidden>' + bi("Xem đáp án", "Show answer") + '</button><span class="tb"></span>';
+    card.appendChild(f);
+    var tb = f.querySelector(".tb"), xem = f.querySelector(".xem");
+    f.querySelector(".kt").addEventListener("click", function(){
+      var r = checkCard(card);
+      var giai = card.querySelector(".giai") ? bi(" Ba mẹ xem lại phần bài giải nhé.", " Parents, please check the solution.") : "";
+      if (!r.wrong && !r.empty && !r.near){ tb.style.color = "#1e9e5a"; tb.innerHTML = bi("Giỏi quá! Đúng hết rồi 🎉", "Great job! All correct 🎉") + giai; return; }
+      S.att[bai] = (S.att[bai] || 0) + 1; save();
+      tb.style.color = "#c0392b";
+      if (r.empty) tb.innerHTML = bi("Em còn ô chưa điền nhé!", "Some boxes are still empty!");
+      else if (!r.wrong) tb.innerHTML = bi("Gần đúng rồi, xem dấu ⚠ nhé!", "Almost there, look at the ⚠ marks!");
+      else tb.innerHTML = S.att[bai] >= 2 ? bi("Vẫn còn chỗ chưa đúng. Bấm “Xem đáp án” nhé.", "Still some mistakes. Tap “Show answer”.")
+                                           : bi("Thử lại nhé! Có chỗ chưa đúng.", "Try again! Something isn't right yet.");
+      if (S.att[bai] >= 2){ xem.hidden = false; }
+    });
+    xem.addEventListener("click", function(){ card.classList.add("lo"); });
+    if ((S.att[bai] || 0) >= 2) xem.hidden = false;
+  });
+
+  /* ----- Nộp bài ----- */
+  function dstr(iso){ var d = new Date(iso); return bi(d.toLocaleString("vi-VN"), d.toLocaleString("en-GB")); }
+  document.getElementById("btnNop").addEventListener("click", function(){
+    var box = document.getElementById("ketqua"), html = "", tong = 0, diem = 0, chuaLam = 0, reviewList = [], rows = [];
+    cards.forEach(function(card){
+      var ten = bi(card.dataset.tenVi, card.dataset.tenEn), ks = keyedSlots(card);
+      if (HAS_KEY && ks.length){
+        var r = checkCard(card); tong += r.n; diem += r.sc; chuaLam += r.empty;
+        var icon = (r.sc === r.n) ? "✔" : (r.sc === 0 ? "✘" : "⚠");
+        rows.push("<li>" + ten + ": " + bi(fmtVi(r.sc) + "/" + r.n, fmtEn(r.sc) + "/" + r.n) + " " + icon +
+                  (r.empty ? " " + bi("(còn " + r.empty + " ô chưa điền)", "(" + r.empty + " empty)") : "") + "</li>");
+      } else {
+        var any = Array.prototype.slice.call(card.querySelectorAll(".slot")).some(function(s){ return (S.v[s.dataset.id] || "").toString().trim() !== ""; });
+        if (HAS_KEY) reviewList.push(ten + (any ? "" : bi(" (chưa làm)", " (not done)")));
+        else rows.push("<li>" + ten + ": " + (any ? bi("đã làm", "done") : bi("chưa làm", "not done")) + "</li>");
+      }
+    });
+    var truoc = []; try { truoc = JSON.parse(localStorage.getItem(KEY_STORE + "_ketqua") || "[]"); } catch (e) {}
+    if (HAS_KEY){
+      var tl = tong ? diem/tong : 0;
+      var khen = tl >= 0.9 ? bi("Tuyệt vời! 🎉", "Excellent! 🎉")
+               : (tl >= 0.6 ? bi("Giỏi lắm! Cố gắng thêm nhé 👍", "Well done! Keep going 👍")
+                            : bi("Cố gắng lên, em xem lại các bài chưa đúng nhé 💪", "Keep trying, look at the exercises that are not right yet 💪"));
+      html += "<h2>" + bi("Kết quả", "Results") + "</h2><p class='diem'>" +
+              bi("Điểm: " + fmtVi(diem) + " / " + tong + " ô", "Score: " + fmtEn(diem) + " / " + tong + " boxes") + " &nbsp; " + khen + "</p>";
+      if (chuaLam) html += "<p>" + bi("Còn " + chuaLam + " ô chưa điền.", chuaLam + " boxes are still empty.") + "</p>";
+      html += "<ul>" + rows.join("") + "</ul>";
+      if (reviewList.length) html += "<p class='small'>" + bi("Ba mẹ xem lại cùng bé (không chấm tự động): ", "Parents, please review with your child (not auto-graded): ") + reviewList.join("; ") + ".</p>";
+      if (truoc.length){
+        html += "<p class='small'>" + bi("Các lần nộp trước: ", "Previous submissions: ") + truoc.slice(-3).map(function(x){
+          var d = x.iso ? dstr(x.iso) : (x.t || "");
+          return d + " – " + bi(fmtVi(x.diem) + "/" + x.tong, fmtEn(x.diem) + "/" + x.tong);
+        }).join(" | ") + "</p>";
+      }
+      truoc.push({iso:new Date().toISOString(), diem:diem, tong:tong});
+      try { localStorage.setItem(KEY_STORE + "_ketqua", JSON.stringify(truoc.slice(-20))); } catch (e) {}
+    } else {
+      html += "<h2>" + bi("Bài đã làm", "Work done") + "</h2><ul>" + rows.join("") + "</ul>";
+    }
+    box.innerHTML = html; box.style.display = "block"; box.scrollIntoView({behavior:"smooth", block:"start"});
+  });
+
+  /* ----- Làm lại ----- */
+  document.getElementById("btnLam").addEventListener("click", function(){
+    if (confirm(tx("Em có chắc muốn xóa hết bài làm để làm lại không?", "Are you sure you want to erase all your work and start over?"))){
+      S = {v:{}, att:{}}; save(); location.reload();
+    }
+  });
+
+  /* ----- Chế độ ba mẹ ----- */
+  if (HAS_KEY){ phu.hidden = false; }
+  phu.addEventListener("click", function(){
+    if (document.body.classList.contains("phuhuynh")){ document.body.classList.remove("phuhuynh"); refreshPhuBtn(); return; }
+    var m = prompt(tx("Nhập mã của ba mẹ:", "Enter the parents' code:"));
+    if (m === MA_BA_ME){ document.body.classList.add("phuhuynh"); refreshPhuBtn(); }
+    else if (m !== null) alert(tx("Mã chưa đúng.", "Wrong code."));
+  });
+
+  applyLang(getLang(), false);
+  setTimeout(redrawNoi, 50);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bài tập Toán 2 - TUẦN 2</title>
+<style>
+  :root {
+    --bg: #f0f7ff;
+    --card: #ffffff;
+    --primary: #2563eb;
+    --primary-light: #dbeafe;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --warn: #d97706;
+    --text: #1e293b;
+    --border: #cbd5e1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 75px 15px 40px;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 21px; line-height: 1.6;
+    background: var(--bg); color: var(--text);
+  }
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: #1e40af; color: #fff;
+    padding: 10px 18px; display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .topbar h1 { margin: 0; font-size: 24px; letter-spacing: 1px; }
+  .progress-wrap { display: flex; align-items: center; gap: 12px; font-size: 18px; }
+  .progress-bar { width: 160px; height: 14px; background: rgba(255,255,255,0.3); border-radius: 8px; overflow: hidden; }
+  .progress-fill { height: 100%; background: #4ade80; width: 0%; transition: width 0.2s; }
+  .parent-btn {
+    background: #f59e0b; color: #fff; border: none; border-radius: 8px;
+    padding: 6px 12px; font-size: 16px; font-weight: bold; cursor: pointer;
+  }
+  .container { max-width: 920px; margin: 0 auto; }
+  .section-title {
+    background: #1d4ed8; color: #fff; padding: 12px 20px;
+    border-radius: 12px; margin: 28px 0 14px; font-size: 24px; font-weight: bold;
+  }
+  .guide-line {
+    font-style: italic; font-weight: bold; color: #334155;
+    margin: 8px 0 14px 6px; font-size: 21px;
+  }
+  .card {
+    background: var(--card); border-radius: 16px; padding: 20px 22px;
+    margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    border: 2px solid #e2e8f0;
+  }
+  .card-header {
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 2px dashed #e2e8f0; padding-bottom: 10px; margin-bottom: 14px;
+  }
+  .bai-title { font-weight: bold; font-size: 23px; color: #1e3a8a; }
+  .q-item { margin: 14px 0; }
+  input[type="text"].inline-inp {
+    font-size: 21px; padding: 4px 10px; border: none; border-bottom: 3px solid var(--primary);
+    background: #f8fafc; border-radius: 6px 6px 0 0; min-width: 110px; text-align: center;
+    color: var(--text);
+  }
+  input[type="text"].wide-inp { min-width: 320px; max-width: 100%; text-align: left; }
+  input[type="text"].med-inp { width: 220px; }
+  input[type="text"].small-inp { width: 90px; }
+  input[type="text"]:focus, textarea:focus, select:focus {
+    outline: 2px solid #60a5fa; background: #eff6ff;
+  }
+  .sign-select {
+    font-size: 24px; font-weight: bold; padding: 4px 12px;
+    border: 2px solid var(--primary); border-radius: 8px; background: #fff; cursor: pointer;
+  }
+  /* Sơ đồ hình bầu dục Bài 6 */
+  .diagram-row {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 18px 0;
+  }
+  .oval {
+    min-width: 105px; height: 58px; border: 2.5px solid #1e293b; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0 14px; background: #fff; font-weight: bold;
+  }
+  .oval input {
+    width: 85px; border: none; border-bottom: 2px dashed #64748b;
+    font-size: 20px; text-align: center; background: transparent;
+  }
+  .arrow-box {
+    display: inline-flex; flex-direction: column; align-items: center; min-width: 90px;
+  }
+  .arrow-label { font-size: 18px; font-weight: bold; color: #1e40af; margin-bottom: -4px; }
+  .arrow-line {
+    width: 85px; height: 14px; position: relative;
+  }
+  /* Bài 9 Nối */
+  .match-wrap {
+    position: relative; display: flex; justify-content: space-between;
+    gap: 60px; margin: 16px 0; user-select: none;
+  }
+  .match-col { display: flex; flex-direction: column; gap: 12px; z-index: 2; }
+  .match-item {
+    border: 2.5px solid #475569; border-radius: 10px; padding: 10px 16px;
+    background: #fff; cursor: pointer; font-weight: 500; min-width: 210px;
+    transition: 0.15s;
+  }
+  .match-col.right .match-item { min-width: 110px; text-align: center; }
+  .match-item.selected { background: #dbeafe; border-color: var(--primary); transform: scale(1.03); }
+  .match-item.sample { background: #f1f5f9; cursor: default; }
+  .match-svg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 1;
+  }
+  /* Đúng / Sai */
+  .ds-grid { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 8px; }
+  .ds-option {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #f8fafc; padding: 6px 12px; border-radius: 10px; border: 1px solid #cbd5e1;
+  }
+  .ds-btn {
+    width: 40px; height: 40px; font-size: 19px; font-weight: bold;
+    border: 2px solid #94a3b8; border-radius: 8px; background: #fff; cursor: pointer;
+  }
+  .ds-btn.active-D { background: #16a34a; color: #fff; border-color: #15803d; }
+  .ds-btn.active-S { background: #dc2626; color: #fff; border-color: #b91c1c; }
+  /* Tự luận */
+  .tuluan-box {
+    background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 12px;
+    padding: 14px; margin-top: 10px;
+  }
+  .tuluan-label { font-weight: bold; color: #334155; margin-bottom: 6px; }
+  textarea.baigiai {
+    width: 100%; min-height: 90px; font-size: 20px; padding: 10px;
+    border: 2px solid #cbd5e1; border-radius: 8px; font-family: inherit;
+    resize: vertical;
+  }
+  .dapso-row {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 10px;
+  }
+  /* Nút & phản hồi */
+  .btn {
+    font-size: 19px; font-weight: bold; padding: 8px 18px; border-radius: 10px;
+    border: none; cursor: pointer; transition: 0.15s;
+  }
+  .btn-check { background: var(--primary); color: #fff; }
+  .btn-show { background: #7c3aed; color: #fff; margin-left: 8px; display: none; }
+  .btn-clear-line { background: #64748b; color: #fff; font-size: 16px; padding: 6px 12px; }
+  .fb { font-weight: bold; margin-left: 8px; font-size: 19px; }
+  .fb.ok { color: var(--success); }
+  .fb.err { color: var(--danger); }
+  .fb.warn { color: var(--warn); }
+  .card-msg { margin-top: 10px; font-weight: bold; font-size: 19px; }
+  .ans-reveal {
+    margin-top: 10px; padding: 10px 14px; background: #fef3c7;
+    border-left: 4px solid #f59e0b; border-radius: 8px; font-size: 19px; display: none;
+  }
+  .footer-actions {
+    display: flex; justify-content: center; gap: 20px; margin: 32px 0;
+  }
+  .btn-submit { background: #16a34a; color: #fff; font-size: 22px; padding: 14px 32px; }
+  .btn-reset { background: #ef4444; color: #fff; font-size: 22px; padding: 14px 28px; }
+  .summary-box {
+    background: #fff; border: 3px solid var(--primary); border-radius: 16px;
+    padding: 20px; margin-top: 20px; display: none;
+  }
+  .parent-note { font-size: 17px; color: #475569; font-style: italic; margin-top: 6px; }
+  .grid-2col { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px 24px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>TUẦN 2</h1>
+  <div class="progress-wrap">
+    <span id="progText">Đã làm: 0/0</span>
+    <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+    <button class="parent-btn" onclick="toggleParentMode()">Chế độ ba mẹ</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="section-title">Phần I. Trắc nghiệm khách quan</div>
+  <div class="guide-line">Điền chữ hoặc số thích hợp vào chỗ trống.</div>
+
+  <!-- Phần I - Bài 1 -->
+  <div class="card" id="card_p1_b1">
+    <div class="card-header">
+      <span class="bai-title">Bài 1.</span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p1_b1')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p1_b1" onclick="showAns('p1_b1')">Xem đáp án</button>
+      </div>
+    </div>
+    <div class="q-item">
+      1. Số liền trước của các số tròn chục có hai chữ số lớn hơn 40 là :<br>
+      <input type="text" class="inline-inp wide-inp track" id="p1_b1_c1" placeholder="Nhập các số...">
+      <span class="fb" id="fb_p1_b1_c1"></span>
+    </div>
+    <div class="q-item">
+      2. Số liền sau của các số tròn chục nhỏ hơn 50 là :
+      <input type="text" class="inline-inp wide-inp track" id="p1_b1_c2" placeholder="Nhập các số...">
+      <span class="fb" id="fb_p1_b1_c2"></span>
+    </div>
+    <div class="q-item">
+      3. Số liền trước của các số tròn chục lớn hơn 20 và nhỏ hơn 70 là :<br>
+      <input type="text" class="inline-inp wide-inp track" id="p1_b1_c3" placeholder="Nhập các số...">
+      <span class="fb" id="fb_p1_b1_c3"></span>
+    </div>
+    <div class="q-item">
+      4. Số liền sau của các số tròn chục lớn hơn 30 và nhỏ hơn 90 là :<br>
+      <input type="text" class="inline-inp wide-inp track" id="p1_b1_c4" placeholder="Nhập các số...">
+      <span class="fb" id="fb_p1_b1_c4"></span>
+    </div>
+    <div class="card-msg" id="msg_p1_b1"></div>
+    <div class="ans-reveal" id="rev_p1_b1"></div>
+  </div>
+
+  <!-- Phần I - Bài 2 -->
+  <div class="card" id="card_p1_b2">
+    <div class="card-header">
+      <span class="bai-title">Bài 2.</span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p1_b2')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p1_b2" onclick="showAns('p1_b2')">Xem đáp án</button>
+      </div>
+    </div>
+    <div class="q-item">
+      1. Bìa của cuốn sách Toán 2 dài khoảng 24 <input type="text" class="inline-inp small-inp track" id="p1_b2_c1"> ;
+      <span class="fb" id="fb_p1_b2_c1"></span>
+    </div>
+    <div class="q-item">
+      2. Cửa sổ nhà em rộng khoảng 12 <input type="text" class="inline-inp small-inp track" id="p1_b2_c2">
+      <span class="fb" id="fb_p1_b2_c2"></span>
+    </div>
+    <div class="q-item">
+      3. Chiều dài cạnh bảng lớp em dài khoảng <input type="text" class="inline-inp small-inp track" id="p1_b2_c3">dm.
+      <span class="fb" id="fb_p1_b2_c3"></span>
+    </div>
+    <div class="q-item">
+      4. Mặt bàn học lớp em rộng khoảng <input type="text" class="inline-inp small-inp track" id="p1_b2_c4">cm.
+      <span class="fb" id="fb_p1_b2_c4"></span>
+    </div>
+    <div class="card-msg" id="msg_p1_b2"></div>
+    <div class="ans-reveal" id="rev_p1_b2"></div>
+  </div>
+
+  <!-- Phần I - Bài 3 -->
+  <div class="card" id="card_p1_b3">
+    <div class="card-header">
+      <span class="bai-title">Bài 3.</span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p1_b3')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p1_b3" onclick="showAns('p1_b3')">Xem đáp án</button>
+      </div>
+    </div>
+    <div class="q-item">
+      1. Cộng số liền sau của ba chục với 17 ta được tổng là <input type="text" class="inline-inp small-inp track" id="p1_b3_c1">
+      <span class="fb" id="fb_p1_b3_c1"></span>
+    </div>
+    <div class="q-item">
+      2. Trừ số liền trước của chín chục với 15 ta được hiệu là <input type="text" class="inline-inp small-inp track" id="p1_b3_c2">
+      <span class="fb" id="fb_p1_b3_c2"></span>
+    </div>
+    <div class="q-item">
+      3. Cộng số liền trước của sáu chục với ba chục ta được tổng là <input type="text" class="inline-inp small-inp track" id="p1_b3_c3">
+      <span class="fb" id="fb_p1_b3_c3"></span>
+    </div>
+    <div class="q-item">
+      4. Trừ số liền trước của bảy chục với số liền sau của bốn chục ta được hiệu là <input type="text" class="inline-inp small-inp track" id="p1_b3_c4">
+      <span class="fb" id="fb_p1_b3_c4"></span>
+    </div>
+    <div class="card-msg" id="msg_p1_b3"></div>
+    <div class="ans-reveal" id="rev_p1_b3"></div>
+  </div>
+
+  <!-- Phần I - Bài 4 -->
+  <div class="card" id="card_p1_b4">
+    <div class="card-header">
+      <span class="bai-title">Bài 4.</span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p1_b4')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p1_b4" onclick="showAns('p1_b4')">Xem đáp án</button>
+      </div>
+    </div>
+    <div class="q-item">
+      1. Hiệu của số lớn nhất có hai chữ số với số nhỏ nhất có hai chữ số khác nhau là <input type="text" class="inline-inp small-inp track" id="p1_b4_c1">
+      <span class="fb" id="fb_p1_b4_c1"></span>
+    </div>
+    <div class="q-item">
+      2. Trừ số liền trước của số lớn nhất có hai chữ số với số liền sau của số nhỏ nhất có hai chữ số giống nhau là <input type="text" class="inline-inp small-inp track" id="p1_b4_c2">
+      <span class="fb" id="fb_p1_b4_c2"></span>
+    </div>
+    <div class="q-item">
+      3. Cộng số liền sau của số có hai chữ số giống nhau có hàng chục bằng 5 với số nhỏ nhất có hai chữ số khác nhau ta được tổng là <input type="text" class="inline-inp small-inp track" id="p1_b4_c3">
+      <span class="fb" id="fb_p1_b4_c3"></span>
+    </div>
+    <div class="q-item">
+      4. Tổng của hai số tròn chục là số tròn chục lớn nhất có hai chữ số. Vậy phép cộng đó là :
+      <div class="grid-2col" style="margin-top:8px;">
+        <div>a) <input type="text" class="inline-inp med-inp track" id="p1_b4_c4_a" placeholder="... + ... = ..."> <span class="fb" id="fb_p1_b4_c4_a"></span></div>
+        <div>b) <input type="text" class="inline-inp med-inp track" id="p1_b4_c4_b" placeholder="... + ... = ..."> <span class="fb" id="fb_p1_b4_c4_b"></span></div>
+        <div>c) <input type="text" class="inline-inp med-inp track" id="p1_b4_c4_c" placeholder="... + ... = ..."> <span class="fb" id="fb_p1_b4_c4_c"></span></div>
+        <div>d) <input type="text" class="inline-inp med-inp track" id="p1_b4_c4_d" placeholder="... + ... = ..."> <span class="fb" id="fb_p1_b4_c4_d"></span></div>
+      </div>
+    </div>
+    <div class="card-msg" id="msg_p1_b4"></div>
+    <div class="ans-reveal" id="rev_p1_b4"></div>
+  </div>
+
+  <!-- Phần I - Bài 5 -->
+  <div class="card" id="card_p1_b5">
+    <div class="card-header">
+      <span class="bai-title">Bài 5.</span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p1_b5')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p1_b5" onclick="showAns('p1_b5')">Xem đáp án</button>
+      </div>
+    </div>
+    <div class="q-item">
+      1. Các số tròn chục có hai chữ số lớn hơn 40 xếp theo thứ tự từ lớn đến bé là :
+      <input type="text" class="inline-inp wide-inp track" id="p1_b5_c1">
+      <span class="fb" id="fb_p1_b5_c1"></span>
+    </div>
+    <div class="q-item">
+      2. Các số tròn chục nhỏ hơn 50 xếp theo thứ tự từ bé đến lớn là :<br>
+      <input type="text" class="inline-inp wide-inp track" id="p1_b5_c2">
+      <span class="fb" id="fb_p1_b5_c2"></span>
+    </div>
+    <div class="q-item">
+      3. Các số liền trước của số tròn chục nhỏ hơn 60 xếp theo thứ tự từ bé đến lớn là :
+      <input type="text" class="inline-inp wide-inp track" id="p1_b5_c3">
+      <span class="fb" id="fb_p1_b5_c3"></span>
+    </div>
+    <div class="q-item">
+      4. Số liền trước của số có hai chữ số giống nhau xếp theo thứ tự từ lớn đến bé là :
+      <input type="text" class="inline-inp wide-inp track" id="p1_b5_c4">
+      <span class="fb" id="fb_p1_b5_c4"></span>
+    </div>
+    <div class="card-msg" id="msg_p1_b5"></div>
+    <div class="ans-reveal" id="rev_p1_b5"></div>
+  </div>
+
+  <!-- Phần I - Bài 6 -->
+  <div class="card" id="card_p1_b6">
+    <div class="card-header">
+      <span class="bai-title">Bài 6. <i>Số ?</i></span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p1_b6')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p1_b6" onclick="showAns('p1_b6')">Xem đáp án</button>
+      </div>
+    </div>
+    <!-- Câu 1 -->
+    <div class="diagram-row">
+      <span>1.</span>
+      <div class="oval">12cm</div>
+      <div class="arrow-box">
+        <span class="arrow-label">+ 36cm</span>
+        <svg class="arrow-line" viewBox="0 0 85 14"><line x1="0" y1="7" x2="75" y2="7" stroke="#1e293b" stroke-width="2.5"/><polygon points="75,2 85,7 75,12" fill="#1e293b"/></svg>
+      </div>
+      <div class="oval"><input type="text" id="p1_b6_c1_mid" placeholder="..."></div>
+      <div class="arrow-box">
+        <span class="arrow-label">– 25cm</span>
+        <svg class="arrow-line" viewBox="0 0 85 14"><line x1="0" y1="7" x2="75" y2="7" stroke="#1e293b" stroke-width="2.5"/><polygon points="75,2 85,7 75,12" fill="#1e293b"/></svg>
+      </div>
+      <div class="oval"><input type="text" class="track" id="p1_b6_c1" placeholder="?"></div>
+      <span class="fb" id="fb_p1_b6_c1"></span>
+    </div>
+    <!-- Câu 2 -->
+    <div class="diagram-row">
+      <span>2.</span>
+      <div class="oval">79dm</div>
+      <div class="arrow-box">
+        <span class="arrow-label">– 48dm</span>
+        <svg class="arrow-line" viewBox="0 0 85 14"><line x1="0" y1="7" x2="75" y2="7" stroke="#1e293b" stroke-width="2.5"/><polygon points="75,2 85,7 75,12" fill="#1e293b"/></svg>
+      </div>
+      <div class="oval"><input type="text" id="p1_b6_c2_mid" placeholder="..."></div>
+      <div class="arrow-box">
+        <span class="arrow-label">+ 13dm</span>
+        <svg class="arrow-line" viewBox="0 0 85 14"><line x1="0" y1="7" x2="75" y2="7" stroke="#1e293b" stroke-width="2.5"/><polygon points="75,2 85,7 75,12" fill="#1e293b"/></svg>
+      </div>
+      <div class="oval"><input type="text" class="track" id="p1_b6_c2" placeholder="?"></div>
+      <span class="fb" id="fb_p1_b6_c2"></span>
+    </div>
+    <!-- Câu 3 -->
+    <div class="diagram-row">
+      <span>3.</span>
+      <div class="oval">5dm</div>
+      <div class="arrow-box">
+        <span class="arrow-label">+ 17cm</span>
+        <svg class="arrow-line" viewBox="0 0 85 14"><line x1="0" y1="7" x2="75" y2="7" stroke="#1e293b" stroke-width="2.5"/><polygon points="75,2 85,7 75,12" fill="#1e293b"/></svg>
+      </div>
+      <div class="oval"><input type="text" id="p1_b6_c3_mid" placeholder="..."></div>
+      <div class="arrow-box">
+        <span class="arrow-label">– 35cm</span>
+        <svg class="arrow-line" viewBox="0 0 85 14"><line x1="0" y1="7" x2="75" y2="7" stroke="#1e293b" stroke-width="2.5"/><polygon points="75,2 85,7 75,12" fill="#1e293b"/></svg>
+      </div>
+      <div class="oval"><input type="text" class="track" id="p1_b6_c3" placeholder="?"></div>
+      <span class="fb" id="fb_p1_b6_c3"></span>
+    </div>
+    <!-- Câu 4 -->
+    <div class="diagram-row">
+      <span>4.</span>
+      <div class="oval">95cm</div>
+      <div class="arrow-box">
+        <span class="arrow-label">– 25cm</span>
+        <svg class="arrow-line" viewBox="0 0 85 14"><line x1="0" y1="7" x2="75" y2="7" stroke="#1e293b" stroke-width="2.5"/><polygon points="75,2 85,7 75,12" fill="#1e293b"/></svg>
+      </div>
+      <div class="oval"><input type="text" id="p1_b6_c4_mid" placeholder="..."></div>
+      <div class="arrow-box">
+        <span class="arrow-label">+ 2dm</span>
+        <svg class="arrow-line" viewBox="0 0 85 14"><line x1="0" y1="7" x2="75" y2="7" stroke="#1e293b" stroke-width="2.5"/><polygon points="75,2 85,7 75,12" fill="#1e293b"/></svg>
+      </div>
+      <div class="oval"><input type="text" class="track" id="p1_b6_c4" placeholder="?"></div>
+      <span class="fb" id="fb_p1_b6_c4"></span>
+    </div>
+    <div class="card-msg" id="msg_p1_b6"></div>
+    <div class="ans-reveal" id="rev_p1_b6"></div>
+  </div>
+
+  <!-- Phần I - Bài 7 -->
+  <div class="card" id="card_p1_b7">
+    <div class="card-header">
+      <span class="bai-title">Bài 7. <i>Điền dấu "&gt;", "&lt;" hoặc "=" vào ô trống cho thích hợp.</i></span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p1_b7')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p1_b7" onclick="showAns('p1_b7')">Xem đáp án</button>
+      </div>
+    </div>
+    <div class="q-item">
+      1. &nbsp; 25 + 42 &nbsp;
+      <select class="sign-select track" id="p1_b7_c1"><option value="">?</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option></select>
+      &nbsp; 99 – 32 <span class="fb" id="fb_p1_b7_c1"></span>
+    </div>
+    <div class="q-item">
+      2. &nbsp; 79 – 34 &nbsp;
+      <select class="sign-select track" id="p1_b7_c2"><option value="">?</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option></select>
+      &nbsp; 25 + 13 <span class="fb" id="fb_p1_b7_c2"></span>
+    </div>
+    <div class="q-item">
+      3. &nbsp; 59 – 16 &nbsp;
+      <select class="sign-select track" id="p1_b7_c3"><option value="">?</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option></select>
+      &nbsp; 20 + 17 <span class="fb" id="fb_p1_b7_c3"></span>
+    </div>
+    <div class="q-item">
+      4. &nbsp; 30 + 50 &nbsp;
+      <select class="sign-select track" id="p1_b7_c4"><option value="">?</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option></select>
+      &nbsp; 63 + 26 <span class="fb" id="fb_p1_b7_c4"></span>
+    </div>
+    <div class="card-msg" id="msg_p1_b7"></div>
+    <div class="ans-reveal" id="rev_p1_b7"></div>
+  </div>
+
+  <!-- Phần I - Bài 8 -->
+  <div class="card" id="card_p1_b8">
+    <div class="card-header">
+      <span class="bai-title">Bài 8. <i>Viết (theo mẫu) :</i></span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p1_b8')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p1_b8" onclick="showAns('p1_b8')">Xem đáp án</button>
+      </div>
+    </div>
+    <div class="q-item" style="font-weight:500;">Mẫu : 90 = 10 + 80 = 20 + 70 = 30 + 60 = 40 + 50</div>
+    <div class="q-item">
+      1. &nbsp; 60 = <input type="text" class="inline-inp small-inp track" id="p1_b8_c1_1">
+      = <input type="text" class="inline-inp small-inp track" id="p1_b8_c1_2">
+      = <input type="text" class="inline-inp small-inp track" id="p1_b8_c1_3">
+      <span class="fb" id="fb_p1_b8_c1"></span>
+    </div>
+    <div class="q-item">
+      2. &nbsp; 40 = <input type="text" class="inline-inp small-inp track" id="p1_b8_c2_1">
+      = <input type="text" class="inline-inp small-inp track" id="p1_b8_c2_2">
+      <span class="fb" id="fb_p1_b8_c2"></span>
+    </div>
+    <div class="q-item">
+      3. &nbsp; 30 = <input type="text" class="inline-inp small-inp track" id="p1_b8_c3_1">
+      <span class="fb" id="fb_p1_b8_c3"></span>
+    </div>
+    <div class="card-msg" id="msg_p1_b8"></div>
+    <div class="ans-reveal" id="rev_p1_b8"></div>
+  </div>
+
+  <!-- Phần I - Bài 9 -->
+  <div class="card" id="card_p1_b9">
+    <div class="card-header">
+      <span class="bai-title">Bài 9. <i>Nối (theo mẫu) :</i></span>
+      <div>
+        <button class="btn btn-clear-line" onclick="clearMatches()">Xóa nối</button>
+        <button class="btn btn-check" onclick="checkCard('p1_b9')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p1_b9" onclick="showAns('p1_b9')">Xem đáp án</button>
+      </div>
+    </div>
+    <div style="font-size:18px;color:#475569;">(Bấm một ô bên trái rồi bấm một ô bên phải để nối)</div>
+    <div class="match-wrap" id="matchWrap">
+      <svg class="match-svg" id="matchSvg"></svg>
+      <div class="match-col left">
+        <div class="match-item sample" id="mL_a">a) 23 + 46 – 54 =</div>
+        <div class="match-item" id="mL_b" onclick="selectMatchLeft('b')">b) 96 – 82 + 41 = <span class="fb" id="fb_p1_b9_b"></span></div>
+        <div class="match-item" id="mL_c" onclick="selectMatchLeft('c')">c) 60 + 18 – 43 = <span class="fb" id="fb_p1_b9_c"></span></div>
+        <div class="match-item" id="mL_d" onclick="selectMatchLeft('d')">d) 42 + 33 – 50 = <span class="fb" id="fb_p1_b9_d"></span></div>
+        <div class="match-item" id="mL_e" onclick="selectMatchLeft('e')">e) 79 – 12 – 22 = <span class="fb" id="fb_p1_b9_e"></span></div>
+      </div>
+      <div class="match-col right">
+        <div class="match-item" id="mR_1" onclick="selectMatchRight('1')">1) 55</div>
+        <div class="match-item" id="mR_2" onclick="selectMatchRight('2')">2) 35</div>
+        <div class="match-item" id="mR_3" onclick="selectMatchRight('3')">3) 45</div>
+        <div class="match-item sample" id="mR_4">4) 15</div>
+        <div class="match-item" id="mR_5" onclick="selectMatchRight('5')">5) 25</div>
+      </div>
+    </div>
+    <div class="card-msg" id="msg_p1_b9"></div>
+    <div class="ans-reveal" id="rev_p1_b9"></div>
+  </div>
+
+  <!-- Phần I - Bài 10 -->
+  <div class="card" id="card_p1_b10">
+    <div class="card-header">
+      <span class="bai-title">Bài 10. <i>Đúng ghi Đ, sai ghi S vào ô trống.</i></span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p1_b10')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p1_b10" onclick="showAns('p1_b10')">Xem đáp án</button>
+      </div>
+    </div>
+    <div class="q-item">
+      1. Hiệu của 45cm – 2dm là :
+      <div class="ds-grid">
+        <div class="ds-option">A. 43cm <button class="ds-btn" id="btnD_p1_b10_c1_A" onclick="setDS('p1_b10_c1_A','Đ')">Đ</button><button class="ds-btn" id="btnS_p1_b10_c1_A" onclick="setDS('p1_b10_c1_A','S')">S</button><span class="fb" id="fb_p1_b10_c1_A"></span></div>
+        <div class="ds-option">B. 43dm <button class="ds-btn" id="btnD_p1_b10_c1_B" onclick="setDS('p1_b10_c1_B','Đ')">Đ</button><button class="ds-btn" id="btnS_p1_b10_c1_B" onclick="setDS('p1_b10_c1_B','S')">S</button><span class="fb" id="fb_p1_b10_c1_B"></span></div>
+        <div class="ds-option">C. 25cm <button class="ds-btn" id="btnD_p1_b10_c1_C" onclick="setDS('p1_b10_c1_C','Đ')">Đ</button><button class="ds-btn" id="btnS_p1_b10_c1_C" onclick="setDS('p1_b10_c1_C','S')">S</button><span class="fb" id="fb_p1_b10_c1_C"></span></div>
+      </div>
+    </div>
+    <div class="q-item">
+      2. Tổng của 6dm + 20cm là :
+      <div class="ds-grid">
+        <div class="ds-option">A. 26cm <button class="ds-btn" id="btnD_p1_b10_c2_A" onclick="setDS('p1_b10_c2_A','Đ')">Đ</button><button class="ds-btn" id="btnS_p1_b10_c2_A" onclick="setDS('p1_b10_c2_A','S')">S</button><span class="fb" id="fb_p1_b10_c2_A"></span></div>
+        <div class="ds-option">B. 26dm <button class="ds-btn" id="btnD_p1_b10_c2_B" onclick="setDS('p1_b10_c2_B','Đ')">Đ</button><button class="ds-btn" id="btnS_p1_b10_c2_B" onclick="setDS('p1_b10_c2_B','S')">S</button><span class="fb" id="fb_p1_b10_c2_B"></span></div>
+        <div class="ds-option">C. 80cm <button class="ds-btn" id="btnD_p1_b10_c2_C" onclick="setDS('p1_b10_c2_C','Đ')">Đ</button><button class="ds-btn" id="btnS_p1_b10_c2_C" onclick="setDS('p1_b10_c2_C','S')">S</button><span class="fb" id="fb_p1_b10_c2_C"></span></div>
+        <div class="ds-option">D. 80dm <button class="ds-btn" id="btnD_p1_b10_c2_D" onclick="setDS('p1_b10_c2_D','Đ')">Đ</button><button class="ds-btn" id="btnS_p1_b10_c2_D" onclick="setDS('p1_b10_c2_D','S')">S</button><span class="fb" id="fb_p1_b10_c2_D"></span></div>
+        <div class="ds-option">E. 8dm <button class="ds-btn" id="btnD_p1_b10_c2_E" onclick="setDS('p1_b10_c2_E','Đ')">Đ</button><button class="ds-btn" id="btnS_p1_b10_c2_E" onclick="setDS('p1_b10_c2_E','S')">S</button><span class="fb" id="fb_p1_b10_c2_E"></span></div>
+      </div>
+    </div>
+    <div class="q-item">
+      3. Hiệu của 43 dm – 30 cm là :
+      <div class="ds-grid">
+        <div class="ds-option">A. 13dm <button class="ds-btn" id="btnD_p1_b10_c3_A" onclick="setDS('p1_b10_c3_A','Đ')">Đ</button><button class="ds-btn" id="btnS_p1_b10_c3_A" onclick="setDS('p1_b10_c3_A','S')">S</button><span class="fb" id="fb_p1_b10_c3_A"></span></div>
+        <div class="ds-option">B. 13cm <button class="ds-btn" id="btnD_p1_b10_c3_B" onclick="setDS('p1_b10_c3_B','Đ')">Đ</button><button class="ds-btn" id="btnS_p1_b10_c3_B" onclick="setDS('p1_b10_c3_B','S')">S</button><span class="fb" id="fb_p1_b10_c3_B"></span></div>
+        <div class="ds-option">C. 40dm <button class="ds-btn" id="btnD_p1_b10_c3_C" onclick="setDS('p1_b10_c3_C','Đ')">Đ</button><button class="ds-btn" id="btnS_p1_b10_c3_C" onclick="setDS('p1_b10_c3_C','S')">S</button><span class="fb" id="fb_p1_b10_c3_C"></span></div>
+      </div>
+    </div>
+    <div class="q-item">
+      4. Tổng của 55 dm + 40 cm là :
+      <div class="ds-grid">
+        <div class="ds-option">A. 95dm <button class="ds-btn" id="btnD_p1_b10_c4_A" onclick="setDS('p1_b10_c4_A','Đ')">Đ</button><button class="ds-btn" id="btnS_p1_b10_c4_A" onclick="setDS('p1_b10_c4_A','S')">S</button><span class="fb" id="fb_p1_b10_c4_A"></span></div>
+        <div class="ds-option">B. 95cm <button class="ds-btn" id="btnD_p1_b10_c4_B" onclick="setDS('p1_b10_c4_B','Đ')">Đ</button><button class="ds-btn" id="btnS_p1_b10_c4_B" onclick="setDS('p1_b10_c4_B','S')">S</button><span class="fb" id="fb_p1_b10_c4_B"></span></div>
+        <div class="ds-option">C. 59dm <button class="ds-btn" id="btnD_p1_b10_c4_C" onclick="setDS('p1_b10_c4_C','Đ')">Đ</button><button class="ds-btn" id="btnS_p1_b10_c4_C" onclick="setDS('p1_b10_c4_C','S')">S</button><span class="fb" id="fb_p1_b10_c4_C"></span></div>
+      </div>
+    </div>
+    <div class="card-msg" id="msg_p1_b10"></div>
+    <div class="ans-reveal" id="rev_p1_b10"></div>
+  </div>
+
+  <!-- PHẦN II. TỰ LUẬN -->
+  <div class="section-title">Phần II. Tự luận</div>
+
+  <!-- Phần II - Bài 1 -->
+  <div class="card" id="card_p2_b1">
+    <div class="card-header">
+      <span class="bai-title">Bài 1.</span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p2_b1')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p2_b1" onclick="showAns('p2_b1')">Xem đáp án</button>
+      </div>
+    </div>
+    <div>Trong một phép cộng : Số hạng thứ nhất và tổng đều bằng 45. Tìm số hạng thứ hai của phép cộng đó.</div>
+    <div class="tuluan-box">
+      <div class="tuluan-label">Bài giải:</div>
+      <textarea class="baigiai" id="bg_p2_b1" placeholder="Em viết lời giải và phép tính..."></textarea>
+      <div class="dapso-row">
+        <strong>Đáp số:</strong>
+        <input type="text" class="inline-inp small-inp track" id="p2_b1_c1" placeholder="Số...">
+        <span class="fb" id="fb_p2_b1_c1"></span>
+      </div>
+      <div class="parent-note">Ba mẹ xem lại phần bài giải nhé</div>
+    </div>
+    <div class="card-msg" id="msg_p2_b1"></div>
+    <div class="ans-reveal" id="rev_p2_b1"></div>
+  </div>
+
+  <!-- Phần II - Bài 2 -->
+  <div class="card" id="card_p2_b2">
+    <div class="card-header">
+      <span class="bai-title">Bài 2.</span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p2_b2')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p2_b2" onclick="showAns('p2_b2')">Xem đáp án</button>
+      </div>
+    </div>
+    <div>Trong một phép trừ : Hiệu số và số bị trừ đều bằng 92. Tìm số trừ trong phép trừ đó.</div>
+    <div class="tuluan-box">
+      <div class="tuluan-label">Bài giải:</div>
+      <textarea class="baigiai" id="bg_p2_b2" placeholder="Em viết lời giải và phép tính..."></textarea>
+      <div class="dapso-row">
+        <strong>Đáp số:</strong>
+        <input type="text" class="inline-inp small-inp track" id="p2_b2_c1" placeholder="Số...">
+        <span class="fb" id="fb_p2_b2_c1"></span>
+      </div>
+      <div class="parent-note">Ba mẹ xem lại phần bài giải nhé</div>
+    </div>
+    <div class="card-msg" id="msg_p2_b2"></div>
+    <div class="ans-reveal" id="rev_p2_b2"></div>
+  </div>
+
+  <!-- Phần II - Bài 3 -->
+  <div class="card" id="card_p2_b3">
+    <div class="card-header">
+      <span class="bai-title">Bài 3.</span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p2_b3')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p2_b3" onclick="showAns('p2_b3')">Xem đáp án</button>
+      </div>
+    </div>
+    <div>Sợi dây dài 85cm. Sau khi cắt đi một đoạn, đoạn dây còn lại dài 5dm. Hỏi đoạn dây cắt đi dài bao nhiêu xăng-ti-mét ?</div>
+    <div class="tuluan-box">
+      <div class="tuluan-label">Bài giải:</div>
+      <textarea class="baigiai" id="bg_p2_b3" placeholder="Em viết lời giải và phép tính..."></textarea>
+      <div class="dapso-row">
+        <strong>Đáp số:</strong>
+        <input type="text" class="inline-inp small-inp track" id="p2_b3_c1" placeholder="Số...">
+        <input type="text" class="inline-inp small-inp" id="p2_b3_c1_dv" placeholder="Đơn vị...">
+        <span class="fb" id="fb_p2_b3_c1"></span>
+      </div>
+      <div class="parent-note">Ba mẹ xem lại phần bài giải nhé</div>
+    </div>
+    <div class="card-msg" id="msg_p2_b3"></div>
+    <div class="ans-reveal" id="rev_p2_b3"></div>
+  </div>
+
+  <!-- Phần II - Bài 4 -->
+  <div class="card" id="card_p2_b4">
+    <div class="card-header">
+      <span class="bai-title">Bài 4.</span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p2_b4')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p2_b4" onclick="showAns('p2_b4')">Xem đáp án</button>
+      </div>
+    </div>
+    <div>Số học sinh khối Hai của một trường tiểu học là số liền trước của số tròn chục có hàng chục bằng 8. Số học sinh nữ của khối đó là số liền sau của số có hai chữ số giống nhau có hàng chục bằng 4. Hỏi trường đó có bao nhiêu học sinh nam khối Hai ?</div>
+    <div class="tuluan-box">
+      <div class="tuluan-label">Bài giải:</div>
+      <textarea class="baigiai" id="bg_p2_b4" placeholder="Em viết lời giải và phép tính..."></textarea>
+      <div class="dapso-row">
+        <strong>Đáp số:</strong>
+        <input type="text" class="inline-inp small-inp track" id="p2_b4_c1" placeholder="Số...">
+        <input type="text" class="inline-inp med-inp" id="p2_b4_c1_dv" placeholder="Đơn vị...">
+        <span class="fb" id="fb_p2_b4_c1"></span>
+      </div>
+      <div class="parent-note">Ba mẹ xem lại phần bài giải nhé</div>
+    </div>
+    <div class="card-msg" id="msg_p2_b4"></div>
+    <div class="ans-reveal" id="rev_p2_b4"></div>
+  </div>
+
+  <!-- Phần II - Bài 5 -->
+  <div class="card" id="card_p2_b5">
+    <div class="card-header">
+      <span class="bai-title">Bài 5.</span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p2_b5')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p2_b5" onclick="showAns('p2_b5')">Xem đáp án</button>
+      </div>
+    </div>
+    <div>Một sợi dây điện sau khi cắt đi 4dm thì còn lại 55cm. Hỏi sợi dây lúc đầu dài bao nhiêu xăng-ti-mét ?</div>
+    <div class="tuluan-box">
+      <div class="tuluan-label">Bài giải:</div>
+      <textarea class="baigiai" id="bg_p2_b5" placeholder="Em viết lời giải và phép tính..."></textarea>
+      <div class="dapso-row">
+        <strong>Đáp số:</strong>
+        <input type="text" class="inline-inp small-inp track" id="p2_b5_c1" placeholder="Số...">
+        <input type="text" class="inline-inp small-inp" id="p2_b5_c1_dv" placeholder="Đơn vị...">
+        <span class="fb" id="fb_p2_b5_c1"></span>
+      </div>
+      <div class="parent-note">Ba mẹ xem lại phần bài giải nhé</div>
+    </div>
+    <div class="card-msg" id="msg_p2_b5"></div>
+    <div class="ans-reveal" id="rev_p2_b5"></div>
+  </div>
+
+  <!-- Phần II - Bài 6 -->
+  <div class="card" id="card_p2_b6">
+    <div class="card-header">
+      <span class="bai-title">Bài 6.</span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p2_b6')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p2_b6" onclick="showAns('p2_b6')">Xem đáp án</button>
+      </div>
+    </div>
+    <div>Tổng của hai số tròn chục bằng 70. Tìm các thành phần của phép cộng đó.</div>
+    <div class="tuluan-box">
+      <div class="tuluan-label">Bài giải:</div>
+      <textarea class="baigiai" id="bg_p2_b6" placeholder="Em viết lời giải..."></textarea>
+      <div class="q-item">
+        – Cặp 1: Một số hạng bằng <input type="text" class="inline-inp small-inp track" id="p2_b6_c1_a1">, số hạng thứ hai bằng <input type="text" class="inline-inp small-inp track" id="p2_b6_c1_a2">
+      </div>
+      <div class="q-item">
+        – Cặp 2: Một số hạng bằng <input type="text" class="inline-inp small-inp track" id="p2_b6_c1_b1">, số hạng thứ hai bằng <input type="text" class="inline-inp small-inp track" id="p2_b6_c1_b2">
+      </div>
+      <div class="q-item">
+        – Cặp 3: Một số hạng bằng <input type="text" class="inline-inp small-inp track" id="p2_b6_c1_c1">, số hạng thứ hai bằng <input type="text" class="inline-inp small-inp track" id="p2_b6_c1_c2">
+        <span class="fb" id="fb_p2_b6_c1"></span>
+      </div>
+      <div class="parent-note">Ba mẹ xem lại phần bài giải nhé</div>
+    </div>
+    <div class="card-msg" id="msg_p2_b6"></div>
+    <div class="ans-reveal" id="rev_p2_b6"></div>
+  </div>
+
+  <!-- Phần II - Bài 7 -->
+  <div class="card" id="card_p2_b7">
+    <div class="card-header">
+      <span class="bai-title">Bài 7.</span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p2_b7')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p2_b7" onclick="showAns('p2_b7')">Xem đáp án</button>
+      </div>
+    </div>
+    <div>Hiệu của hai số tròn chục bằng 50. Tìm các thành phần của phép trừ đó.</div>
+    <div class="tuluan-box">
+      <div class="tuluan-label">Bài giải:</div>
+      <textarea class="baigiai" id="bg_p2_b7" placeholder="Em viết lời giải..."></textarea>
+      <div class="q-item">
+        – Cặp 1: Số bị trừ <input type="text" class="inline-inp small-inp track" id="p2_b7_c1_a1"> và số trừ <input type="text" class="inline-inp small-inp track" id="p2_b7_c1_a2">
+      </div>
+      <div class="q-item">
+        – Cặp 2: Số bị trừ <input type="text" class="inline-inp small-inp track" id="p2_b7_c1_b1"> và số trừ <input type="text" class="inline-inp small-inp track" id="p2_b7_c1_b2">
+      </div>
+      <div class="q-item">
+        – Cặp 3: Số bị trừ <input type="text" class="inline-inp small-inp track" id="p2_b7_c1_c1"> và số trừ <input type="text" class="inline-inp small-inp track" id="p2_b7_c1_c2">
+      </div>
+      <div class="q-item">
+        – Cặp 4: Số bị trừ <input type="text" class="inline-inp small-inp track" id="p2_b7_c1_d1"> và số trừ <input type="text" class="inline-inp small-inp track" id="p2_b7_c1_d2">
+        <span class="fb" id="fb_p2_b7_c1"></span>
+      </div>
+      <div class="parent-note">Ba mẹ xem lại phần bài giải nhé</div>
+    </div>
+    <div class="card-msg" id="msg_p2_b7"></div>
+    <div class="ans-reveal" id="rev_p2_b7"></div>
+  </div>
+
+  <!-- Phần II - Bài 8 -->
+  <div class="card" id="card_p2_b8">
+    <div class="card-header">
+      <span class="bai-title">Bài 8.</span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p2_b8')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p2_b8" onclick="showAns('p2_b8')">Xem đáp án</button>
+      </div>
+    </div>
+    <div>Nhà An nuôi một đàn gà, sau khi mẹ bán 42 con thì trong nhà còn lại 55 con. Hỏi đàn gà nhà An có tất cả bao nhiêu con ?</div>
+    <div class="tuluan-box">
+      <div class="tuluan-label">Bài giải:</div>
+      <textarea class="baigiai" id="bg_p2_b8" placeholder="Em viết lời giải và phép tính..."></textarea>
+      <div class="dapso-row">
+        <strong>Đáp số:</strong>
+        <input type="text" class="inline-inp small-inp track" id="p2_b8_c1" placeholder="Số...">
+        <input type="text" class="inline-inp small-inp" id="p2_b8_c1_dv" placeholder="Đơn vị...">
+        <span class="fb" id="fb_p2_b8_c1"></span>
+      </div>
+      <div class="parent-note">Ba mẹ xem lại phần bài giải nhé</div>
+    </div>
+    <div class="card-msg" id="msg_p2_b8"></div>
+    <div class="ans-reveal" id="rev_p2_b8"></div>
+  </div>
+
+  <!-- Phần II - Bài 9 -->
+  <div class="card" id="card_p2_b9">
+    <div class="card-header">
+      <span class="bai-title">Bài 9.</span>
+      <div>
+        <button class="btn btn-check" onclick="checkCard('p2_b9')">Kiểm tra</button>
+        <button class="btn btn-show" id="show_p2_b9" onclick="showAns('p2_b9')">Xem đáp án</button>
+      </div>
+    </div>
+    <div>Tổng của hai số có hai chữ số giống nhau bằng 22. Tìm các thành phần của phép cộng đó.</div>
+    <div class="tuluan-box">
+      <div class="tuluan-label">Bài giải:</div>
+      <textarea class="baigiai" id="bg_p2_b9" placeholder="Em viết lời giải..."></textarea>
+      <div class="dapso-row">
+        <strong>Đáp số:</strong> Hai số hạng là
+        <input type="text" class="inline-inp small-inp track" id="p2_b9_c1_1"> và
+        <input type="text" class="inline-inp small-inp track" id="p2_b9_c1_2">
+        <span class="fb" id="fb_p2_b9_c1"></span>
+      </div>
+      <div class="parent-note">Ba mẹ xem lại phần bài giải nhé</div>
+    </div>
+    <div class="card-msg" id="msg_p2_b9"></div>
+    <div class="ans-reveal" id="rev_p2_b9"></div>
+  </div>
+
+  <div class="footer-actions">
+    <button class="btn btn-submit" onclick="submitAll()">Nộp bài</button>
+    <button class="btn btn-reset" onclick="resetAll()">Làm lại</button>
+  </div>
+
+  <div class="summary-box" id="summaryBox"></div>
+</div>
+
+<script>
+// Mã PIN chế độ ba mẹ
+const PARENT_PIN = "1234";
+const STORAGE_KEY = "baitap_tuan2";
+
+// Bộ đáp án chuẩn từ trang đáp án
+const ANSWER_KEY = {
+  p1_b1_c1: { kieu: "tapso", dapan: ["49","59","69","79","89"] },
+  p1_b1_c2: { kieu: "tapso", dapan: ["41","31","21","11"] },
+  p1_b1_c3: { kieu: "tapso", dapan: ["29","39","49","59"] },
+  p1_b1_c4: { kieu: "tapso", dapan: ["41","51","61","71","81"] },
+
+  p1_b2_c1: { kieu: "so", dapan: "cm", alt: "24cm" },
+  p1_b2_c2: { kieu: "so", dapan: "dm", alt: "12dm" },
+  p1_b2_c3: { kieu: "so", dapan: "20", alt: "20dm" },
+  p1_b2_c4: { kieu: "so", dapan: "50", alt: "50cm" },
+
+  p1_b3_c1: { kieu: "so", dapan: "48" },
+  p1_b3_c2: { kieu: "so", dapan: "74" },
+  p1_b3_c3: { kieu: "so", dapan: "89" },
+  p1_b3_c4: { kieu: "so", dapan: "28" },
+
+  p1_b4_c1: { kieu: "so", dapan: "89" },
+  p1_b4_c2: { kieu: "so", dapan: "86" },
+  p1_b4_c3: { kieu: "so", dapan: "66" },
+  p1_b4_c4: { kieu: "tap_pheptinh", dapan: ["10+80=90","20+70=90","30+60=90","40+50=90"] },
+
+  p1_b5_c1: { kieu: "dayso", dapan: ["90","80","70","60","50"] },
+  p1_b5_c2: { kieu: "dayso", dapan: ["10","20","30","40"] },
+  p1_b5_c3: { kieu: "dayso", dapan: ["9","19","29","39","49"] },
+  p1_b5_c4: { kieu: "dayso", dapan: ["98","87","76","65","54","43","32","21","10"] },
+
+  p1_b6_c1: { kieu: "so", dapan: "23cm" },
+  p1_b6_c2: { kieu: "so", dapan: "44dm" },
+  p1_b6_c3: { kieu: "so", dapan: "32cm" },
+  p1_b6_c4: { kieu: "so", dapan: "9dm" },
+
+  p1_b7_c1: { kieu: "so", dapan: "=" },
+  p1_b7_c2: { kieu: "so", dapan: ">" },
+  p1_b7_c3: { kieu: "so", dapan: ">" },
+  p1_b7_c4: { kieu: "so", dapan: "<" },
+
+  p1_b8_c1: { kieu: "tap_tong", dapan: ["10+50","20+40","30+30"], ids: ["p1_b8_c1_1","p1_b8_c1_2","p1_b8_c1_3"] },
+  p1_b8_c2: { kieu: "tap_tong", dapan: ["10+30","20+20"], ids: ["p1_b8_c2_1","p1_b8_c2_2"] },
+  p1_b8_c3: { kieu: "tap_tong", dapan: ["10+20"], ids: ["p1_b8_c3_1"] },
+
+  p1_b9_b: { kieu: "noi", dapan: "1" },
+  p1_b9_c: { kieu: "noi", dapan: "2" },
+  p1_b9_d: { kieu: "noi", dapan: "5" },
+  p1_b9_e: { kieu: "noi", dapan: "3" },
+
+  p1_b10_c1_A: { kieu: "dungsai", dapan: "S" },
+  p1_b10_c1_B: { kieu: "dungsai", dapan: "S" },
+  p1_b10_c1_C: { kieu: "dungsai", dapan: "Đ" },
+  p1_b10_c2_A: { kieu: "dungsai", dapan: "S" },
+  p1_b10_c2_B: { kieu: "dungsai", dapan: "S" },
+  p1_b10_c2_C: { kieu: "dungsai", dapan: "Đ" },
+  p1_b10_c2_D: { kieu: "dungsai", dapan: "S" },
+  p1_b10_c2_E: { kieu: "dungsai", dapan: "Đ" },
+  p1_b10_c3_A: { kieu: "dungsai", dapan: "S" },
+  p1_b10_c3_B: { kieu: "dungsai", dapan: "S" },
+  p1_b10_c3_C: { kieu: "dungsai", dapan: "Đ" },
+  p1_b10_c4_A: { kieu: "dungsai", dapan: "S" },
+  p1_b10_c4_B: { kieu: "dungsai", dapan: "S" },
+  p1_b10_c4_C: { kieu: "dungsai", dapan: "Đ" },
+
+  p2_b1_c1: { kieu: "dapso", so: "0", donvi: "" },
+  p2_b2_c1: { kieu: "dapso", so: "0", donvi: "" },
+  p2_b3_c1: { kieu: "dapso", so: "35", donvi: "cm", alt_dv: ["xăng-ti-mét","xăngtimét"] },
+  p2_b4_c1: { kieu: "dapso", so: "34", donvi: "học sinh nam", alt_dv: ["học sinh","bạn nam"] },
+  p2_b5_c1: { kieu: "dapso", so: "95", donvi: "cm", alt_dv: ["xăng-ti-mét","xăngtimét"] },
+  p2_b6_c1: { kieu: "cap_cong", dapan: ["10-60","20-50","30-40"] },
+  p2_b7_c1: { kieu: "cap_tru", dapan: ["60-10","70-20","80-30","90-40"] },
+  p2_b8_c1: { kieu: "dapso", so: "97", donvi: "con", alt_dv: ["con gà"] },
+  p2_b9_c1: { kieu: "cap_so", dapan: ["11","11"] }
+};
+
+const TEXT_ANSWERS = {
+  p1_b1: "1) 49 ; 59 ; 69 ; 79 ; 89 | 2) 41 ; 31 ; 21 ; 11 | 3) 29 ; 39 ; 49 ; 59 | 4) 41 ; 51 ; 61 ; 71 ; 81",
+  p1_b2: "1) 24cm | 2) 12 dm | 3) 20dm | 4) 50cm",
+  p1_b3: "1) 48 | 2) 74 | 3) 89 | 4) 28",
+  p1_b4: "1) 89 | 2) 86 | 3) 66 | 4) a) 10 + 80 = 90; b) 20 + 70 = 90; c) 30 + 60 = 90; d) 40 + 50 = 90",
+  p1_b5: "1) 90 ; 80 ; 70 ; 60 ; 50 | 2) 10 ; 20 ; 30 ; 40 | 3) 9 ; 19 ; 29 ; 39 ; 49 | 4) 98 ; 87 ; 76 ; 65 ; 54 ; 43 ; 32 ; 21 ; 10",
+  p1_b6: "1) 23cm | 2) 44dm | 3) 32cm | 4) 9dm",
+  p1_b7: "1) = | 2) > | 3) > | 4) <",
+  p1_b8: "1) 10 + 50 = 20 + 40 = 30 + 30 | 2) 10 + 30 = 20 + 20 | 3) 10 + 20",
+  p1_b9: "b) - 1) ; c) - 2) ; d) - 5) ; e) - 3)",
+  p1_b10: "1. A:S, B:S, C:Đ | 2. A:S, B:S, C:Đ, D:S, E:Đ | 3. A:S, B:S, C:Đ | 4. A:S, B:S, C:Đ",
+  p2_b1: "0",
+  p2_b2: "0",
+  p2_b3: "35cm",
+  p2_b4: "34 học sinh nam.",
+  p2_b5: "95cm.",
+  p2_b6: "– Một số hạng bằng 10, số hạng thứ hai bằng 60 ; – Một số hạng bằng 20, số hạng thứ hai bằng 50 ; – Một số hạng bằng 30, số hạng thứ hai bằng 40",
+  p2_b7: "60 và 10 ; 70 và 20 ; 80 và 30 ; 90 và 40.",
+  p2_b8: "97 con.",
+  p2_b9: "11 và 11."
+};
+
+let dsState = {};
+let matchState = { b: "", c: "", d: "", e: "" };
+let selectedLeft = null;
+let failCount = {};
+
+// Chuẩn hóa chuỗi
+function norm(s) {
+  return (s || "").toString().trim().toLowerCase().replace(/\s+/g, "");
+}
+function extractNums(s) {
+  let m = (s || "").match(/\d+/g);
+  return m ? m.map(x => String(parseInt(x, 10))) : [];
+}
+
+// Xử lý Đúng/Sai
+function setDS(id, val) {
+  dsState[id] = (dsState[id] === val) ? "" : val;
+  renderDS(id);
+  saveState();
+  updateProgress();
+}
+function renderDS(id) {
+  const bD = document.getElementById("btnD_" + id);
+  const bS = document.getElementById("btnS_" + id);
+  if (!bD || !bS) return;
+  bD.className = "ds-btn" + (dsState[id] === "Đ" ? " active-D" : "");
+  bS.className = "ds-btn" + (dsState[id] === "S" ? " active-S" : "");
+}
+
+// Xử lý Nối Bài 9
+function selectMatchLeft(k) {
+  selectedLeft = k;
+  ["b","c","d","e"].forEach(x => {
+    document.getElementById("mL_" + x).classList.toggle("selected", x === k);
+  });
+}
+function selectMatchRight(num) {
+  if (!selectedLeft) return;
+  matchState[selectedLeft] = num;
+  document.getElementById("mL_" + selectedLeft).classList.remove("selected");
+  selectedLeft = null;
+  drawMatchLines();
+  saveState();
+  updateProgress();
+}
+function clearMatches() {
+  matchState = { b: "", c: "", d: "", e: "" };
+  drawMatchLines();
+  saveState();
+  updateProgress();
+}
+function drawMatchLines() {
+  const svg = document.getElementById("matchSvg");
+  const wrap = document.getElementById("matchWrap");
+  if (!svg || !wrap) return;
+  const rWrap = wrap.getBoundingClientRect();
+  svg.innerHTML = "";
+
+  function addLine(lId, rId, color, dashed) {
+    const elL = document.getElementById(lId);
+    const elR = document.getElementById(rId);
+    if (!elL || !elR) return;
+    const rL = elL.getBoundingClientRect();
+    const rR = elR.getBoundingClientRect();
+    const x1 = rL.right - rWrap.left;
+    const y1 = rL.top + rL.height / 2 - rWrap.top;
+    const x2 = rR.left - rWrap.left;
+    const y2 = rR.top + rR.height / 2 - rWrap.top;
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", x1); line.setAttribute("y1", y1);
+    line.setAttribute("x2", x2); line.setAttribute("y2", y2);
+    line.setAttribute("stroke", color);
+    line.setAttribute("stroke-width", "3");
+    if (dashed) line.setAttribute("stroke-dasharray", "5,4");
+    svg.appendChild(line);
+  }
+  // Đường mẫu a -> 4
+  addLine("mL_a", "mR_4", "#64748b", false);
+  ["b","c","d","e"].forEach(k => {
+    if (matchState[k]) addLine("mL_" + k, "mR_" + matchState[k], "#2563eb", false);
+  });
+}
+window.addEventListener("resize", drawMatchLines);
+
+// Chấm từng mục
+function gradeItem(id) {
+  const cfg = ANSWER_KEY[id];
+  if (!cfg) return { score: 0, ok: false };
+
+  if (cfg.kieu === "so") {
+    const val = norm(document.getElementById(id).value);
+    const ans = norm(cfg.dapan);
+    const alt = cfg.alt ? norm(cfg.alt) : null;
+    const isNum = /^\d+$/.test(val) && /^\d+$/.test(ans);
+    const ok = isNum ? (parseInt(val,10) === parseInt(ans,10)) : (val === ans || (alt && val === alt));
+    setFb(id, ok ? "✔" : "✘", ok ? "ok" : "err");
+    return { score: ok ? 1 : 0, ok };
+  }
+
+  if (cfg.kieu === "tapso") {
+    const nums = extractNums(document.getElementById(id).value);
+    const setU = Array.from(new Set(nums)).sort();
+    const setA = [...cfg.dapan].sort();
+    const ok = setU.length === setA.length && setU.every((v,i) => v === setA[i]);
+    let msg = ok ? "✔" : (nums.length !== cfg.dapan.length ? "✘ (còn thiếu / thừa số)" : "✘");
+    setFb(id, msg, ok ? "ok" : "err");
+    return { score: ok ? 1 : 0, ok };
+  }
+
+  if (cfg.kieu === "dayso") {
+    const nums = extractNums(document.getElementById(id).value);
+    const ok = nums.length === cfg.dapan.length && nums.every((v,i) => v === cfg.dapan[i]);
+    let msg = ok ? "✔" : (nums.length !== cfg.dapan.length ? "✘ (còn thiếu / thừa số)" : "✘ (kiểm tra lại thứ tự)");
+    setFb(id, msg, ok ? "ok" : "err");
+    return { score: ok ? 1 : 0, ok };
+  }
+
+  if (cfg.kieu === "tap_pheptinh") {
+    const subIds = ["a","b","c","d"];
+    let seen = new Set();
+    let allOk = true;
+    subIds.forEach(s => {
+      const inpId = id + "_" + s;
+      const raw = norm(document.getElementById(inpId).value);
+      const m = raw.match(/^(\d+)\+(\d+)=90$/);
+      let ok = false;
+      if (m) {
+        let a = parseInt(m[1],10), b = parseInt(m[2],10);
+        let key = Math.min(a,b) + "+" + Math.max(a,b) + "=90";
+        if (cfg.dapan.includes(key) && !seen.has(key)) {
+          ok = true; seen.add(key);
+        }
+      }
+      setFb(inpId, ok ? "✔" : "✘", ok ? "ok" : "err");
+      if (!ok) allOk = false;
+    });
+    return { score: allOk ? 1 : 0, ok: allOk };
+  }
+
+  if (cfg.kieu === "tap_tong") {
+    let seen = new Set();
+    let allOk = true;
+    cfg.ids.forEach(inpId => {
+      const raw = norm(document.getElementById(inpId).value);
+      const m = raw.match(/^(\d+)\+(\d+)$/);
+      let ok = false;
+      if (m) {
+        let a = parseInt(m[1],10), b = parseInt(m[2],10);
+        let key = Math.min(a,b) + "+" + Math.max(a,b);
+        if (cfg.dapan.includes(key) && !seen.has(key)) {
+          ok = true; seen.add(key);
+        }
+      }
+      if (!ok) allOk = false;
+    });
+    setFb(id, allOk ? "✔" : "✘", allOk ? "ok" : "err");
+    return { score: allOk ? 1 : 0, ok: allOk };
+  }
+
+  if (cfg.kieu === "noi") {
+    const k = id.split("_").pop();
+    const ok = matchState[k] === cfg.dapan;
+    setFb(id, ok ? "✔" : "✘", ok ? "ok" : "err");
+    return { score: ok ? 1 : 0, ok };
+  }
+
+  if (cfg.kieu === "dungsai") {
+    const ok = dsState[id] === cfg.dapan;
+    setFb(id, ok ? "✔" : "✘", ok ? "ok" : "err");
+    return { score: ok ? 1 : 0, ok };
+  }
+
+  if (cfg.kieu === "dapso") {
+    const rawSo = document.getElementById(id).value.trim();
+    const dvEl = document.getElementById(id + "_dv");
+    const rawDv = dvEl ? dvEl.value.trim() : "";
+
+    let numPart = rawSo;
+    let unitPart = rawDv;
+    if (!unitPart && /^(\d+)\s*(.+)$/.test(rawSo)) {
+      const m = rawSo.match(/^(\d+)\s*(.+)$/);
+      numPart = m[1]; unitPart = m[2];
+    }
+    const numOk = /^\d+$/.test(numPart) && parseInt(numPart,10) === parseInt(cfg.so,10);
+    if (!numOk) {
+      setFb(id, "✘", "err");
+      return { score: 0, ok: false };
+    }
+    if (!cfg.donvi) {
+      setFb(id, "✔", "ok");
+      return { score: 1, ok: true };
+    }
+    const uNorm = unitPart.toLowerCase().replace(/\./g,"").trim();
+    const validUnits = [cfg.donvi.toLowerCase(), ...(cfg.alt_dv || [])];
+    const unitOk = validUnits.includes(uNorm);
+    if (unitOk) {
+      setFb(id, "✔", "ok");
+      return { score: 1, ok: true };
+    } else {
+      setFb(id, "⚠ Đúng số rồi, nhớ ghi đơn vị nhé!", "warn");
+      return { score: 0.5, ok: false };
+    }
+  }
+
+  if (cfg.kieu === "cap_cong") {
+    const pairs = [["a1","a2"],["b1","b2"],["c1","c2"]];
+    let seen = new Set();
+    let allOk = true;
+    pairs.forEach(p => {
+      let v1 = parseInt(document.getElementById("p2_b6_c1_" + p[0]).value, 10);
+      let v2 = parseInt(document.getElementById("p2_b6_c1_" + p[1]).value, 10);
+      let key = Math.min(v1,v2) + "-" + Math.max(v1,v2);
+      if (cfg.dapan.includes(key) && !seen.has(key)) seen.add(key);
+      else allOk = false;
+    });
+    setFb(id, allOk ? "✔" : "✘", allOk ? "ok" : "err");
+    return { score: allOk ? 1 : 0, ok: allOk };
+  }
+
+  if (cfg.kieu === "cap_tru") {
+    const pairs = [["a1","a2"],["b1","b2"],["c1","c2"],["d1","d2"]];
+    let seen = new Set();
+    let allOk = true;
+    pairs.forEach(p => {
+      let v1 = parseInt(document.getElementById("p2_b7_c1_" + p[0]).value, 10);
+      let v2 = parseInt(document.getElementById("p2_b7_c1_" + p[1]).value, 10);
+      let key = v1 + "-" + v2;
+      if (cfg.dapan.includes(key) && !seen.has(key)) seen.add(key);
+      else allOk = false;
+    });
+    setFb(id, allOk ? "✔" : "✘", allOk ? "ok" : "err");
+    return { score: allOk ? 1 : 0, ok: allOk };
+  }
+
+  if (cfg.kieu === "cap_so") {
+    let v1 = norm(document.getElementById("p2_b9_c1_1").value);
+    let v2 = norm(document.getElementById("p2_b9_c1_2").value);
+    const ok = v1 === "11" && v2 === "11";
+    setFb(id, ok ? "✔" : "✘", ok ? "ok" : "err");
+    return { score: ok ? 1 : 0, ok };
+  }
+  return { score: 0, ok: false };
+}
+
+function setFb(id, text, cls) {
+  const el = document.getElementById("fb_" + id);
+  if (!el) return;
+  el.textContent = text;
+  el.className = "fb " + cls;
+}
+
+const CARD_ITEMS = {
+  p1_b1: ["p1_b1_c1","p1_b1_c2","p1_b1_c3","p1_b1_c4"],
+  p1_b2: ["p1_b2_c1","p1_b2_c2","p1_b2_c3","p1_b2_c4"],
+  p1_b3: ["p1_b3_c1","p1_b3_c2","p1_b3_c3","p1_b3_c4"],
+  p1_b4: ["p1_b4_c1","p1_b4_c2","p1_b4_c3","p1_b4_c4"],
+  p1_b5: ["p1_b5_c1","p1_b5_c2","p1_b5_c3","p1_b5_c4"],
+  p1_b6: ["p1_b6_c1","p1_b6_c2","p1_b6_c3","p1_b6_c4"],
+  p1_b7: ["p1_b7_c1","p1_b7_c2","p1_b7_c3","p1_b7_c4"],
+  p1_b8: ["p1_b8_c1","p1_b8_c2","p1_b8_c3"],
+  p1_b9: ["p1_b9_b","p1_b9_c","p1_b9_d","p1_b9_e"],
+  p1_b10: [
+    "p1_b10_c1_A","p1_b10_c1_B","p1_b10_c1_C",
+    "p1_b10_c2_A","p1_b10_c2_B","p1_b10_c2_C","p1_b10_c2_D","p1_b10_c2_E",
+    "p1_b10_c3_A","p1_b10_c3_B","p1_b10_c3_C",
+    "p1_b10_c4_A","p1_b10_c4_B","p1_b10_c4_C"
+  ],
+  p2_b1: ["p2_b1_c1"],
+  p2_b2: ["p2_b2_c1"],
+  p2_b3: ["p2_b3_c1"],
+  p2_b4: ["p2_b4_c1"],
+  p2_b5: ["p2_b5_c1"],
+  p2_b6: ["p2_b6_c1"],
+  p2_b7: ["p2_b7_c1"],
+  p2_b8: ["p2_b8_c1"],
+  p2_b9: ["p2_b9_c1"]
+};
+
+function checkCard(cardKey) {
+  const items = CARD_ITEMS[cardKey] || [];
+  let allOk = true;
+  items.forEach(id => {
+    const r = gradeItem(id);
+    if (!r.ok) allOk = false;
+  });
+  const msgEl = document.getElementById("msg_" + cardKey);
+  if (allOk) {
+    msgEl.textContent = "Giỏi lắm! Em đã làm đúng hết bài này!";
+    msgEl.style.color = "#16a34a";
+  } else {
+    failCount[cardKey] = (failCount[cardKey] || 0) + 1;
+    msgEl.textContent = "Thử lại nhé!";
+    msgEl.style.color = "#dc2626";
+    if (failCount[cardKey] >= 2) {
+      document.getElementById("show_" + cardKey).style.display = "inline-block";
+    }
+  }
+}
+
+function showAns(cardKey) {
+  const rev = document.getElementById("rev_" + cardKey);
+  if (!rev) return;
+  rev.innerHTML = "<strong>Đáp án:</strong> " + TEXT_ANSWERS[cardKey];
+  rev.style.display = "block";
+}
+
+function toggleParentMode() {
+  const pin = prompt("Nhập mã PIN ba mẹ (mặc định 1234):");
+  if (pin !== PARENT_PIN) {
+    if (pin !== null) alert("Mã PIN chưa đúng!");
+    return;
+  }
+  Object.keys(TEXT_ANSWERS).forEach(k => showAns(k));
+}
+
+function submitAll() {
+  let total = 0, got = 0;
+  let rightCards = [], wrongCards = [];
+  Object.keys(CARD_ITEMS).forEach(cardKey => {
+    let cardOk = true;
+    CARD_ITEMS[cardKey].forEach(id => {
+      total++;
+      const r = gradeItem(id);
+      got += r.score;
+      if (!r.ok) cardOk = false;
+    });
+    if (cardOk) rightCards.push(cardKey.toUpperCase());
+    else wrongCards.push(cardKey.toUpperCase());
+  });
+  const box = document.getElementById("summaryBox");
+  box.style.display = "block";
+  box.innerHTML = `
+    <h2 style="margin-top:0;color:#1e40af;">Kết quả nộp bài: ${got}/${total} ô đúng</h2>
+    <p><strong>Bài làm đúng hết:</strong> ${rightCards.join(", ") || "Chưa có"}</p>
+    <p><strong>Bài cần xem lại:</strong> ${wrongCards.join(", ") || "Không có"}</p>
+  `;
+  box.scrollIntoView({ behavior: "smooth" });
+
+  // Lưu lịch sử nộp bài
+  const hist = JSON.parse(localStorage.getItem(STORAGE_KEY + "_history") || "[]");
+  hist.push({ time: new Date().toLocaleString("vi-VN"), score: `${got}/${total}` });
+  localStorage.setItem(STORAGE_KEY + "_history", JSON.stringify(hist));
+}
+
+function resetAll() {
+  if (!confirm("Em có chắc muốn xóa hết để làm lại từ đầu không?")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  location.reload();
+}
+
+// Tiến độ & Lưu tự động
+function updateProgress() {
+  const tracks = document.querySelectorAll(".track");
+  let done = 0;
+  tracks.forEach(el => { if (el.value && el.value.trim() !== "") done++; });
+  const dsKeys = Object.keys(ANSWER_KEY).filter(k => ANSWER_KEY[k].kieu === "dungsai");
+  dsKeys.forEach(k => { if (dsState[k]) done++; });
+  ["b","c","d","e"].forEach(k => { if (matchState[k]) done++; });
+  const total = tracks.length + dsKeys.length + 4;
+  document.getElementById("progText").textContent = `Đã làm: ${done}/${total}`;
+  document.getElementById("progFill").style.width = Math.round((done / total) * 100) + "%";
+}
+
+function saveState() {
+  const data = { inputs: {}, ds: dsState, match: matchState };
+  document.querySelectorAll("input, select, textarea").forEach(el => {
+    if (el.id) data.inputs[el.id] = el.value;
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function loadState() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return;
+  try {
+    const data = JSON.parse(raw);
+    if (data.inputs) {
+      Object.keys(data.inputs).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = data.inputs[id];
+      });
+    }
+    if (data.ds) {
+      dsState = data.ds;
+      Object.keys(dsState).forEach(id => renderDS(id));
+    }
+    if (data.match) {
+      matchState = data.match;
+    }
+  } catch (e) {}
+}
+
+document.addEventListener("input", () => { saveState(); updateProgress(); });
+window.addEventListener("load", () => {
+  loadState();
+  drawMatchLines();
+  updateProgress();
+});
+</script>
+</body>
+</html>

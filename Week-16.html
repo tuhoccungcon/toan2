@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="vi" data-lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TUẦN 16 / WEEK 16</title>
+<style>
+:root {
+  --bg: #f4f9ff;
+  --card: #ffffff;
+  --pri: #1976d2;
+  --pri-light: #e3f2fd;
+  --acc: #ff9800;
+  --ok: #2e7d32;
+  --err: #c62828;
+  --warn: #ef6c00;
+  --txt: #212121;
+  --bdr: #bbdefb;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 82px 14px 40px;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 20px; line-height: 1.55;
+  background: var(--bg); color: var(--txt);
+}
+html[data-lang="vi"] .en { display: none !important; }
+html[data-lang="en"] .vi { display: none !important; }
+
+/* Topbar */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: #fff; border-bottom: 3px solid var(--pri);
+  padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.prog-wrap { flex: 1; max-width: 440px; }
+.prog-txt { font-weight: 700; font-size: 17px; color: var(--pri); margin-bottom: 3px; }
+.prog-bar { height: 12px; background: #e0e0e0; border-radius: 6px; overflow: hidden; }
+.prog-fill { height: 100%; width: 0%; background: linear-gradient(90deg,#42a5f5,#1976d2); transition: width 0.25s; }
+.lang-switch { display: flex; gap: 4px; flex-wrap: wrap; }
+.lang-btn {
+  min-height: 48px; padding: 6px 14px; font-size: 18px; font-weight: 700;
+  border: 2px solid var(--pri); background: #fff; color: var(--pri);
+  border-radius: 10px; cursor: pointer;
+}
+.lang-btn.active { background: var(--pri); color: #fff; }
+.parent-btn {
+  min-height: 48px; padding: 6px 12px; font-size: 16px; font-weight: 700;
+  border: 2px solid #6d4c41; background: #efebe9; color: #4e342e;
+  border-radius: 10px; cursor: pointer;
+}
+
+.container { max-width: 960px; margin: 0 auto; }
+h1 { text-align: center; color: var(--pri); font-size: 32px; margin: 12px 0 18px; }
+h2.part-title {
+  background: var(--pri); color: #fff; padding: 10px 16px;
+  border-radius: 12px; font-size: 24px; margin: 24px 0 14px;
+}
+.section-guide {
+  font-style: italic; font-weight: 700; color: #0d47a1;
+  margin: 12px 4px; font-size: 21px;
+}
+
+/* Vocabulary */
+details.vocab {
+  background: #fff8e1; border: 2px solid #ffe082; border-radius: 12px;
+  padding: 10px 16px; margin-bottom: 18px;
+}
+details.vocab summary {
+  font-weight: 700; font-size: 20px; cursor: pointer; color: #e65100;
+}
+.vocab-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 8px 16px; margin-top: 10px; font-size: 18px;
+}
+.vocab-item { background: #fff; padding: 6px 10px; border-radius: 8px; border: 1px solid #ffe082; }
+
+/* Card */
+.card {
+  background: var(--card); border: 2px solid var(--bdr); border-radius: 16px;
+  padding: 16px 18px; margin-bottom: 18px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.04);
+}
+.ex-head { font-weight: 700; font-size: 22px; color: #0d47a1; margin-bottom: 12px; }
+.q-row { margin: 14px 0; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px 18px; }
+
+/* Inputs */
+input.inline-inp {
+  font-size: 20px; padding: 5px 8px; width: 170px; max-width: 100%;
+  border: none; border-bottom: 3px solid var(--pri); background: #f0f7ff;
+  border-radius: 6px 6px 0 0; text-align: center; font-weight: 700; color: #0d47a1;
+}
+input.inline-inp.tiny { width: 72px; }
+input.inline-inp.short { width: 115px; }
+input.inline-inp.wide { width: 250px; }
+input.inline-inp:focus { outline: 2px solid var(--acc); background: #fffde7; }
+
+/* Star digit input (* replacement) */
+.star-expr {
+  font-size: 22px; font-weight: 700; display: flex; align-items: center; flex-wrap: wrap; gap: 3px;
+  background: #fafcff; padding: 8px 12px; border-radius: 10px; border: 1px solid #e3f2fd;
+}
+input.star-inp {
+  width: 38px; height: 42px; font-size: 22px; font-weight: 700;
+  text-align: center; border: 2.5px solid var(--pri); border-radius: 8px;
+  background: #fffde7; color: #d84315; padding: 0;
+}
+input.star-inp:focus { outline: 2px solid var(--acc); background: #fff; }
+select.sign-sel {
+  width: 54px; height: 44px; font-size: 22px; font-weight: 700;
+  text-align: center; border: 2.5px solid var(--pri); border-radius: 8px;
+  background: #e3f2fd; color: #0d47a1; cursor: pointer; margin: 0 4px;
+}
+
+/* Đúng / Sai (Bài 9) */
+.tf-row {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 560px; padding: 6px 10px; margin: 6px 0;
+  background: #fafcff; border-radius: 10px; border: 1px solid #e3f2fd;
+}
+.tf-box {
+  display: inline-flex; border: 2px solid var(--pri); border-radius: 10px; overflow: hidden;
+}
+.tf-btn {
+  min-width: 46px; min-height: 44px; font-size: 19px; font-weight: 700;
+  border: none; background: #fff; color: var(--pri); cursor: pointer;
+}
+.tf-btn + .tf-btn { border-left: 1.5px solid var(--bdr); }
+.tf-btn.active-T { background: #2e7d32; color: #fff; }
+.tf-btn.active-F { background: #c62828; color: #fff; }
+
+/* Tự luận */
+.work-box {
+  background: #f9fbe7; border: 2px dashed #c0ca33; border-radius: 12px;
+  padding: 12px; margin-top: 8px;
+}
+.work-box label { font-weight: 700; font-size: 18px; display: block; margin-bottom: 4px; color: #33691e; }
+.work-area {
+  width: 100%; min-height: 75px; font-size: 19px; padding: 8px;
+  border: 1.5px solid #cddc39; border-radius: 8px; resize: vertical; font-family: inherit;
+}
+.ans-line { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.ans-line input.num-inp {
+  width: 130px; font-size: 20px; padding: 6px 8px; border: 2px solid var(--pri);
+  border-radius: 8px; font-weight: 700; text-align: center;
+}
+.ans-line input.unit-inp {
+  width: 180px; font-size: 20px; padding: 6px 8px; border: 2px solid #64b5f6;
+  border-radius: 8px;
+}
+
+/* Feedback & Buttons */
+.fb { font-weight: 700; font-size: 18px; margin-left: 6px; }
+.fb.ok { color: var(--ok); }
+.fb.err { color: var(--err); }
+.fb.warn { color: var(--warn); }
+.card-actions { margin-top: 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.btn {
+  min-height: 46px; padding: 8px 16px; font-size: 18px; font-weight: 700;
+  border: none; border-radius: 10px; cursor: pointer;
+}
+.btn-check { background: var(--pri); color: #fff; }
+.btn-show { background: var(--acc); color: #fff; display: none; }
+.card-msg { font-weight: 700; font-size: 18px; }
+.ans-reveal {
+  margin-top: 10px; padding: 10px 12px; background: #fff3e0;
+  border-left: 4px solid var(--acc); border-radius: 8px; font-size: 18px; display: none;
+}
+
+/* Footer actions */
+.footer-actions {
+  display: flex; justify-content: center; gap: 16px; margin: 28px 0; flex-wrap: wrap;
+}
+.btn-submit { background: #2e7d32; color: #fff; font-size: 22px; padding: 12px 28px; min-height: 54px; }
+.btn-reset { background: #d32f2f; color: #fff; font-size: 22px; padding: 12px 28px; min-height: 54px; }
+#summaryBox {
+  background: #fff; border: 3px solid var(--pri); border-radius: 16px;
+  padding: 18px; margin-top: 16px; display: none;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="prog-wrap">
+    <div class="prog-txt">
+      <span class="vi">Tiến độ: <span id="progCountVi">0/0</span> ô</span>
+      <span class="en">Progress: <span id="progCountEn">0/0</span> boxes</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+  </div>
+  <div class="lang-switch">
+    <button type="button" class="lang-btn active" id="btnVi" onclick="setLang('vi')">🇻🇳 Tiếng Việt</button>
+    <button type="button" class="lang-btn" id="btnEn" onclick="setLang('en')">🇬🇧 English</button>
+    <button type="button" class="parent-btn" onclick="openParentMode()">
+      <span class="vi">🔒 Chế độ ba mẹ</span><span class="en">🔒 Parent mode</span>
+    </button>
+  </div>
+</div>
+
+<div class="container">
+  <h1><span class="vi">TUẦN 16</span><span class="en">WEEK 16</span></h1>
+
+  <details class="vocab">
+    <summary><span class="vi">📘 Từ vựng / Vocabulary</span><span class="en">📘 Vocabulary / Từ vựng</span></summary>
+    <div class="vocab-grid">
+      <div class="vocab-item"><b>buổi sáng / buổi trưa / buổi chiều</b> – morning / noon / afternoon</div>
+      <div class="vocab-item"><b>buổi tối / buổi đêm / giờ</b> – evening / night / hour (o'clock)</div>
+      <div class="vocab-item"><b>thứ hai → chủ nhật</b> – Monday → Sunday</div>
+      <div class="vocab-item"><b>tuần trước / tuần này / tuần sau</b> – last week / this week / next week</div>
+      <div class="vocab-item"><b>số liền trước / số liền sau</b> – the number just before / the number just after</div>
+      <div class="vocab-item"><b>số tròn chục</b> – a round ten (10, 20, 30, ...)</div>
+      <div class="vocab-item"><b>ba điểm thẳng hàng / không thẳng hàng</b> – three collinear / non-collinear points</div>
+      <div class="vocab-item"><b>hình tam giác / hình tứ giác</b> – triangle / quadrilateral</div>
+      <div class="vocab-item"><b>nhiều hơn / ít hơn</b> – more than / less than</div>
+      <div class="vocab-item"><b>mét (m) / xăng-ti-mét (cm)</b> – metre (m) / centimetre (cm)</div>
+    </div>
+  </details>
+
+  <!-- ==================== PHẦN I ==================== -->
+  <h2 class="part-title">
+    <span class="vi">Phần I. Trắc nghiệm khách quan</span>
+    <span class="en">Part I. Objective questions</span>
+  </h2>
+
+  <!-- Phần I - Bài 1 -->
+  <div class="card" id="card_p1_b1">
+    <div class="ex-head">
+      <span class="vi">Bài 1. <i>Điền chữ hoặc số thích hợp vào chỗ trống.</i></span>
+      <span class="en">Exercise 1. <i>Fill in each blank with a suitable word or number.</i></span>
+    </div>
+
+    <div class="q-row">
+      <span class="vi">1. Hàng ngày, buổi sáng bắt đầu từ</span>
+      <span class="en">1. Every day, the morning starts from</span>
+      <input type="text" id="p1_b1_c1_1" class="inline-inp tiny track-inp">
+      <span class="vi">giờ đến</span><span class="en">o'clock to</span>
+      <input type="text" id="p1_b1_c1_2" class="inline-inp tiny track-inp">
+      <span class="vi">giờ.</span><span class="en">o'clock.</span>
+    </div>
+
+    <div class="q-row">
+      <span class="vi">2. Hàng ngày, buổi trưa bắt đầu từ</span>
+      <span class="en">2. Every day, the noon starts from</span>
+      <input type="text" id="p1_b1_c2_1" class="inline-inp tiny track-inp">
+      <span class="vi">giờ đến</span><span class="en">o'clock to</span>
+      <input type="text" id="p1_b1_c2_2" class="inline-inp tiny track-inp">
+      <span class="vi">giờ.</span><span class="en">o'clock.</span>
+    </div>
+
+    <div class="q-row">
+      <span class="vi">3. Hàng ngày, buổi chiều bắt đầu từ</span>
+      <span class="en">3. Every day, the afternoon starts from</span>
+      <input type="text" id="p1_b1_c3_1" class="inline-inp tiny track-inp">
+      <span class="vi">giờ</span><span class="en">o'clock</span>
+      <input type="text" id="p1_b1_c3_2" class="inline-inp short track-inp">
+      <span class="vi">(hay</span><span class="en">(or</span>
+      <input type="text" id="p1_b1_c3_3" class="inline-inp tiny track-inp">
+      <span class="vi">giờ) đến</span><span class="en">o'clock) to</span>
+      <input type="text" id="p1_b1_c3_4" class="inline-inp tiny track-inp">
+      <span class="vi">giờ</span><span class="en">o'clock</span>
+      <input type="text" id="p1_b1_c3_5" class="inline-inp short track-inp">
+      <span class="vi">(hay</span><span class="en">(or</span>
+      <input type="text" id="p1_b1_c3_6" class="inline-inp tiny track-inp">
+      <span class="vi">giờ).</span><span class="en">o'clock).</span>
+    </div>
+
+    <div class="q-row">
+      <span class="vi">4. Hàng ngày, buổi tối bắt đầu từ</span>
+      <span class="en">4. Every day, the evening starts from</span>
+      <input type="text" id="p1_b1_c4_1" class="inline-inp tiny track-inp">
+      <span class="vi">giờ</span><span class="en">o'clock</span>
+      <input type="text" id="p1_b1_c4_2" class="inline-inp short track-inp">
+      <span class="vi">(hay</span><span class="en">(or</span>
+      <input type="text" id="p1_b1_c4_3" class="inline-inp tiny track-inp">
+      <span class="vi">giờ) đến</span><span class="en">o'clock) to</span>
+      <input type="text" id="p1_b1_c4_4" class="inline-inp tiny track-inp">
+      <span class="vi">giờ</span><span class="en">o'clock</span>
+      <input type="text" id="p1_b1_c4_5" class="inline-inp short track-inp">
+      <span class="vi">(hay</span><span class="en">(or</span>
+      <input type="text" id="p1_b1_c4_6" class="inline-inp tiny track-inp">
+      <span class="vi">giờ).</span><span class="en">o'clock).</span>
+    </div>
+
+    <div class="q-row">
+      <span class="vi">5. Hàng ngày, buổi đêm bắt đầu từ</span>
+      <span class="en">5. Every day, the night starts from</span>
+      <input type="text" id="p1_b1_c5_1" class="inline-inp tiny track-inp">
+      <span class="vi">giờ</span><span class="en">o'clock</span>
+      <input type="text" id="p1_b1_c5_2" class="inline-inp short track-inp">
+      <span class="vi">(hay</span><span class="en">(or</span>
+      <input type="text" id="p1_b1_c5_3" class="inline-inp tiny track-inp">
+      <span class="vi">giờ) đến</span><span class="en">o'clock) to</span>
+      <input type="text" id="p1_b1_c5_4" class="inline-inp tiny track-inp">
+      <span class="vi">giờ</span><span class="en">o'clock</span>
+      <input type="text" id="p1_b1_c5_5" class="inline-inp short track-inp">
+      <span class="vi">(hay</span><span class="en">(or</span>
+      <input type="text" id="p1_b1_c5_6" class="inline-inp tiny track-inp">
+      <span class="vi">giờ).</span><span class="en">o'clock).</span>
+    </div>
+
+    <div class="card-actions">
+      <button type="button" class="btn btn-show" style="display:inline-block;" onclick="showAns('p1_b1')">
+        <span class="vi">Xem đáp án</span><span class="en">Show answer</span>
+      </button>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b1"></div>
+  </div>
+
+  <!-- Phần I - Bài 2 -->
+  <div class="card" id="card_p1_b2">
+    <div class="ex-head">
+      <span class="vi">Bài 2. <i>Điền chữ hoặc số thích hợp vào chỗ trống.</i></span>
+      <span class="en">Exercise 2. <i>Fill in each blank with a suitable word or number.</i></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">1. Ngày 20 tháng 11 là chủ nhật. Vậy ngày 3 tháng 12 năm đó là thứ</span>
+      <span class="en">1. November 20 is Sunday. So December 3 of that year is</span>
+      <input type="text" id="p1_b2_c1" class="inline-inp short track-inp"><span id="fb_p1_b2_c1" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">2. Ngày 1 tháng 4 là thứ ba. Vậy ngày 30 tháng 4 năm đó là thứ</span>
+      <span class="en">2. April 1 is Tuesday. So April 30 of that year is</span>
+      <input type="text" id="p1_b2_c2" class="inline-inp short track-inp"><span id="fb_p1_b2_c2" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">3. Ngày 22 tháng 4 là thứ sáu. Vậy ngày 1 tháng 5 năm đó là thứ</span>
+      <span class="en">3. April 22 is Friday. So May 1 of that year is</span>
+      <input type="text" id="p1_b2_c3" class="inline-inp short track-inp"><span id="fb_p1_b2_c3" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">4. Ngày 15 tháng 5 là thứ tư. Vậy ngày 1 tháng 6 năm đó là thứ</span>
+      <span class="en">4. May 15 is Wednesday. So June 1 of that year is</span>
+      <input type="text" id="p1_b2_c4" class="inline-inp short track-inp"><span id="fb_p1_b2_c4" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">5. Ngày 1 tháng 6 là chủ nhật. Vậy ngày 19 tháng 5 năm đó là thứ</span>
+      <span class="en">5. June 1 is Sunday. So May 19 of that year is</span>
+      <input type="text" id="p1_b2_c5" class="inline-inp short track-inp"><span id="fb_p1_b2_c5" class="fb"></span>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b2')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b2" onclick="showAns('p1_b2')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b2"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b2"></div>
+  </div>
+
+  <!-- Phần I - Bài 3 -->
+  <div class="card" id="card_p1_b3">
+    <div class="ex-head">
+      <span class="vi">Bài 3. <i>Điền chữ hoặc số thích hợp vào chỗ trống.</i></span>
+      <span class="en">Exercise 3. <i>Fill in each blank with a suitable word or number.</i></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">1. Chủ nhật tuần này là ngày 8 tháng 3. Vậy sau 2 tuần, chủ nhật sẽ là ngày</span>
+      <span class="en">1. Sunday this week is March 8. So after 2 weeks, Sunday will be</span>
+      <input type="text" id="p1_b3_c1" class="inline-inp track-inp" placeholder="... tháng ..."><span id="fb_p1_b3_c1" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">2. Thứ năm tuần này là ngày 1 tháng 5. Vậy sau 3 tuần, thứ năm sẽ là ngày</span>
+      <span class="en">2. Thursday this week is May 1. So after 3 weeks, Thursday will be</span>
+      <input type="text" id="p1_b3_c2" class="inline-inp track-inp" placeholder="... tháng ..."><span id="fb_p1_b3_c2" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">3. Thứ hai tuần trước là ngày 30 tháng 4. Vậy thứ hai tuần sau sẽ là ngày</span>
+      <span class="en">3. Monday last week was April 30. So Monday next week will be</span>
+      <input type="text" id="p1_b3_c3" class="inline-inp track-inp" placeholder="... tháng ..."><span id="fb_p1_b3_c3" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">4. Chủ nhật tuần này là ngày 1 tháng 5. Vậy 2 tuần trước, chủ nhật sẽ là ngày</span>
+      <span class="en">4. Sunday this week is May 1. So 2 weeks ago, Sunday was</span>
+      <input type="text" id="p1_b3_c4" class="inline-inp track-inp" placeholder="... tháng ..."><span id="fb_p1_b3_c4" class="fb"></span>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b3')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b3" onclick="showAns('p1_b3')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b3"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b3"></div>
+  </div>
+
+  <!-- Phần I - Bài 4 -->
+  <div class="card" id="card_p1_b4">
+    <div class="ex-head">
+      <span class="vi">Bài 4. <i>Điền chữ hoặc số thích hợp vào chỗ trống.</i></span>
+      <span class="en">Exercise 4. <i>Fill in each blank with a suitable word or number.</i></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">1. Khi trừ 100 với một số ta được kết quả bằng 73. Vậy số đó là</span>
+      <span class="en">1. When subtracting a number from 100, we get 73. So that number is</span>
+      <input type="text" id="p1_b4_c1" class="inline-inp short track-inp"><span id="fb_p1_b4_c1" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">2. Khi trừ 100 với số liền sau của số có hai chữ số giống nhau ta được kết quả là số có hàng đơn vị bằng 4. Vậy số có hai chữ số giống nhau đó là</span>
+      <span class="en">2. When subtracting the number just after a two-digit number with the same digits from 100, we get a number with the ones digit of 4. So that two-digit number with the same digits is</span>
+      <input type="text" id="p1_b4_c2" class="inline-inp short track-inp"><span id="fb_p1_b4_c2" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">3. Khi trừ 100 với một số tròn chục ta được kết quả là số có hàng chục bằng 6. Vậy số trừ trong phép trừ đó là</span>
+      <span class="en">3. When subtracting a round ten from 100, we get a number with the tens digit of 6. So the subtrahend in that subtraction is</span>
+      <input type="text" id="p1_b4_c3" class="inline-inp short track-inp"><span id="fb_p1_b4_c3" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">4. Khi trừ 100 với số liền trước của số có hai chữ số giống nhau ta được kết quả là số có hàng đơn vị bằng 4. Vậy số trừ trong phép trừ đó là</span>
+      <span class="en">4. When subtracting the number just before a two-digit number with the same digits from 100, we get a number with the ones digit of 4. So the subtrahend in that subtraction is</span>
+      <input type="text" id="p1_b4_c4" class="inline-inp short track-inp"><span id="fb_p1_b4_c4" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">5. Khi cộng số có hàng đơn vị bằng 5 với số có hàng chục bằng 5 ta được kết quả bằng 100. Vậy phép cộng đó là :</span>
+      <span class="en">5. When adding a number with the ones digit of 5 to a number with the tens digit of 5, we get 100. So that addition is:</span>
+      <input type="text" id="p1_b4_c5" class="inline-inp wide track-inp"><span id="fb_p1_b4_c5" class="fb"></span>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b4')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b4" onclick="showAns('p1_b4')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b4"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b4"></div>
+  </div>
+
+  <!-- Phần I - Bài 5 -->
+  <div class="card" id="card_p1_b5">
+    <div class="ex-head">
+      <span class="vi">Bài 5. <i>Điền chữ hoặc số thích hợp vào chỗ trống.</i></span>
+      <span class="en">Exercise 5. <i>Fill in each blank with a suitable word or number.</i></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">1. Giá trị thích hợp của y để 84 – y = 65 – 26 + 8 là :</span>
+      <span class="en">1. The suitable value of y so that 84 – y = 65 – 26 + 8 is:</span>
+      <input type="text" id="p1_b5_c1" class="inline-inp short track-inp"><span id="fb_p1_b5_c1" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">2. Giá trị thích hợp của y để 56 – y = 74 – 59 + 22 là :</span>
+      <span class="en">2. The suitable value of y so that 56 – y = 74 – 59 + 22 is:</span>
+      <input type="text" id="p1_b5_c2" class="inline-inp short track-inp"><span id="fb_p1_b5_c2" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">3. Giá trị thích hợp của y để 65 – y = 19 + 58 – 39 là :</span>
+      <span class="en">3. The suitable value of y so that 65 – y = 19 + 58 – 39 is:</span>
+      <input type="text" id="p1_b5_c3" class="inline-inp short track-inp"><span id="fb_p1_b5_c3" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">4. Giá trị thích hợp của y để 73 – y = 91 – 28 – 29 là :</span>
+      <span class="en">4. The suitable value of y so that 73 – y = 91 – 28 – 29 is:</span>
+      <input type="text" id="p1_b5_c4" class="inline-inp short track-inp"><span id="fb_p1_b5_c4" class="fb"></span>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b5')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b5" onclick="showAns('p1_b5')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b5"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b5"></div>
+  </div>
+
+  <div class="section-guide">
+    <span class="vi">Điền chữ số thích hợp thay cho dấu "*".</span>
+    <span class="en">Fill in a suitable digit to replace each "*".</span>
+  </div>
+
+  <!-- Phần I - Bài 6 -->
+  <div class="card" id="card_p1_b6">
+    <div class="ex-head"><span class="vi">Bài 6.</span><span class="en">Exercise 6.</span></div>
+    <div class="grid-2">
+      <div class="star-expr">
+        <span>1. &nbsp;</span>
+        <input type="text" maxlength="1" id="p1_b6_c1_1" class="star-inp track-inp" placeholder="*"><span>6 + 6</span><input type="text" maxlength="1" id="p1_b6_c1_2" class="star-inp track-inp" placeholder="*"><span>= 100</span>
+        <span id="fb_p1_b6_c1" class="fb"></span>
+      </div>
+      <div class="star-expr">
+        <span>2. &nbsp; 7</span><input type="text" maxlength="1" id="p1_b6_c2_1" class="star-inp track-inp" placeholder="*"><span> + </span><input type="text" maxlength="1" id="p1_b6_c2_2" class="star-inp track-inp" placeholder="*"><span>3 = 100</span>
+        <span id="fb_p1_b6_c2" class="fb"></span>
+      </div>
+      <div class="star-expr">
+        <span>3. &nbsp; 100 – </span><input type="text" maxlength="1" id="p1_b6_c3_1" class="star-inp track-inp" placeholder="*"><span>5 = 5</span><input type="text" maxlength="1" id="p1_b6_c3_2" class="star-inp track-inp" placeholder="*">
+        <span id="fb_p1_b6_c3" class="fb"></span>
+      </div>
+      <div class="star-expr">
+        <span>4. &nbsp; 100 – </span><input type="text" maxlength="1" id="p1_b6_c4_1" class="star-inp track-inp" placeholder="*"><span>0 = 2</span><input type="text" maxlength="1" id="p1_b6_c4_2" class="star-inp track-inp" placeholder="*">
+        <span id="fb_p1_b6_c4" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b6')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b6" onclick="showAns('p1_b6')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b6"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b6"></div>
+  </div>
+
+  <!-- Phần I - Bài 7 -->
+  <div class="card" id="card_p1_b7">
+    <div class="ex-head"><span class="vi">Bài 7.</span><span class="en">Exercise 7.</span></div>
+    <div class="grid-2">
+      <div class="star-expr">
+        <span>1. &nbsp;</span>
+        <input type="text" maxlength="1" id="p1_b7_c1_1" class="star-inp track-inp" placeholder="*"><span>3 + 5</span><input type="text" maxlength="1" id="p1_b7_c1_2" class="star-inp track-inp" placeholder="*"><span>= 77</span>
+        <span id="fb_p1_b7_c1" class="fb"></span>
+      </div>
+      <div class="star-expr">
+        <span>2. &nbsp; 28 + 4</span><input type="text" maxlength="1" id="p1_b7_c2_1" class="star-inp track-inp" placeholder="*"><span> = </span><input type="text" maxlength="1" id="p1_b7_c2_2" class="star-inp track-inp" placeholder="*"><span>3</span>
+        <span id="fb_p1_b7_c2" class="fb"></span>
+      </div>
+      <div class="star-expr">
+        <span>3. &nbsp; 8</span><input type="text" maxlength="1" id="p1_b7_c3_1" class="star-inp track-inp" placeholder="*"><span> – </span><input type="text" maxlength="1" id="p1_b7_c3_2" class="star-inp track-inp" placeholder="*"><span>7 = 54</span>
+        <span id="fb_p1_b7_c3" class="fb"></span>
+      </div>
+      <div class="star-expr">
+        <span>4. &nbsp;</span>
+        <input type="text" maxlength="1" id="p1_b7_c4_1" class="star-inp track-inp" placeholder="*"><span>0 – 5</span><input type="text" maxlength="1" id="p1_b7_c4_2" class="star-inp track-inp" placeholder="*"><span>= 30</span>
+        <span id="fb_p1_b7_c4" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b7')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b7" onclick="showAns('p1_b7')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b7"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b7"></div>
+  </div>
+
+  <!-- Phần I - Bài 8 -->
+  <div class="card" id="card_p1_b8">
+    <div class="ex-head">
+      <span class="vi">Bài 8. <i>Điền chữ thích hợp vào chỗ chấm.</i></span>
+      <span class="en">Exercise 8. <i>Fill in the blank with a suitable answer.</i></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">Nhà Hải nuôi một đàn gà và vịt. Sáng nay mẹ mua thêm 17 con vịt thì số vịt nhiều hơn số gà 100 con. Vậy chiều qua số gà ít hơn số vịt là :</span>
+      <span class="en">Hải's family raises a flock of chickens and ducks. This morning, mother bought 17 more ducks, so there are 100 more ducks than chickens. So yesterday afternoon, there were fewer chickens than ducks by:</span>
+      <input type="text" id="p1_b8_c1" class="inline-inp short track-inp"><span id="fb_p1_b8_c1" class="fb"></span>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b8')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b8" onclick="showAns('p1_b8')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b8"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b8"></div>
+  </div>
+
+  <!-- Phần I - Bài 9 -->
+  <div class="card" id="card_p1_b9">
+    <div class="ex-head">
+      <span class="vi">Bài 9. <i>Đúng ghi Đ, sai ghi S vào ô trống.</i></span>
+      <span class="en">Exercise 9. <i>Write T for true or F for false in each box.</i></span>
+    </div>
+
+    <div style="text-align:center;margin:10px 0;">
+      <!-- Hình vẽ các điểm A, B, C, D, E, M -->
+      <svg width="380" height="210" viewBox="0 0 380 210" style="max-width:100%;background:#fff;border:1px solid #e0e0e0;border-radius:10px;">
+        <!-- A(45,145), B(235,120), C(283,114) thẳng hàng -->
+        <!-- D(130,85) nối A và B -->
+        <!-- E(268,165) nối B; và E(268,165), C(283,114), M(308,29) thẳng hàng -->
+        <line x1="45" y1="145" x2="283" y2="114" stroke="#111" stroke-width="2.2"/>
+        <line x1="45" y1="145" x2="130" y2="85" stroke="#111" stroke-width="2.2"/>
+        <line x1="130" y1="85" x2="235" y2="120" stroke="#111" stroke-width="2.2"/>
+        <line x1="235" y1="120" x2="268" y2="165" stroke="#111" stroke-width="2.2"/>
+        <line x1="268" y1="165" x2="308" y2="29" stroke="#111" stroke-width="2.2"/>
+        <!-- Nhãn điểm -->
+        <text x="24" y="156" font-size="19" font-weight="bold">A</text>
+        <text x="122" y="76" font-size="19" font-weight="bold">D</text>
+        <text x="228" y="108" font-size="19" font-weight="bold">B</text>
+        <text x="292" y="122" font-size="19" font-weight="bold">C</text>
+        <text x="262" y="190" font-size="19" font-weight="bold">E</text>
+        <text x="298" y="22" font-size="19" font-weight="bold">M</text>
+      </svg>
+    </div>
+
+    <div class="tf-row">
+      <span><span class="vi">a) Ba điểm A, B, C thẳng hàng</span><span class="en">a) Three points A, B, C are collinear</span></span>
+      <div>
+        <div class="tf-box">
+          <button type="button" class="tf-btn" id="tf_p1_b9_a_D" onclick="selectTF('p1_b9_a','Đ')"><span class="vi">Đ</span><span class="en">T</span></button>
+          <button type="button" class="tf-btn" id="tf_p1_b9_a_S" onclick="selectTF('p1_b9_a','S')"><span class="vi">S</span><span class="en">F</span></button>
+        </div>
+        <span id="fb_p1_b9_a" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="tf-row">
+      <span><span class="vi">b) Ba điểm A, D, B thẳng hàng</span><span class="en">b) Three points A, D, B are collinear</span></span>
+      <div>
+        <div class="tf-box">
+          <button type="button" class="tf-btn" id="tf_p1_b9_b_D" onclick="selectTF('p1_b9_b','Đ')"><span class="vi">Đ</span><span class="en">T</span></button>
+          <button type="button" class="tf-btn" id="tf_p1_b9_b_S" onclick="selectTF('p1_b9_b','S')"><span class="vi">S</span><span class="en">F</span></button>
+        </div>
+        <span id="fb_p1_b9_b" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="tf-row">
+      <span><span class="vi">c) Ba điểm A, D, B không thẳng hàng</span><span class="en">c) Three points A, D, B are not collinear</span></span>
+      <div>
+        <div class="tf-box">
+          <button type="button" class="tf-btn" id="tf_p1_b9_c_D" onclick="selectTF('p1_b9_c','Đ')"><span class="vi">Đ</span><span class="en">T</span></button>
+          <button type="button" class="tf-btn" id="tf_p1_b9_c_S" onclick="selectTF('p1_b9_c','S')"><span class="vi">S</span><span class="en">F</span></button>
+        </div>
+        <span id="fb_p1_b9_c" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="tf-row">
+      <span><span class="vi">d) Ba điểm D, B, E thẳng hàng</span><span class="en">d) Three points D, B, E are collinear</span></span>
+      <div>
+        <div class="tf-box">
+          <button type="button" class="tf-btn" id="tf_p1_b9_d_D" onclick="selectTF('p1_b9_d','Đ')"><span class="vi">Đ</span><span class="en">T</span></button>
+          <button type="button" class="tf-btn" id="tf_p1_b9_d_S" onclick="selectTF('p1_b9_d','S')"><span class="vi">S</span><span class="en">F</span></button>
+        </div>
+        <span id="fb_p1_b9_d" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="tf-row">
+      <span><span class="vi">e) Ba điểm E, C, M thẳng hàng</span><span class="en">e) Three points E, C, M are collinear</span></span>
+      <div>
+        <div class="tf-box">
+          <button type="button" class="tf-btn" id="tf_p1_b9_e_D" onclick="selectTF('p1_b9_e','Đ')"><span class="vi">Đ</span><span class="en">T</span></button>
+          <button type="button" class="tf-btn" id="tf_p1_b9_e_S" onclick="selectTF('p1_b9_e','S')"><span class="vi">S</span><span class="en">F</span></button>
+        </div>
+        <span id="fb_p1_b9_e" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="tf-row">
+      <span><span class="vi">g) Ba điểm B, E, C không thẳng hàng</span><span class="en">g) Three points B, E, C are not collinear</span></span>
+      <div>
+        <div class="tf-box">
+          <button type="button" class="tf-btn" id="tf_p1_b9_g_D" onclick="selectTF('p1_b9_g','Đ')"><span class="vi">Đ</span><span class="en">T</span></button>
+          <button type="button" class="tf-btn" id="tf_p1_b9_g_S" onclick="selectTF('p1_b9_g','S')"><span class="vi">S</span><span class="en">F</span></button>
+        </div>
+        <span id="fb_p1_b9_g" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b9')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b9" onclick="showAns('p1_b9')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b9"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b9"></div>
+  </div>
+
+  <!-- Phần I - Bài 10 -->
+  <div class="card" id="card_p1_b10">
+    <div class="ex-head">
+      <span class="vi">Bài 10. <i>Điền dấu phép tính "+" hoặc "–" vào ô trống, sau đó điền chữ số thích hợp thay cho dấu "*".</i></span>
+      <span class="en">Exercise 10. <i>Write the sign "+" or "–" in each box, then fill in a suitable digit to replace each "*".</i></span>
+    </div>
+    <div class="grid-2">
+      <div class="star-expr">
+        <span>1. &nbsp; 57 &gt; 20</span>
+        <select id="p1_b10_c1_s" class="sign-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+        <input type="text" maxlength="1" id="p1_b10_c1_d" class="star-inp track-inp" placeholder="*"><span>4 &gt; 45</span>
+        <span id="fb_p1_b10_c1" class="fb"></span>
+      </div>
+
+      <div class="star-expr">
+        <span>2. &nbsp; 79 &lt; 9</span><input type="text" maxlength="1" id="p1_b10_c2_d1" class="star-inp track-inp" placeholder="*">
+        <select id="p1_b10_c2_s" class="sign-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+        <input type="text" maxlength="1" id="p1_b10_c2_d2" class="star-inp track-inp" placeholder="*"><span>6 &lt; 81</span>
+        <span id="fb_p1_b10_c2" class="fb"></span>
+      </div>
+
+      <div class="star-expr">
+        <span>3. &nbsp; 80 &lt; 29</span>
+        <select id="p1_b10_c3_s" class="sign-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+        <input type="text" maxlength="1" id="p1_b10_c3_d" class="star-inp track-inp" placeholder="*"><span>1 &lt; 100</span>
+        <span id="fb_p1_b10_c3" class="fb"></span>
+      </div>
+
+      <div class="star-expr">
+        <span>4. &nbsp; 40 &lt; </span><input type="text" maxlength="1" id="p1_b10_c4_d" class="star-inp track-inp" placeholder="*"><span>3</span>
+        <select id="p1_b10_c4_s" class="sign-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+        <span>37 &lt; 60</span>
+        <span id="fb_p1_b10_c4" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b10')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b10" onclick="showAns('p1_b10')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b10"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b10"></div>
+  </div>
+
+  <!-- ==================== PHẦN II ==================== -->
+  <h2 class="part-title">
+    <span class="vi">Phần II. Tự luận</span>
+    <span class="en">Part II. Written problems</span>
+  </h2>
+
+  <!-- Phần II - Bài 1 -->
+  <div class="card" id="card_p2_b1">
+    <div class="ex-head">
+      <span class="vi">Bài 1. Hàng ngày :</span>
+      <span class="en">Exercise 1. Every day:</span>
+    </div>
+
+    <div class="q-row">
+      <b><span class="vi">1. Buổi sáng kéo dài trong mấy giờ ? Từ mấy giờ đến mấy giờ ?</span><span class="en">1. How many hours does the morning last? From what time to what time?</span></b>
+      <div class="ans-line">
+        <span class="vi">Buổi sáng có</span><span class="en">The morning has</span>
+        <input type="text" id="p2_b1_c1_a" class="inline-inp tiny track-inp">
+        <span class="vi">giờ : từ</span><span class="en">hours: from</span>
+        <input type="text" id="p2_b1_c1_b" class="inline-inp tiny track-inp">
+        <span class="vi">giờ đến</span><span class="en">o'clock to</span>
+        <input type="text" id="p2_b1_c1_c" class="inline-inp tiny track-inp">
+        <span class="vi">giờ.</span><span class="en">o'clock.</span>
+        <span id="fb_p2_b1_c1" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="q-row">
+      <b><span class="vi">2. Buổi trưa kéo dài trong mấy giờ ? Từ mấy giờ đến mấy giờ ?</span><span class="en">2. How many hours does the noon last? From what time to what time?</span></b>
+      <div class="ans-line">
+        <span class="vi">Buổi trưa có</span><span class="en">The noon has</span>
+        <input type="text" id="p2_b1_c2_a" class="inline-inp tiny track-inp">
+        <span class="vi">giờ : từ</span><span class="en">hours: from</span>
+        <input type="text" id="p2_b1_c2_b" class="inline-inp tiny track-inp">
+        <span class="vi">giờ đến</span><span class="en">o'clock to</span>
+        <input type="text" id="p2_b1_c2_c" class="inline-inp tiny track-inp">
+        <span class="vi">giờ.</span><span class="en">o'clock.</span>
+        <span id="fb_p2_b1_c2" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="q-row">
+      <b><span class="vi">3. Buổi chiều kéo dài trong mấy giờ ? Từ mấy giờ đến mấy giờ ?</span><span class="en">3. How many hours does the afternoon last? From what time to what time?</span></b>
+      <div class="ans-line">
+        <span class="vi">Buổi chiều có</span><span class="en">The afternoon has</span>
+        <input type="text" id="p2_b1_c3_a" class="inline-inp tiny track-inp">
+        <span class="vi">giờ : từ</span><span class="en">hours: from</span>
+        <input type="text" id="p2_b1_c3_b" class="inline-inp tiny track-inp">
+        <span class="vi">giờ đến</span><span class="en">o'clock to</span>
+        <input type="text" id="p2_b1_c3_c" class="inline-inp tiny track-inp">
+        <span class="vi">giờ.</span><span class="en">o'clock.</span>
+        <span id="fb_p2_b1_c3" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="q-row">
+      <b><span class="vi">4. Buổi tối kéo dài trong mấy giờ ? Từ mấy giờ đến mấy giờ ?</span><span class="en">4. How many hours does the evening last? From what time to what time?</span></b>
+      <div class="ans-line">
+        <span class="vi">Buổi tối có</span><span class="en">The evening has</span>
+        <input type="text" id="p2_b1_c4_a" class="inline-inp tiny track-inp">
+        <span class="vi">giờ : từ</span><span class="en">hours: from</span>
+        <input type="text" id="p2_b1_c4_b" class="inline-inp tiny track-inp">
+        <span class="vi">giờ đến</span><span class="en">o'clock to</span>
+        <input type="text" id="p2_b1_c4_c" class="inline-inp tiny track-inp">
+        <span class="vi">giờ.</span><span class="en">o'clock.</span>
+        <span id="fb_p2_b1_c4" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="q-row">
+      <b><span class="vi">5. Buổi đêm kéo dài trong mấy giờ ? Từ mấy giờ đến mấy giờ ?</span><span class="en">5. How many hours does the night last? From what time to what time?</span></b>
+      <div class="ans-line">
+        <span class="vi">Buổi đêm có</span><span class="en">The night has</span>
+        <input type="text" id="p2_b1_c5_a" class="inline-inp tiny track-inp">
+        <span class="vi">giờ : từ</span><span class="en">hours: from</span>
+        <input type="text" id="p2_b1_c5_b" class="inline-inp tiny track-inp">
+        <span class="vi">giờ đến</span><span class="en">o'clock to</span>
+        <input type="text" id="p2_b1_c5_c" class="inline-inp tiny track-inp">
+        <span class="vi">giờ.</span><span class="en">o'clock.</span>
+        <span id="fb_p2_b1_c5" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="q-row">
+      <b><span class="vi">6. Mỗi ngày có mấy giờ ?</span><span class="en">6. How many hours are there in each day?</span></b>
+      <div class="ans-line">
+        <span class="vi">Mỗi ngày có</span><span class="en">Each day has</span>
+        <input type="text" id="p2_b1_c6" class="inline-inp tiny track-inp">
+        <span class="vi">giờ.</span><span class="en">hours.</span>
+        <span id="fb_p2_b1_c6" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b1')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b1" onclick="showAns('p2_b1')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b1"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b1"></div>
+  </div>
+
+  <!-- Phần II - Bài 2 -->
+  <div class="card" id="card_p2_b2">
+    <div class="ex-head"><span class="vi">Bài 2.</span><span class="en">Exercise 2.</span></div>
+    <p>
+      <span class="vi">Đàn gà nhà Mai có 100 con. Sau khi mẹ bán thì còn lại 36 con. Hỏi mẹ Mai đã bán bao nhiêu con gà ?</span>
+      <span class="en">Mai's family has a flock of 100 chickens. After her mother sold some, there are 36 chickens left. How many chickens did Mai's mother sell?</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b2_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b2_c1_so" class="num-inp track-inp" placeholder="Số / Number">
+        <input type="text" id="p2_b2_c1_dv" class="unit-inp track-inp" placeholder="con gà / chickens">
+      </div>
+    </div>
+  </div>
+
+  <!-- Phần II - Bài 3 -->
+  <div class="card" id="card_p2_b3">
+    <div class="ex-head"><span class="vi">Bài 3.</span><span class="en">Exercise 3.</span></div>
+    <p>
+      <span class="vi">Một cửa hàng bán vải, sáng nay bán thêm 14m vải hoa thì số vải hoa đã bán nhiều hơn vải xanh đã bán 100m. Hỏi nếu không bán thêm thì số vải xanh đã bán ít hơn vải hoa bao nhiêu mét ?</span>
+      <span class="en">A fabric store sold 14m more of floral cloth this morning, making the floral cloth sold 100m more than the blue cloth sold. If it had not sold more this morning, how many metres less blue cloth than floral cloth would have been sold?</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b3_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b3_c1_so" class="num-inp track-inp" placeholder="Số / Number">
+        <input type="text" id="p2_b3_c1_dv" class="unit-inp track-inp" placeholder="m / mét">
+        <span id="fb_p2_b3_c1" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b3')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b3" onclick="showAns('p2_b3')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b3"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b3"></div>
+  </div>
+
+  <!-- Phần II - Bài 4 -->
+  <div class="card" id="card_p2_b4">
+    <div class="ex-head"><span class="vi">Bài 4.</span><span class="en">Exercise 4.</span></div>
+    <p>
+      <span class="vi">Cô chủ nhiệm chia học sinh lớp 2A thành hai nhóm : một nhóm sửa cây trong vườn trường và nhóm thứ hai dọn vệ sinh lớp học. Nếu chuyển 7 bạn từ nhóm thứ nhất sang nhóm thứ hai thì nhóm thứ hai nhiều hơn nhóm thứ nhất 4 bạn. Hỏi nếu không chuyển thì nhóm nào nhiều hơn ? Nhiều hơn mấy bạn ?</span>
+      <span class="en">The homeroom teacher divided class 2A into two groups: one group tending plants in the school garden and the second group cleaning the classroom. If 7 students are moved from the first group to the second group, the second group has 4 more students than the first group. If not moved, which group has more students? How many more students?</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b4_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b4_c1_so" class="num-inp track-inp" style="width:270px;" placeholder="Nhóm 1 nhiều hơn, 10">
+        <input type="text" id="p2_b4_c1_dv" class="unit-inp track-inp" placeholder="bạn / students">
+        <span id="fb_p2_b4_c1" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b4')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b4" onclick="showAns('p2_b4')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b4"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b4"></div>
+  </div>
+
+  <!-- Phần II - Bài 5 -->
+  <div class="card" id="card_p2_b5">
+    <div class="ex-head"><span class="vi">Bài 5.</span><span class="en">Exercise 5.</span></div>
+    <p>
+      <span class="vi">Chú đội trưởng chia công nhân của đội mình thành hai nhóm : nhóm thứ nhất vận chuyển vật liệu để xây nhà và nhóm thứ hai làm đường giao thông. Nếu chuyển 8 người từ nhóm thứ nhất sang nhóm thứ hai thì số người còn lại của nhóm thứ nhất nhiều hơn nhóm thứ hai 5 người. Hỏi nếu không chuyển thì nhóm nào ít người hơn ? Ít hơn mấy người ?</span>
+      <span class="en">The team leader divided the workers into two groups: the first group transporting building materials and the second group building roads. If 8 workers are moved from the first group to the second group, the remaining workers in the first group are still 5 more than the second group. If not moved, which group has fewer workers? How many fewer workers?</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b5_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b5_c1_so" class="num-inp track-inp" style="width:270px;" placeholder="Nhóm 2 ít hơn, 21">
+        <input type="text" id="p2_b5_c1_dv" class="unit-inp track-inp" placeholder="người / workers">
+        <span id="fb_p2_b5_c1" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b5')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b5" onclick="showAns('p2_b5')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b5"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b5"></div>
+  </div>
+
+  <!-- Phần II - Bài 6 -->
+  <div class="card" id="card_p2_b6">
+    <div class="ex-head"><span class="vi">Bài 6.</span><span class="en">Exercise 6.</span></div>
+    <p>
+      <span class="vi">Cho 3 mảnh gỗ hình tam giác và 2 mảnh gỗ hình tứ giác :</span>
+      <span class="en">Given 3 triangular wooden pieces and 2 quadrilateral wooden pieces:</span>
+    </p>
+    <div style="text-align:center;margin:10px 0;">
+      <svg width="460" height="110" viewBox="0 0 460 110" style="max-width:100%;background:#fff;border:1px solid #e0e0e0;border-radius:10px;">
+        <!-- Tam giác 2cm -->
+        <polygon points="95,18 60,82 130,82" fill="none" stroke="#111" stroke-width="2.2"/>
+        <text x="30" y="54" font-size="16" font-weight="bold">2cm</text>
+        <text x="122" y="54" font-size="16" font-weight="bold">2cm</text>
+        <text x="80" y="102" font-size="16" font-weight="bold">2cm</text>
+        <!-- Hình thang 4cm / 2cm / 2cm / 2cm -->
+        <polygon points="260,24 390,24 358,82 292,82" fill="none" stroke="#111" stroke-width="2.2"/>
+        <text x="310" y="18" font-size="16" font-weight="bold">4cm</text>
+        <text x="236" y="62" font-size="16" font-weight="bold">2cm</text>
+        <text x="382" y="62" font-size="16" font-weight="bold">2cm</text>
+        <text x="310" y="102" font-size="16" font-weight="bold">2cm</text>
+      </svg>
+    </div>
+    <p>
+      <span class="vi">Hãy ghép 5 mảnh trên để được hình dưới đây :</span>
+      <span class="en">Arrange the 5 pieces above to form the figure below:</span>
+    </p>
+    <div style="text-align:center;margin:10px 0;">
+      <svg width="260" height="200" viewBox="0 0 260 200" style="max-width:100%;background:#fff;border:1px solid #e0e0e0;border-radius:10px;">
+        <polygon points="130,18 35,175 225,175" fill="none" stroke="#111" stroke-width="2.4"/>
+        <text x="42" y="100" font-size="17" font-weight="bold">6cm</text>
+        <text x="184" y="100" font-size="17" font-weight="bold">6cm</text>
+        <text x="114" y="195" font-size="17" font-weight="bold">6cm</text>
+      </svg>
+    </div>
+    <div class="work-box">
+      <label><span class="vi">Mô tả cách ghép của em (Ba mẹ xem lại nhé):</span><span class="en">Describe how you arrange them (Parents, please check):</span></label>
+      <textarea id="work_p2_b6_c1" class="work-area track-inp" placeholder="Em mô tả cách đặt 5 mảnh gỗ..."></textarea>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-show" style="display:inline-block;" onclick="showAns('p2_b6')">
+        <span class="vi">Xem đáp án</span><span class="en">Show answer</span>
+      </button>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b6"></div>
+  </div>
+
+  <!-- Phần II - Bài 7 -->
+  <div class="card" id="card_p2_b7">
+    <div class="ex-head">
+      <span class="vi">Bài 7. Từ 12 giờ đêm hôm trước đến :</span>
+      <span class="en">Exercise 7. From 12 o'clock midnight the night before to:</span>
+    </div>
+
+    <div class="q-row">
+      <b><span class="vi">a) 9 giờ sáng hôm sau có mấy giờ ?</span><span class="en">a) 9 o'clock in the morning the next day, how many hours are there?</span></b>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b7_ca_so" class="num-inp track-inp" placeholder="Số / Number">
+        <input type="text" id="p2_b7_ca_dv" class="unit-inp track-inp" placeholder="giờ / hours">
+        <span id="fb_p2_b7_ca" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="q-row">
+      <b><span class="vi">b) 11 giờ trưa hôm sau có mấy giờ ?</span><span class="en">b) 11 o'clock at noon the next day, how many hours are there?</span></b>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b7_cb_so" class="num-inp track-inp" placeholder="Số / Number">
+        <input type="text" id="p2_b7_cb_dv" class="unit-inp track-inp" placeholder="giờ / hours">
+        <span id="fb_p2_b7_cb" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="q-row">
+      <b><span class="vi">c) 8 giờ tối hôm sau có mấy giờ ?</span><span class="en">c) 8 o'clock in the evening the next day, how many hours are there?</span></b>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b7_cc_so" class="num-inp track-inp" placeholder="Số / Number">
+        <input type="text" id="p2_b7_cc_dv" class="unit-inp track-inp" placeholder="giờ / hours">
+        <span id="fb_p2_b7_cc" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="q-row">
+      <b><span class="vi">d) 10 giờ đêm hôm sau có mấy giờ ?</span><span class="en">d) 10 o'clock at night the next day, how many hours are there?</span></b>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b7_cd_so" class="num-inp track-inp" placeholder="Số / Number">
+        <input type="text" id="p2_b7_cd_dv" class="unit-inp track-inp" placeholder="giờ / hours">
+        <span id="fb_p2_b7_cd" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b7')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b7" onclick="showAns('p2_b7')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b7"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b7"></div>
+  </div>
+
+  <div class="footer-actions">
+    <button type="button" class="btn btn-submit" onclick="submitAll()"><span class="vi">🏆 Nộp bài</span><span class="en">🏆 Submit</span></button>
+    <button type="button" class="btn btn-reset" onclick="resetAll()"><span class="vi">🔄 Làm lại</span><span class="en">🔄 Start over</span></button>
+  </div>
+
+  <div id="summaryBox"></div>
+</div>
+
+<script>
+const STORAGE_KEY = "baitap_tuan16";
+const LANG_KEY = "baitap_lang";
+const PARENT_PIN = "1234";
+
+// Dữ liệu đáp án từ ảnh 6-8
+const ANSWER_KEY = {
+  p1_b2_c1: { kieu: "so", dapan: "thứ bảy", alt: ["thứbảy","thubay","bảy","bay","7","thứ7","thu7","saturday","ngày3tháng12làthứbảy"] },
+  p1_b2_c2: { kieu: "so", dapan: "thứ tư", alt: ["thứtư","thutu","tư","tu","4","thứ4","thu4","wednesday","ngày30tháng4làthứtư"] },
+  p1_b2_c3: { kieu: "so", dapan: "chủ nhật", alt: ["chủnhật","chunhat","chúanhật","cn","sunday","ngày1tháng5làchủnhật"] },
+  p1_b2_c4: { kieu: "so", dapan: "thứ bảy", alt: ["thứbảy","thubay","bảy","bay","7","thứ7","thu7","saturday","ngày1tháng6làthứbảy"] },
+  p1_b2_c5: { kieu: "so", dapan: "thứ hai", alt: ["thứhai","thuhai","hai","2","thứ2","thu2","monday","ngày19tháng5làthứhai"] },
+
+  p1_b3_c1: { kieu: "so", dapan: "22 tháng 3", alt: ["22tháng3","22thang3","ngày22tháng3","22/3","march22","22march"] },
+  p1_b3_c2: { kieu: "so", dapan: "22 tháng 5", alt: ["22tháng5","22thang5","ngày22tháng5","22/5","may22","22may"] },
+  p1_b3_c3: { kieu: "so", dapan: "14 tháng 5", alt: ["14tháng5","14thang5","ngày14tháng5","14/5","may14","14may"] },
+  p1_b3_c4: { kieu: "so", dapan: "17 tháng 4", alt: ["17tháng4","17thang4","ngày17tháng4","17/4","april17","17april"] },
+
+  p1_b4_c1: { kieu: "so", dapan: "27", alt: ["27"] },
+  p1_b4_c2: { kieu: "so", dapan: "55", alt: ["55"] },
+  p1_b4_c3: { kieu: "so", dapan: "40", alt: ["40"] },
+  p1_b4_c4: { kieu: "so", dapan: "76", alt: ["76"] },
+  p1_b4_c5: { kieu: "so", dapan: "45 + 55 = 100", alt: ["45+55=100","55+45=100"] },
+
+  p1_b5_c1: { kieu: "so", dapan: "y = 37", alt: ["37","y=37"] },
+  p1_b5_c2: { kieu: "so", dapan: "y = 19", alt: ["19","y=19"] },
+  p1_b5_c3: { kieu: "so", dapan: "y = 27", alt: ["27","y=27"] },
+  p1_b5_c4: { kieu: "so", dapan: "y = 39", alt: ["39","y=39"] },
+
+  p1_b6_c1: { kieu: "multi", ids: ["p1_b6_c1_1","p1_b6_c1_2"], vals: [["3"],["4"]], text: "36 + 64 = 100" },
+  p1_b6_c2: { kieu: "multi", ids: ["p1_b6_c2_1","p1_b6_c2_2"], vals: [["7"],["2"]], text: "77 + 23 = 100" },
+  p1_b6_c3: { kieu: "multi", ids: ["p1_b6_c3_1","p1_b6_c3_2"], vals: [["4"],["5"]], text: "100 – 45 = 55" },
+  p1_b6_c4: { kieu: "multi", ids: ["p1_b6_c4_1","p1_b6_c4_2"], vals: [["8"],["0"]], text: "100 – 80 = 20" },
+
+  p1_b7_c1: { kieu: "multi", ids: ["p1_b7_c1_1","p1_b7_c1_2"], vals: [["2"],["4"]], text: "23 + 54 = 77" },
+  p1_b7_c2: { kieu: "multi", ids: ["p1_b7_c2_1","p1_b7_c2_2"], vals: [["5"],["7"]], text: "28 + 45 = 73" },
+  p1_b7_c3: { kieu: "multi", ids: ["p1_b7_c3_1","p1_b7_c3_2"], vals: [["1"],["2"]], text: "81 – 27 = 54" },
+  p1_b7_c4: { kieu: "multi", ids: ["p1_b7_c4_1","p1_b7_c4_2"], vals: [["8"],["0"]], text: "80 – 50 = 30" },
+
+  p1_b8_c1: { kieu: "so", dapan: "83 con", alt: ["83","83con","83ducks","83chickens"] },
+
+  p1_b9_a: { kieu: "dungsai", dapan: "Đ" },
+  p1_b9_b: { kieu: "dungsai", dapan: "S" },
+  p1_b9_c: { kieu: "dungsai", dapan: "Đ" },
+  p1_b9_d: { kieu: "dungsai", dapan: "S" },
+  p1_b9_e: { kieu: "dungsai", dapan: "Đ" },
+  p1_b9_g: { kieu: "dungsai", dapan: "Đ" },
+
+  p1_b10_c1: { kieu: "multi", ids: ["p1_b10_c1_s","p1_b10_c1_d"], vals: [["+"],["3"]], text: "57 > 20 + 34 > 45" },
+  p1_b10_c2: { kieu: "multi", ids: ["p1_b10_c2_d1","p1_b10_c2_s","p1_b10_c2_d2"], vals: [["6"],["-"],["1"]], text: "79 < 96 – 16 < 81" },
+  p1_b10_c3: { kieu: "multi", ids: ["p1_b10_c3_s","p1_b10_c3_d"], vals: [["+"],["6"]], text: "80 < 29 + 61 < 100" },
+  p1_b10_c4: { kieu: "multi", ids: ["p1_b10_c4_d","p1_b10_c4_s"], vals: [["1"],["+"]], text: "40 < 13 + 37 < 60" },
+
+  p2_b1_c1: { kieu: "multi", ids: ["p2_b1_c1_a","p2_b1_c1_b","p2_b1_c1_c"], vals: [["10"],["1"],["10"]], text: "Buổi sáng có 10 giờ : từ 1 giờ đến 10 giờ" },
+  p2_b1_c2: { kieu: "multi", ids: ["p2_b1_c2_a","p2_b1_c2_b","p2_b1_c2_c"], vals: [["2"],["11"],["12"]], text: "Buổi trưa có 2 giờ : từ 11 giờ đến 12 giờ" },
+  p2_b1_c3: { kieu: "multi", ids: ["p2_b1_c3_a","p2_b1_c3_b","p2_b1_c3_c"], vals: [["6"],["13","1"],["18","6"]], text: "Buổi chiều có 6 giờ : từ 13 giờ đến 18 giờ" },
+  p2_b1_c4: { kieu: "multi", ids: ["p2_b1_c4_a","p2_b1_c4_b","p2_b1_c4_c"], vals: [["3"],["19","7"],["21","9"]], text: "Buổi tối có 3 giờ : từ 19 giờ đến 21 giờ" },
+  p2_b1_c5: { kieu: "multi", ids: ["p2_b1_c5_a","p2_b1_c5_b","p2_b1_c5_c"], vals: [["3"],["22","10"],["24","12"]], text: "Buổi đêm có 3 giờ : từ 22 giờ đến 24 giờ" },
+  p2_b1_c6: { kieu: "so", dapan: "24 giờ", alt: ["24","24giờ","24gio","24hours"] },
+
+  p2_b3_c1: { kieu: "dapso", so: "86", donvi: ["m","mét","met","m vải","mét vải","metre","metres","meter","meters"] },
+  p2_b4_c1: { kieu: "dapso", so: "10", textHint: "Nhóm thứ nhất nhiều hơn nhóm thứ hai 10 bạn.", donvi: ["bạn","ban","học sinh","hoc sinh","students","student"] },
+  p2_b5_c1: { kieu: "dapso", so: "21", textHint: "Nhóm thứ hai ít hơn nhóm thứ nhất 21 người.", donvi: ["người","nguoi","công nhân","cong nhan","workers","people"] },
+
+  p2_b7_ca: { kieu: "dapso", so: "9", donvi: ["giờ","gio","h","hours","hour"] },
+  p2_b7_cb: { kieu: "dapso", so: "11", donvi: ["giờ","gio","h","hours","hour"] },
+  p2_b7_cc: { kieu: "dapso", so: "20", donvi: ["giờ","gio","h","hours","hour"] },
+  p2_b7_cd: { kieu: "dapso", so: "22", donvi: ["giờ","gio","h","hours","hour"] }
+};
+
+const CARD_MAP = {
+  p1_b2: ["p1_b2_c1","p1_b2_c2","p1_b2_c3","p1_b2_c4","p1_b2_c5"],
+  p1_b3: ["p1_b3_c1","p1_b3_c2","p1_b3_c3","p1_b3_c4"],
+  p1_b4: ["p1_b4_c1","p1_b4_c2","p1_b4_c3","p1_b4_c4","p1_b4_c5"],
+  p1_b5: ["p1_b5_c1","p1_b5_c2","p1_b5_c3","p1_b5_c4"],
+  p1_b6: ["p1_b6_c1","p1_b6_c2","p1_b6_c3","p1_b6_c4"],
+  p1_b7: ["p1_b7_c1","p1_b7_c2","p1_b7_c3","p1_b7_c4"],
+  p1_b8: ["p1_b8_c1"],
+  p1_b9: ["p1_b9_a","p1_b9_b","p1_b9_c","p1_b9_d","p1_b9_e","p1_b9_g"],
+  p1_b10: ["p1_b10_c1","p1_b10_c2","p1_b10_c3","p1_b10_c4"],
+  p2_b1: ["p2_b1_c1","p2_b1_c2","p2_b1_c3","p2_b1_c4","p2_b1_c5","p2_b1_c6"],
+  p2_b3: ["p2_b3_c1"],
+  p2_b4: ["p2_b4_c1"],
+  p2_b5: ["p2_b5_c1"],
+  p2_b7: ["p2_b7_ca","p2_b7_cb","p2_b7_cc","p2_b7_cd"]
+};
+
+let state = { inputs: {}, tf: {}, attempts: {} };
+
+function bi(vi, en) {
+  return `<span class="vi">${vi}</span><span class="en">${en}</span>`;
+}
+function curLang() {
+  return document.documentElement.getAttribute("data-lang") || "vi";
+}
+function setLang(lang) {
+  document.documentElement.setAttribute("lang", lang);
+  document.documentElement.setAttribute("data-lang", lang);
+  document.getElementById("btnVi").classList.toggle("active", lang === "vi");
+  document.getElementById("btnEn").classList.toggle("active", lang === "en");
+  try { localStorage.setItem(LANG_KEY, lang); } catch(e) {}
+}
+
+function normMath(str) {
+  return (str || "").toString().toLowerCase()
+    .replace(/[–—−]/g, "-")
+    .replace(/\s+/g, "");
+}
+
+// True / False (Đ / S)
+function selectTF(qId, val) {
+  state.tf[qId] = (state.tf[qId] === val) ? "" : val;
+  updateTFUI(qId);
+  saveState();
+  updateProgress();
+}
+
+function updateTFUI(qId) {
+  const v = state.tf[qId] || "";
+  const btnD = document.getElementById(`tf_${qId}_D`);
+  const btnS = document.getElementById(`tf_${qId}_S`);
+  if (btnD) btnD.classList.toggle("active-T", v === "Đ");
+  if (btnS) btnS.classList.toggle("active-F", v === "S");
+}
+
+// Grading single item
+function gradeItem(key) {
+  const cfg = ANSWER_KEY[key];
+  if (!cfg) return { score: 0, max: 0 };
+
+  if (cfg.kieu === "so") {
+    const el = document.getElementById(key);
+    const raw = el ? el.value.trim() : "";
+    const fb = document.getElementById(`fb_${key}`);
+    if (!raw) { if (fb) fb.innerHTML = ""; return { score: 0, max: 1, empty: true }; }
+    const nVal = normMath(raw).replace(/^0+(?=\d)/, "");
+    const ok = (cfg.alt || [cfg.dapan]).some(a => normMath(a).replace(/^0+(?=\d)/, "") === nVal);
+    if (fb) {
+      fb.className = "fb " + (ok ? "ok" : "err");
+      fb.innerHTML = ok ? "✔" : "✘";
+    }
+    return { score: ok ? 1 : 0, max: 1 };
+  }
+
+  if (cfg.kieu === "multi") {
+    const fb = document.getElementById(`fb_${key}`);
+    let allEmpty = true;
+    let allOk = true;
+    cfg.ids.forEach((id, idx) => {
+      const el = document.getElementById(id);
+      const raw = el ? el.value.trim() : "";
+      if (raw !== "") allEmpty = false;
+      const nVal = normMath(raw).replace(/^0+(?=\d)/, "");
+      const accepted = cfg.vals[idx].map(v => normMath(v).replace(/^0+(?=\d)/, ""));
+      if (!accepted.includes(nVal)) allOk = false;
+    });
+    if (allEmpty) { if (fb) fb.innerHTML = ""; return { score: 0, max: 1, empty: true }; }
+    if (fb) {
+      fb.className = "fb " + (allOk ? "ok" : "err");
+      fb.innerHTML = allOk ? "✔" : "✘";
+    }
+    return { score: allOk ? 1 : 0, max: 1 };
+  }
+
+  if (cfg.kieu === "dungsai") {
+    const val = state.tf[key] || "";
+    const fb = document.getElementById(`fb_${key}`);
+    if (!val) { if (fb) fb.innerHTML = ""; return { score: 0, max: 1, empty: true }; }
+    const ok = val === cfg.dapan;
+    if (fb) {
+      fb.className = "fb " + (ok ? "ok" : "err");
+      fb.innerHTML = ok ? "✔" : "✘";
+    }
+    return { score: ok ? 1 : 0, max: 1 };
+  }
+
+  if (cfg.kieu === "dapso") {
+    const soEl = document.getElementById(`${key}_so`);
+    const dvEl = document.getElementById(`${key}_dv`);
+    const fb = document.getElementById(`fb_${key}`);
+    const rawSo = soEl ? soEl.value.trim() : "";
+    const rawDv = dvEl ? dvEl.value.trim().toLowerCase() : "";
+    if (!rawSo && !rawDv) { if (fb) fb.innerHTML = ""; return { score: 0, max: 1, empty: true }; }
+    const nums = (rawSo.match(/\d+/g) || []).map(x => x.replace(/^0+(?=\d)/, ""));
+    const numOk = nums.includes(cfg.so);
+    const dvOk = cfg.donvi.some(d => rawDv === d.toLowerCase() || rawSo.toLowerCase().includes(d.toLowerCase()));
+    if (!numOk) {
+      if (fb) { fb.className = "fb err"; fb.innerHTML = "✘"; }
+      return { score: 0, max: 1 };
+    }
+    if (dvOk) {
+      if (fb) { fb.className = "fb ok"; fb.innerHTML = "✔"; }
+      return { score: 1, max: 1 };
+    } else {
+      if (fb) {
+        fb.className = "fb warn";
+        fb.innerHTML = "⚠ " + bi("Đúng số rồi, nhớ ghi đơn vị nhé!", "The number is right, remember the unit!");
+      }
+      return { score: 0.5, max: 1 };
+    }
+  }
+  return { score: 0, max: 1 };
+}
+
+function checkCard(cardId) {
+  const keys = CARD_MAP[cardId] || [];
+  let total = 0, max = 0;
+  keys.forEach(k => {
+    const r = gradeItem(k);
+    total += r.score;
+    max += r.max;
+  });
+  const msgEl = document.getElementById(`msg_${cardId}`);
+  const showBtn = document.getElementById(`show_${cardId}`);
+  if (total === max && max > 0) {
+    if (msgEl) { msgEl.style.color = "#2e7d32"; msgEl.innerHTML = bi("🎉 Giỏi quá!", "🎉 Great job!"); }
+  } else {
+    state.attempts[cardId] = (state.attempts[cardId] || 0) + 1;
+    if (msgEl) { msgEl.style.color = "#c62828"; msgEl.innerHTML = bi("💪 Thử lại nhé!", "💪 Try again!"); }
+    if (state.attempts[cardId] >= 2 && showBtn) showBtn.style.display = "inline-block";
+  }
+}
+
+function formatReveal(cardId) {
+  if (cardId === "p1_b1") {
+    return bi(
+      "<b>Đáp án sách:</b> Xem SGK Toán 3 (Đối chiếu Phần II Bài 1: Buổi sáng từ 1 giờ đến 10 giờ; Buổi trưa từ 11 giờ đến 12 giờ; Buổi chiều từ 1 giờ chiều (hay 13 giờ) đến 6 giờ chiều (hay 18 giờ); Buổi tối từ 7 giờ tối (hay 19 giờ) đến 9 giờ tối (hay 21 giờ); Buổi đêm từ 10 giờ đêm (hay 22 giờ) đến 12 giờ đêm (hay 24 giờ)).",
+      "<b>Book answer:</b> See Grade 3 Math Textbook (Reference from Part II Ex 1: Morning 1:00–10:00; Noon 11:00–12:00; Afternoon 1:00 PM (13:00)–6:00 PM (18:00); Evening 7:00 PM (19:00)–9:00 PM (21:00); Night 10:00 PM (22:00)–12:00 AM (24:00))."
+    );
+  }
+  if (cardId === "p2_b6") {
+    return `
+      <div><b><span class="vi">Bài 6. Cách ghép 5 mảnh gỗ:</span><span class="en">Exercise 6. How to arrange the 5 pieces:</span></b></div>
+      <div style="text-align:center;margin-top:8px;">
+        <svg width="240" height="190" viewBox="0 0 240 190" style="background:#fff;border:1px solid #ccc;border-radius:8px;">
+          <!-- Tam giác lớn: Đỉnh (120,15), Đáy trái (30,171), Đáy phải (210,171) -->
+          <!-- Tầng 1 (cao 1/3): y = 67, từ x=90 đến x=150 (1 tam giác cạnh 2cm) -->
+          <!-- Tầng 2 (cao 2/3): y = 119, từ x=60 đến x=180 (1 hình thang đáy 2cm và 4cm) -->
+          <!-- Tầng 3 (đáy): 2 tam giác ở 2 góc (30,171)-(60,119)-(90,171) và (150,171)-(180,119)-(210,171), ở giữa là hình thang ngược -->
+          <polygon points="120,15 30,171 210,171" fill="none" stroke="#111" stroke-width="2.4"/>
+          <line x1="90" y1="67" x2="150" y2="67" stroke="#111" stroke-width="2"/>
+          <line x1="60" y1="119" x2="180" y2="119" stroke="#111" stroke-width="2"/>
+          <line x1="60" y1="119" x2="90" y2="171" stroke="#111" stroke-width="2"/>
+          <line x1="180" y1="119" x2="150" y2="171" stroke="#111" stroke-width="2"/>
+        </svg>
+      </div>
+    `;
+  }
+  const keys = CARD_MAP[cardId] || [];
+  const lines = keys.map(k => {
+    const c = ANSWER_KEY[k];
+    if (!c) return "";
+    const label = k.split("_").pop();
+    if (c.kieu === "so") return `<b>${label}:</b> ${c.dapan}`;
+    if (c.kieu === "multi") return `<b>${label}:</b> ${c.text}`;
+    if (c.kieu === "dungsai") {
+      const enVal = c.dapan === "Đ" ? "T" : "F";
+      return `<b>${label})</b> <span class="vi">${c.dapan}</span><span class="en">${enVal}</span>`;
+    }
+    if (c.kieu === "dapso") return `<b>${label}:</b> ${c.textHint ? c.textHint : (c.so + " " + c.donvi[0])}`;
+    return "";
+  });
+  return lines.join("<br>");
+}
+
+function showAns(cardId) {
+  const rev = document.getElementById(`rev_${cardId}`);
+  if (!rev) return;
+  rev.innerHTML = formatReveal(cardId);
+  rev.style.display = "block";
+}
+
+function openParentMode() {
+  const lang = curLang();
+  const pin = prompt(lang === "vi" ? "Nhập mã ba mẹ (mặc định 1234):" : "Enter parent PIN (default 1234):");
+  if (pin === PARENT_PIN) {
+    showAns("p1_b1");
+    Object.keys(CARD_MAP).forEach(cid => showAns(cid));
+    showAns("p2_b6");
+  } else if (pin !== null) {
+    alert(lang === "vi" ? "Mã không đúng!" : "Incorrect PIN!");
+  }
+}
+
+function fmtScore(n) {
+  const s = (Math.round(n * 10) / 10).toString();
+  return curLang() === "vi" ? s.replace(".", ",") : s;
+}
+
+function submitAll() {
+  let sc = 0, max = 0;
+  Object.keys(CARD_MAP).forEach(cid => {
+    CARD_MAP[cid].forEach(k => {
+      const r = gradeItem(k);
+      sc += r.score;
+      max += r.max;
+    });
+  });
+  const box = document.getElementById("summaryBox");
+  box.style.display = "block";
+  const pct = max ? sc / max : 0;
+  let praise = bi("Cố gắng thêm chút nữa nhé!", "Keep practicing!");
+  if (pct >= 0.9) praise = bi("🌟 Xuất sắc! Con làm bài rất tốt!", "🌟 Excellent! You did a great job!");
+  else if (pct >= 0.7) praise = bi("👍 Khá lắm! Xem lại vài câu chưa đúng nhé!", "👍 Good job! Review a few missed items!");
+
+  box.innerHTML = `
+    <h3 style="margin-top:0;color:#1976d2;">${bi("📊 Kết quả nộp bài", "📊 Submission Result")}</h3>
+    <p style="font-size:24px;font-weight:700;">
+      ${bi("Điểm số:", "Score:")} <span style="color:#2e7d32">${fmtScore(sc)} / ${max}</span>
+    </p>
+    <p>${praise}</p>
+    <p style="font-size:17px;color:#555;">
+      ${bi("Lưu ý: Phần I Bài 1, Phần II Bài 2, Bài 6 và phần lời giải tự luận ba mẹ kiểm tra giúp bé nhé.", "Note: Parents, please check Part I Ex 1, Part II Ex 2, Ex 6 and written solutions.")}
+    </p>
+  `;
+  try {
+    const hist = JSON.parse(localStorage.getItem(STORAGE_KEY + "_history") || "[]");
+    hist.push({ time: new Date().toISOString(), score: sc, max: max });
+    localStorage.setItem(STORAGE_KEY + "_history", JSON.stringify(hist));
+  } catch(e) {}
+  box.scrollIntoView({ behavior: "smooth" });
+}
+
+function resetAll() {
+  const lang = curLang();
+  if (!confirm(lang === "vi" ? "Con có chắc muốn xóa hết để làm lại từ đầu không?" : "Are you sure you want to clear all answers and start over?")) return;
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  location.reload();
+}
+
+function saveState() {
+  const inputs = {};
+  document.querySelectorAll(".track-inp").forEach(el => { inputs[el.id] = el.value; });
+  state.inputs = inputs;
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const savedLang = localStorage.getItem(LANG_KEY);
+    if (savedLang === "en" || savedLang === "vi") setLang(savedLang);
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (data.inputs) {
+      Object.keys(data.inputs).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = data.inputs[id];
+      });
+    }
+    if (data.tf) {
+      state.tf = data.tf;
+      Object.keys(state.tf).forEach(qId => updateTFUI(qId));
+    }
+  } catch(e) {}
+}
+
+function updateProgress() {
+  let done = 0, total = 0;
+  document.querySelectorAll(".track-inp").forEach(el => {
+    total++;
+    if (el.value.trim() !== "") done++;
+  });
+  // 6 ý Đ/S của Bài 9 Phần I
+  total += 6;
+  ["p1_b9_a","p1_b9_b","p1_b9_c","p1_b9_d","p1_b9_e","p1_b9_g"].forEach(k => { if (state.tf[k]) done++; });
+
+  document.getElementById("progCountVi").textContent = `${done}/${total}`;
+  document.getElementById("progCountEn").textContent = `${done}/${total}`;
+  const pct = total ? Math.round((done/total)*100) : 0;
+  document.getElementById("progFill").style.width = pct + "%";
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  loadState();
+  updateProgress();
+  document.querySelectorAll(".track-inp").forEach(el => {
+    el.addEventListener("input", () => { saveState(); updateProgress(); });
+    el.addEventListener("change", () => { saveState(); updateProgress(); });
+  });
+});
+</script>
+</body>
+</html>

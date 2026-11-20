@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="vi" data-lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TUẦN 31 / WEEK 31</title>
+<style>
+:root {
+  --bg: #f4f9ff;
+  --card: #ffffff;
+  --pri: #1976d2;
+  --pri-light: #e3f2fd;
+  --acc: #ff9800;
+  --ok: #2e7d32;
+  --err: #c62828;
+  --warn: #ef6c00;
+  --txt: #212121;
+  --bdr: #bbdefb;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 82px 14px 40px;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 20px; line-height: 1.55;
+  background: var(--bg); color: var(--txt);
+}
+html[data-lang="vi"] .en { display: none !important; }
+html[data-lang="en"] .vi { display: none !important; }
+
+/* Topbar */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: #fff; border-bottom: 3px solid var(--pri);
+  padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.prog-wrap { flex: 1; max-width: 440px; }
+.prog-txt { font-weight: 700; font-size: 17px; color: var(--pri); margin-bottom: 3px; }
+.prog-bar { height: 12px; background: #e0e0e0; border-radius: 6px; overflow: hidden; }
+.prog-fill { height: 100%; width: 0%; background: linear-gradient(90deg,#42a5f5,#1976d2); transition: width 0.25s; }
+.lang-switch { display: flex; gap: 4px; flex-wrap: wrap; }
+.lang-btn {
+  min-height: 48px; padding: 6px 14px; font-size: 18px; font-weight: 700;
+  border: 2px solid var(--pri); background: #fff; color: var(--pri);
+  border-radius: 10px; cursor: pointer;
+}
+.lang-btn.active { background: var(--pri); color: #fff; }
+.parent-btn {
+  min-height: 48px; padding: 6px 12px; font-size: 16px; font-weight: 700;
+  border: 2px solid #6d4c41; background: #efebe9; color: #4e342e;
+  border-radius: 10px; cursor: pointer;
+}
+
+.container { max-width: 960px; margin: 0 auto; }
+h1 { text-align: center; color: var(--pri); font-size: 32px; margin: 12px 0 18px; }
+h2.part-title {
+  background: var(--pri); color: #fff; padding: 10px 16px;
+  border-radius: 12px; font-size: 24px; margin: 24px 0 14px;
+}
+.section-guide {
+  font-style: italic; font-weight: 700; color: #0d47a1;
+  margin: 12px 4px; font-size: 21px;
+}
+
+/* Vocabulary */
+details.vocab {
+  background: #fff8e1; border: 2px solid #ffe082; border-radius: 12px;
+  padding: 10px 16px; margin-bottom: 18px;
+}
+details.vocab summary {
+  font-weight: 700; font-size: 20px; cursor: pointer; color: #e65100;
+}
+.vocab-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 8px 16px; margin-top: 10px; font-size: 18px;
+}
+.vocab-item { background: #fff; padding: 6px 10px; border-radius: 8px; border: 1px solid #ffe082; }
+
+/* Card */
+.card {
+  background: var(--card); border: 2px solid var(--bdr); border-radius: 16px;
+  padding: 16px 18px; margin-bottom: 18px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.04);
+}
+.ex-head { font-weight: 700; font-size: 22px; color: #0d47a1; margin-bottom: 12px; }
+.q-row { margin: 14px 0; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px 18px; }
+
+/* Inputs */
+input.inline-inp {
+  font-size: 20px; padding: 5px 10px; width: 220px; max-width: 100%;
+  border: none; border-bottom: 3px solid var(--pri); background: #f0f7ff;
+  border-radius: 6px 6px 0 0; text-align: center; font-weight: 700; color: #0d47a1;
+}
+input.inline-inp.tiny { width: 72px; }
+input.inline-inp.short { width: 135px; }
+input.inline-inp.wide { width: 280px; }
+input.inline-inp:focus { outline: 2px solid var(--acc); background: #fffde7; }
+
+/* Arrow schema (Bài 1) */
+.schema-row {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+  margin: 14px 0; padding: 8px; background: #fafcff; border-radius: 12px;
+}
+.schema-num { font-weight: 700; width: 32px; }
+.oval {
+  width: 112px; height: 60px; border: 2.5px solid #212121; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #fff; font-weight: 700; font-size: 20px;
+}
+.oval input {
+  width: 86px; border: none; border-bottom: 2px dashed var(--pri);
+  text-align: center; font-size: 19px; font-weight: 700; background: transparent; color: #0d47a1;
+}
+.oval input:focus { outline: none; background: #fff9c4; }
+.arrow-seg {
+  display: inline-flex; flex-direction: column; align-items: center; min-width: 96px;
+}
+.arrow-lbl { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+.arrow-line {
+  width: 88px; height: 3px; background: #212121; position: relative;
+}
+.arrow-line::after {
+  content: ""; position: absolute; right: -2px; top: -5px;
+  border-left: 10px solid #212121; border-top: 6px solid transparent; border-bottom: 6px solid transparent;
+}
+
+/* Sign & Star boxes (Bài 6, 7) */
+.expr-line {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+  font-size: 21px; font-weight: 700; margin: 10px 0;
+  background: #fafcff; padding: 8px 12px; border-radius: 10px; border: 1px solid #e3f2fd;
+}
+select.box-sel {
+  width: 58px; height: 44px; font-size: 22px; font-weight: 700;
+  text-align: center; border: 2.5px solid var(--pri); border-radius: 8px;
+  background: #fff; color: #0d47a1; cursor: pointer;
+}
+input.star-inp {
+  width: 36px; height: 42px; font-size: 21px; font-weight: 700;
+  text-align: center; border: 2.5px solid var(--pri); border-radius: 8px;
+  background: #fffde7; color: #d84315; padding: 0;
+}
+input.star-inp:focus { outline: 2px solid var(--acc); background: #fff; }
+
+/* Tự luận */
+.work-box {
+  background: #f9fbe7; border: 2px dashed #c0ca33; border-radius: 12px;
+  padding: 12px; margin-top: 8px;
+}
+.work-box label { font-weight: 700; font-size: 18px; display: block; margin-bottom: 4px; color: #33691e; }
+.work-area {
+  width: 100%; min-height: 75px; font-size: 19px; padding: 8px;
+  border: 1.5px solid #cddc39; border-radius: 8px; resize: vertical; font-family: inherit;
+}
+.ans-line { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.ans-line input.num-inp {
+  width: 140px; font-size: 20px; padding: 6px 8px; border: 2px solid var(--pri);
+  border-radius: 8px; font-weight: 700; text-align: center;
+}
+.ans-line input.unit-inp {
+  width: 190px; font-size: 20px; padding: 6px 8px; border: 2px solid #64b5f6;
+  border-radius: 8px;
+}
+
+/* Feedback & Buttons */
+.fb { font-weight: 700; font-size: 18px; margin-left: 6px; }
+.fb.ok { color: var(--ok); }
+.fb.err { color: var(--err); }
+.fb.warn { color: var(--warn); }
+.card-actions { margin-top: 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.btn {
+  min-height: 46px; padding: 8px 16px; font-size: 18px; font-weight: 700;
+  border: none; border-radius: 10px; cursor: pointer;
+}
+.btn-check { background: var(--pri); color: #fff; }
+.btn-show { background: var(--acc); color: #fff; display: none; }
+.card-msg { font-weight: 700; font-size: 18px; }
+.ans-reveal {
+  margin-top: 10px; padding: 10px 12px; background: #fff3e0;
+  border-left: 4px solid var(--acc); border-radius: 8px; font-size: 18px; display: none;
+}
+
+/* Footer actions */
+.footer-actions {
+  display: flex; justify-content: center; gap: 16px; margin: 28px 0; flex-wrap: wrap;
+}
+.btn-submit { background: #2e7d32; color: #fff; font-size: 22px; padding: 12px 28px; min-height: 54px; }
+.btn-reset { background: #d32f2f; color: #fff; font-size: 22px; padding: 12px 28px; min-height: 54px; }
+#summaryBox {
+  background: #fff; border: 3px solid var(--pri); border-radius: 16px;
+  padding: 18px; margin-top: 16px; display: none;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="prog-wrap">
+    <div class="prog-txt">
+      <span class="vi">Tiến độ: <span id="progCountVi">0/0</span> ô</span>
+      <span class="en">Progress: <span id="progCountEn">0/0</span> boxes</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+  </div>
+  <div class="lang-switch">
+    <button type="button" class="lang-btn active" id="btnVi" onclick="setLang('vi')">🇻🇳 Tiếng Việt</button>
+    <button type="button" class="lang-btn" id="btnEn" onclick="setLang('en')">🇬🇧 English</button>
+    <button type="button" class="parent-btn" onclick="openParentMode()">
+      <span class="vi">🔒 Chế độ ba mẹ</span><span class="en">🔒 Parent mode</span>
+    </button>
+  </div>
+</div>
+
+<div class="container">
+  <h1><span class="vi">TUẦN 31</span><span class="en">WEEK 31</span></h1>
+
+  <details class="vocab">
+    <summary><span class="vi">📘 Từ vựng / Vocabulary</span><span class="en">📘 Vocabulary / Từ vựng</span></summary>
+    <div class="vocab-grid">
+      <div class="vocab-item"><b>tờ giấy bạc / đồng</b> – banknote / dong</div>
+      <div class="vocab-item"><b>số tròn trăm / số tròn chục</b> – a round hundred / a round ten</div>
+      <div class="vocab-item"><b>số có ba chữ số giống nhau</b> – a three-digit number with the same digits</div>
+      <div class="vocab-item"><b>số liền trước / số liền sau</b> – the number just before / the number just after</div>
+      <div class="vocab-item"><b>hiệu / phép trừ</b> – difference / subtraction</div>
+      <div class="vocab-item"><b>giá trị của y</b> – the value of y</div>
+      <div class="vocab-item"><b>ngắn hơn / dài hơn / nhiều hơn</b> – shorter than / longer than / more than</div>
+      <div class="vocab-item"><b>lít (l) / ki-lô-gam (kg) / mét (m) / ki-lô-mét (km)</b> – litre / kilogram / metre / kilometre</div>
+    </div>
+  </details>
+
+  <!-- ==================== PHẦN I ==================== -->
+  <h2 class="part-title">
+    <span class="vi">Phần I. Trắc nghiệm khách quan</span>
+    <span class="en">Part I. Objective questions</span>
+  </h2>
+
+  <!-- Phần I - Bài 1 -->
+  <div class="card" id="card_p1_b1">
+    <div class="ex-head">
+      <span class="vi">Bài 1. <i>Số ?</i></span>
+      <span class="en">Exercise 1. <i>Write the missing number.</i></span>
+    </div>
+
+    <div class="schema-row">
+      <span class="schema-num">1.</span>
+      <div class="oval"><input type="text" id="p1_b1_c1" class="track-inp" placeholder="?"></div>
+      <span id="fb_p1_b1_c1" class="fb"></span>
+      <div class="arrow-seg"><span class="arrow-lbl">+ 221<i>l</i></span><div class="arrow-line"></div></div>
+      <div class="oval"><input type="text" id="p1_b1_c1_mid" class="track-inp"></div>
+      <div class="arrow-seg"><span class="arrow-lbl">+ 254<i>l</i></span><div class="arrow-line"></div></div>
+      <div class="oval">579<i>l</i></div>
+    </div>
+
+    <div class="schema-row">
+      <span class="schema-num">2.</span>
+      <div class="oval"><input type="text" id="p1_b1_c2" class="track-inp" placeholder="?"></div>
+      <span id="fb_p1_b1_c2" class="fb"></span>
+      <div class="arrow-seg"><span class="arrow-lbl">+ 120kg</span><div class="arrow-line"></div></div>
+      <div class="oval"><input type="text" id="p1_b1_c2_mid" class="track-inp"></div>
+      <div class="arrow-seg"><span class="arrow-lbl">+ 345kg</span><div class="arrow-line"></div></div>
+      <div class="oval">696kg</div>
+    </div>
+
+    <div class="schema-row">
+      <span class="schema-num">3.</span>
+      <div class="oval"><input type="text" id="p1_b1_c3" class="track-inp" placeholder="?"></div>
+      <span id="fb_p1_b1_c3" class="fb"></span>
+      <div class="arrow-seg"><span class="arrow-lbl">+ 234m</span><div class="arrow-line"></div></div>
+      <div class="oval"><input type="text" id="p1_b1_c3_mid" class="track-inp"></div>
+      <div class="arrow-seg"><span class="arrow-lbl">+ 204m</span><div class="arrow-line"></div></div>
+      <div class="oval">558m</div>
+    </div>
+
+    <div class="schema-row">
+      <span class="schema-num">4.</span>
+      <div class="oval"><input type="text" id="p1_b1_c4" class="track-inp" placeholder="?"></div>
+      <span id="fb_p1_b1_c4" class="fb"></span>
+      <div class="arrow-seg"><span class="arrow-lbl">+ 135km</span><div class="arrow-line"></div></div>
+      <div class="oval"><input type="text" id="p1_b1_c4_mid" class="track-inp"></div>
+      <div class="arrow-seg"><span class="arrow-lbl">+ 224km</span><div class="arrow-line"></div></div>
+      <div class="oval">559km</div>
+    </div>
+
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b1')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b1" onclick="showAns('p1_b1')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b1"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b1"></div>
+  </div>
+
+  <div class="section-guide">
+    <span class="vi">Điền chữ hoặc số thích hợp vào chỗ chấm.</span>
+    <span class="en">Fill in each blank with a suitable word or number.</span>
+  </div>
+
+  <!-- Phần I - Bài 2 -->
+  <div class="card" id="card_p1_b2">
+    <div class="ex-head"><span class="vi">Bài 2.</span><span class="en">Exercise 2.</span></div>
+
+    <div class="q-row">
+      <span class="vi">1. Mẹ mua rau hết 600 đồng. Mẹ đưa cho cô bán hàng tờ giấy bạc 1000 đồng. Cô bán hàng trả lại mẹ :</span>
+      <span class="en">1. Mother bought vegetables for 600 dong. She gave the seller a 1000-dong banknote. The seller gave her back:</span>
+      <div style="margin-top:6px;">
+        a) <input type="text" id="p1_b2_c1_a" class="inline-inp tiny track-inp">
+        <span class="vi">tờ 100 đồng</span><span class="en">100-dong banknotes</span>
+        <span id="fb_p1_b2_c1_a" class="fb"></span>
+      </div>
+      <div style="margin-top:6px;">
+        <span class="vi">b) Hoặc</span><span class="en">b) Or</span>
+        <input type="text" id="p1_b2_c1_b" class="inline-inp tiny track-inp">
+        <span class="vi">tờ 200 đồng</span><span class="en">200-dong banknotes</span>
+        <span id="fb_p1_b2_c1_b" class="fb"></span>
+      </div>
+      <div style="margin-top:6px;">
+        <span class="vi">c) Hoặc</span><span class="en">c) Or</span>
+        <input type="text" id="p1_b2_c1_c1" class="inline-inp tiny track-inp">
+        <span class="vi">tờ 100 đồng và</span><span class="en">100-dong banknotes and</span>
+        <input type="text" id="p1_b2_c1_c2" class="inline-inp tiny track-inp">
+        <span class="vi">tờ 200 đồng</span><span class="en">200-dong banknote</span>
+        <span id="fb_p1_b2_c1_c" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="q-row">
+      <span class="vi">2. Đổi tờ giấy bạc 1000 đồng để lấy cả ba loại giấy bạc 500 đồng, 200 đồng và 100 đồng. Vậy mỗi loại giấy bạc nhận được là</span>
+      <span class="en">2. Exchange a 1000-dong banknote for all three types of banknotes: 500 dong, 200 dong, and 100 dong. So the number of each type received is:</span>
+      <div style="margin-top:6px;">
+        a) <input type="text" id="p1_b2_c2_a1" class="inline-inp tiny track-inp">
+        <span class="vi">tờ 500 đồng,</span><span class="en">500-dong note(s),</span>
+        <input type="text" id="p1_b2_c2_a2" class="inline-inp tiny track-inp">
+        <span class="vi">tờ 200 đồng và</span><span class="en">200-dong note(s) and</span>
+        <input type="text" id="p1_b2_c2_a3" class="inline-inp tiny track-inp">
+        <span class="vi">tờ 100 đồng</span><span class="en">100-dong note(s)</span>
+        <span id="fb_p1_b2_c2_a" class="fb"></span>
+      </div>
+      <div style="margin-top:6px;">
+        <span class="vi">b) Hoặc</span><span class="en">b) Or</span>
+        <input type="text" id="p1_b2_c2_b1" class="inline-inp tiny track-inp">
+        <span class="vi">tờ 500 đồng,</span><span class="en">500-dong note(s),</span>
+        <input type="text" id="p1_b2_c2_b2" class="inline-inp tiny track-inp">
+        <span class="vi">tờ 200 đồng và</span><span class="en">200-dong note(s) and</span>
+        <input type="text" id="p1_b2_c2_b3" class="inline-inp tiny track-inp">
+        <span class="vi">tờ 100 đồng</span><span class="en">100-dong note(s)</span>
+        <span id="fb_p1_b2_c2_b" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b2')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b2" onclick="showAns('p1_b2')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b2"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b2"></div>
+  </div>
+
+  <!-- Phần I - Bài 3 -->
+  <div class="card" id="card_p1_b3">
+    <div class="ex-head"><span class="vi">Bài 3.</span><span class="en">Exercise 3.</span></div>
+
+    <div class="q-row">
+      <span class="vi">1. Hiệu của hai số tròn trăm có ba chữ số bằng 300. Vậy phép trừ là :</span>
+      <span class="en">1. The difference of two three-digit round hundreds is 300. So the subtraction is:</span>
+      <div class="grid-2" style="margin-top:8px;">
+        <div>a) <input type="text" id="p1_b3_c1_a" class="inline-inp track-inp"><span id="fb_p1_b3_c1_a" class="fb"></span></div>
+        <div>b) <input type="text" id="p1_b3_c1_b" class="inline-inp track-inp"><span id="fb_p1_b3_c1_b" class="fb"></span></div>
+        <div>c) <input type="text" id="p1_b3_c1_c" class="inline-inp track-inp"><span id="fb_p1_b3_c1_c" class="fb"></span></div>
+        <div>d) <input type="text" id="p1_b3_c1_d" class="inline-inp track-inp"><span id="fb_p1_b3_c1_d" class="fb"></span></div>
+        <div>e) <input type="text" id="p1_b3_c1_e" class="inline-inp track-inp"><span id="fb_p1_b3_c1_e" class="fb"></span></div>
+        <div>g) <input type="text" id="p1_b3_c1_g" class="inline-inp track-inp"><span id="fb_p1_b3_c1_g" class="fb"></span></div>
+      </div>
+    </div>
+
+    <div class="q-row">
+      <span class="vi">2. Hiệu của hai số có ba chữ số giống nhau bằng 888. Vậy phép trừ là :</span>
+      <span class="en">2. The difference of two three-digit numbers with the same digits is 888. So the subtraction is:</span>
+      <input type="text" id="p1_b3_c2" class="inline-inp wide track-inp"><span id="fb_p1_b3_c2" class="fb"></span>
+    </div>
+
+    <div class="q-row">
+      <span class="vi">3. Hiệu của hai số có ba chữ số giống nhau là số nhỏ nhất có ba chữ số giống nhau. Vậy phép trừ là :</span>
+      <span class="en">3. The difference of two three-digit numbers with the same digits is the smallest three-digit number with the same digits. So the subtraction is:</span>
+      <div class="grid-2" style="margin-top:8px;">
+        <div>a) <input type="text" id="p1_b3_c3_a" class="inline-inp track-inp"><span id="fb_p1_b3_c3_a" class="fb"></span></div>
+        <div>b) <input type="text" id="p1_b3_c3_b" class="inline-inp track-inp"><span id="fb_p1_b3_c3_b" class="fb"></span></div>
+        <div>c) <input type="text" id="p1_b3_c3_c" class="inline-inp track-inp"><span id="fb_p1_b3_c3_c" class="fb"></span></div>
+        <div>d) <input type="text" id="p1_b3_c3_d" class="inline-inp track-inp"><span id="fb_p1_b3_c3_d" class="fb"></span></div>
+        <div>e) <input type="text" id="p1_b3_c3_e" class="inline-inp track-inp"><span id="fb_p1_b3_c3_e" class="fb"></span></div>
+        <div>g) <input type="text" id="p1_b3_c3_g" class="inline-inp track-inp"><span id="fb_p1_b3_c3_g" class="fb"></span></div>
+        <div>h) <input type="text" id="p1_b3_c3_h" class="inline-inp track-inp"><span id="fb_p1_b3_c3_h" class="fb"></span></div>
+        <div>i) <input type="text" id="p1_b3_c3_i" class="inline-inp track-inp"><span id="fb_p1_b3_c3_i" class="fb"></span></div>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b3')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b3" onclick="showAns('p1_b3')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b3"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b3"></div>
+  </div>
+
+  <!-- Phần I - Bài 4 -->
+  <div class="card" id="card_p1_b4">
+    <div class="ex-head"><span class="vi">Bài 4.</span><span class="en">Exercise 4.</span></div>
+
+    <div class="q-row">
+      <span class="vi">1. Khi trừ số có ba chữ số là số liền sau của số tròn chục cho số có hai chữ số giống nhau được kết quả bằng 880. Vậy phép trừ là :</span>
+      <span class="en">1. When subtracting a two-digit number with the same digits from a three-digit number that is just after a round ten, we get 880. So the subtraction is:</span>
+      <input type="text" id="p1_b4_c1" class="inline-inp wide track-inp"><span id="fb_p1_b4_c1" class="fb"></span>
+    </div>
+
+    <div class="q-row">
+      <span class="vi">2. Khi trừ số có ba chữ số là số liền trước của số tròn chục cho số có ba chữ số giống nhau được kết quả bằng 346. Vậy phép trừ là :</span>
+      <span class="en">2. When subtracting a three-digit number with the same digits from a three-digit number that is just before a round ten, we get 346. So the subtraction is:</span>
+      <input type="text" id="p1_b4_c2" class="inline-inp wide track-inp"><span id="fb_p1_b4_c2" class="fb"></span>
+    </div>
+
+    <div class="q-row">
+      <span class="vi">3. Khi trừ số có ba chữ số là số liền sau của số tròn chục cho số có ba chữ số giống nhau ta được kết quả bằng 570. Vậy phép trừ là :</span>
+      <span class="en">3. When subtracting a three-digit number with the same digits from a three-digit number that is just after a round ten, we get 570. So the subtraction is:</span>
+      <input type="text" id="p1_b4_c3" class="inline-inp wide track-inp"><span id="fb_p1_b4_c3" class="fb"></span>
+    </div>
+
+    <div class="q-row">
+      <span class="vi">4. Khi trừ số có ba chữ số là số liền trước của số tròn trăm cho số có hai chữ số là số liền sau của số tròn chục ta được kết quả bằng 568. Vậy phép trừ là :</span>
+      <span class="en">4. When subtracting a two-digit number that is just after a round ten from a three-digit number that is just before a round hundred, we get 568. So the subtraction is:</span>
+      <input type="text" id="p1_b4_c4" class="inline-inp wide track-inp"><span id="fb_p1_b4_c4" class="fb"></span>
+    </div>
+
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b4')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b4" onclick="showAns('p1_b4')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b4"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b4"></div>
+  </div>
+
+  <!-- Phần I - Bài 5 -->
+  <div class="card" id="card_p1_b5">
+    <div class="ex-head"><span class="vi">Bài 5.</span><span class="en">Exercise 5.</span></div>
+    <div class="q-row">
+      <span class="vi">1. Giá trị thích hợp của y để 312 + y = 989 – 541 là :</span>
+      <span class="en">1. The suitable value of y so that 312 + y = 989 – 541 is:</span>
+      <input type="text" id="p1_b5_c1" class="inline-inp short track-inp"><span id="fb_p1_b5_c1" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">2. Giá trị thích hợp của y để 999 – y = 132 + 456 là :</span>
+      <span class="en">2. The suitable value of y so that 999 – y = 132 + 456 is:</span>
+      <input type="text" id="p1_b5_c2" class="inline-inp short track-inp"><span id="fb_p1_b5_c2" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">3. Giá trị thích hợp của y để y + 122 = 786 – 261 là :</span>
+      <span class="en">3. The suitable value of y so that y + 122 = 786 – 261 is:</span>
+      <input type="text" id="p1_b5_c3" class="inline-inp short track-inp"><span id="fb_p1_b5_c3" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">4. Giá trị thích hợp của y để y – 366 = 664 – 133 là :</span>
+      <span class="en">4. The suitable value of y so that y – 366 = 664 – 133 is:</span>
+      <input type="text" id="p1_b5_c4" class="inline-inp short track-inp"><span id="fb_p1_b5_c4" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">5. Giá trị thích hợp của y để 143 + y = 599 – 221 là :</span>
+      <span class="en">5. The suitable value of y so that 143 + y = 599 – 221 is:</span>
+      <input type="text" id="p1_b5_c5" class="inline-inp short track-inp"><span id="fb_p1_b5_c5" class="fb"></span>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b5')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b5" onclick="showAns('p1_b5')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b5"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b5"></div>
+  </div>
+
+  <!-- Phần I - Bài 6 -->
+  <div class="card" id="card_p1_b6">
+    <div class="ex-head">
+      <span class="vi">Bài 6. <i>Điền dấu "+", "–" thích hợp vào ô trống cho thích hợp.</i></span>
+      <span class="en">Exercise 6. <i>Write the sign "+" or "–" in each box to make it correct.</i></span>
+    </div>
+
+    <div class="expr-line">
+      <span>1. &nbsp; 678</span>
+      <select id="p1_b6_c1_1" class="box-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+      <span>120</span>
+      <select id="p1_b6_c1_2" class="box-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+      <span>226 = 572</span>
+      <span id="fb_p1_b6_c1" class="fb"></span>
+    </div>
+
+    <div class="expr-line">
+      <span>2. &nbsp; 203</span>
+      <select id="p1_b6_c2_1" class="box-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+      <span>623</span>
+      <select id="p1_b6_c2_2" class="box-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+      <span>305 = 521</span>
+      <span id="fb_p1_b6_c2" class="fb"></span>
+    </div>
+
+    <div class="expr-line">
+      <span>3. &nbsp; 897</span>
+      <select id="p1_b6_c3_1" class="box-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+      <span>275</span>
+      <select id="p1_b6_c3_2" class="box-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+      <span>301 = 321</span>
+      <span id="fb_p1_b6_c3" class="fb"></span>
+    </div>
+
+    <div class="expr-line">
+      <span>4. &nbsp; 489</span>
+      <select id="p1_b6_c4_1" class="box-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+      <span>158</span>
+      <select id="p1_b6_c4_2" class="box-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+      <span>602 = 933</span>
+      <span id="fb_p1_b6_c4" class="fb"></span>
+    </div>
+
+    <div class="expr-line">
+      <span>5. &nbsp; 396</span>
+      <select id="p1_b6_c5_1" class="box-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+      <span>175</span>
+      <select id="p1_b6_c5_2" class="box-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+      <span>655 = 876</span>
+      <span id="fb_p1_b6_c5" class="fb"></span>
+    </div>
+
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b6')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b6" onclick="showAns('p1_b6')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b6"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b6"></div>
+  </div>
+
+  <!-- Phần I - Bài 7 -->
+  <div class="card" id="card_p1_b7">
+    <div class="ex-head">
+      <span class="vi">Bài 7. <i>Điền dấu "+", "–" thích hợp vào ô trống sau đó điền chữ số thích hợp thay cho dấu "*".</i></span>
+      <span class="en">Exercise 7. <i>Write the sign "+" or "–" in each box, then fill in a suitable digit to replace each "*".</i></span>
+    </div>
+
+    <div class="expr-line">
+      <span>1. &nbsp; 598 &lt; 2</span><input type="text" maxlength="1" id="p1_b7_c1_d1" class="star-inp track-inp" placeholder="*"><span>8</span>
+      <select id="p1_b7_c1_s" class="box-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+      <input type="text" maxlength="1" id="p1_b7_c1_d2" class="star-inp track-inp" placeholder="*"><span>2</span><input type="text" maxlength="1" id="p1_b7_c1_d3" class="star-inp track-inp" placeholder="*"><span> &lt; 600</span>
+      <span id="fb_p1_b7_c1" class="fb"></span>
+    </div>
+
+    <div class="expr-line">
+      <span>2. &nbsp; 1000 &gt; 62</span><input type="text" maxlength="1" id="p1_b7_c2_d1" class="star-inp track-inp" placeholder="*">
+      <select id="p1_b7_c2_s" class="box-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+      <input type="text" maxlength="1" id="p1_b7_c2_d2" class="star-inp track-inp" placeholder="*"><input type="text" maxlength="1" id="p1_b7_c2_d3" class="star-inp track-inp" placeholder="*"><span>4 &gt; 998</span>
+      <span id="fb_p1_b7_c2" class="fb"></span>
+    </div>
+
+    <div class="expr-line">
+      <span>3. &nbsp; 228 &lt; </span><input type="text" maxlength="1" id="p1_b7_c3_d1" class="star-inp track-inp" placeholder="*"><span>8</span><input type="text" maxlength="1" id="p1_b7_c3_d2" class="star-inp track-inp" placeholder="*">
+      <select id="p1_b7_c3_s" class="box-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+      <span>4</span><input type="text" maxlength="1" id="p1_b7_c3_d3" class="star-inp track-inp" placeholder="*"><span>0 &lt; 230</span>
+      <span id="fb_p1_b7_c3" class="fb"></span>
+    </div>
+
+    <div class="expr-line">
+      <span>4. &nbsp; 618 &gt; 8</span><input type="text" maxlength="1" id="p1_b7_c4_d1" class="star-inp track-inp" placeholder="*"><span>7</span>
+      <select id="p1_b7_c4_s" class="box-sel track-inp"><option value=""></option><option value="+">+</option><option value="-">–</option></select>
+      <input type="text" maxlength="1" id="p1_b7_c4_d2" class="star-inp track-inp" placeholder="*"><span>5</span><input type="text" maxlength="1" id="p1_b7_c4_d3" class="star-inp track-inp" placeholder="*"><span> &gt; 616</span>
+      <span id="fb_p1_b7_c4" class="fb"></span>
+    </div>
+
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b7')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b7" onclick="showAns('p1_b7')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b7"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b7"></div>
+  </div>
+
+  <!-- ==================== PHẦN II ==================== -->
+  <h2 class="part-title">
+    <span class="vi">Phần II. Tự luận</span>
+    <span class="en">Part II. Written problems</span>
+  </h2>
+
+  <!-- Phần II - Bài 1 -->
+  <div class="card" id="card_p2_b1">
+    <div class="ex-head"><span class="vi">Bài 1.</span><span class="en">Exercise 1.</span></div>
+    <p>
+      <span class="vi">Khi trừ số liền trước của số tròn trăm với số liền sau của một số tròn trăm khác ta được hiệu bằng 898. Tìm phép trừ đó.</span>
+      <span class="en">When subtracting the number just after another round hundred from the number just before a round hundred, we get the difference of 898. Find that subtraction.</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b1_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Phép trừ đó là / Đáp số:</span><span class="en">That subtraction is / Answer:</span></b>
+        <input type="text" id="p2_b1_c1" class="inline-inp wide track-inp" placeholder="... – ... = 898">
+        <span id="fb_p2_b1_c1" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b1')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b1" onclick="showAns('p2_b1')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b1"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b1"></div>
+  </div>
+
+  <!-- Phần II - Bài 2 -->
+  <div class="card" id="card_p2_b2">
+    <div class="ex-head"><span class="vi">Bài 2.</span><span class="en">Exercise 2.</span></div>
+    <p>
+      <span class="vi">Khi trừ số liền sau của số tròn trăm với số liền sau của một số tròn trăm khác ta được hiệu bằng 800. Tìm phép trừ đó.</span>
+      <span class="en">When subtracting the number just after another round hundred from the number just after a round hundred, we get the difference of 800. Find that subtraction.</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b2_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Phép trừ đó là / Đáp số:</span><span class="en">That subtraction is / Answer:</span></b>
+        <input type="text" id="p2_b2_c1" class="inline-inp wide track-inp" placeholder="... – ... = 800">
+        <span id="fb_p2_b2_c1" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b2')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b2" onclick="showAns('p2_b2')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b2"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b2"></div>
+  </div>
+
+  <!-- Phần II - Bài 3 -->
+  <div class="card" id="card_p2_b3">
+    <div class="ex-head"><span class="vi">Bài 3.</span><span class="en">Exercise 3.</span></div>
+    <p>
+      <span class="vi">Có hai cuộn dây, cuộn thứ hai ngắn hơn cuộn thứ nhất 134m. Sau khi cắt ở cuộn thứ nhất đi một đoạn thì cuộn thứ nhất còn lại 232m và dài hơn cuộn thứ hai 21m. Hỏi :</span>
+      <span class="en">There are two rolls of wire, the second roll is 134m shorter than the first roll. After cutting a piece from the first roll, the first roll has 232m left and is 21m longer than the second roll. Ask:</span>
+    </p>
+
+    <div class="q-row">
+      <b><span class="vi">1. Cuộn dây thứ hai dài bao nhiêu mét ?</span><span class="en">1. How many metres long is the second roll of wire?</span></b>
+      <div class="work-box">
+        <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+        <textarea id="work_p2_b3_c1" class="work-area track-inp"></textarea>
+        <div class="ans-line">
+          <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+          <input type="text" id="p2_b3_c1_so" class="num-inp track-inp" placeholder="Số / Number">
+          <input type="text" id="p2_b3_c1_dv" class="unit-inp track-inp" placeholder="m / mét">
+          <span id="fb_p2_b3_c1" class="fb"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-row">
+      <b><span class="vi">2. Trước khi cắt, cuộn dây thứ nhất dài bao nhiêu mét ?</span><span class="en">2. Before cutting, how many metres long was the first roll of wire?</span></b>
+      <div class="work-box">
+        <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+        <textarea id="work_p2_b3_c2" class="work-area track-inp"></textarea>
+        <div class="ans-line">
+          <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+          <input type="text" id="p2_b3_c2_so" class="num-inp track-inp" placeholder="Số / Number">
+          <input type="text" id="p2_b3_c2_dv" class="unit-inp track-inp" placeholder="m / mét">
+          <span id="fb_p2_b3_c2" class="fb"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b3')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b3" onclick="showAns('p2_b3')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b3"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b3"></div>
+  </div>
+
+  <!-- Phần II - Bài 4 -->
+  <div class="card" id="card_p2_b4">
+    <div class="ex-head"><span class="vi">Bài 4.</span><span class="en">Exercise 4.</span></div>
+    <p>
+      <span class="vi">Đổ thêm 46<i>l</i> dầu vào can thứ nhất thì can thứ nhất có 178<i>l</i> dầu và nhiều hơn can thứ hai 32<i>l</i> dầu. Hỏi :</span>
+      <span class="en">After pouring 46<i>l</i> more oil into the first can, the first can has 178<i>l</i> of oil and has 32<i>l</i> of oil more than the second can. Ask:</span>
+    </p>
+
+    <div class="q-row">
+      <b><span class="vi">1. Can thứ hai có bao nhiêu lít dầu ?</span><span class="en">1. How many litres of oil does the second can have?</span></b>
+      <div class="work-box">
+        <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+        <textarea id="work_p2_b4_c1" class="work-area track-inp"></textarea>
+        <div class="ans-line">
+          <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+          <input type="text" id="p2_b4_c1_so" class="num-inp track-inp" placeholder="Số / Number">
+          <input type="text" id="p2_b4_c1_dv" class="unit-inp track-inp" placeholder="lít dầu / l">
+          <span id="fb_p2_b4_c1" class="fb"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-row">
+      <b><span class="vi">2. Trước khi đổ thêm thì can nào có nhiều dầu hơn ? Nhiều hơn bao nhiêu lít dầu ?</span><span class="en">2. Before pouring more oil, which can had more oil? How many litres of oil more?</span></b>
+      <div class="work-box">
+        <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+        <textarea id="work_p2_b4_c2" class="work-area track-inp"></textarea>
+        <div class="ans-line">
+          <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+          <input type="text" id="p2_b4_c2_so" class="num-inp track-inp" style="width:270px;" placeholder="Can thứ hai nhiều hơn, 14">
+          <input type="text" id="p2_b4_c2_dv" class="unit-inp track-inp" placeholder="lít dầu / l">
+          <span id="fb_p2_b4_c2" class="fb"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b4')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b4" onclick="showAns('p2_b4')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b4"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b4"></div>
+  </div>
+
+  <!-- Phần II - Bài 5 -->
+  <div class="card" id="card_p2_b5">
+    <div class="ex-head">
+      <span class="vi">Bài 5. Đặt một đề toán theo tóm tắt dưới đây, sau đó giải bài toán đó :</span>
+      <span class="en">Exercise 5. Write a word problem based on the summary below, then solve it:</span>
+    </div>
+    <div style="text-align:center;margin:10px 0;">
+      <svg width="520" height="150" viewBox="0 0 520 150" style="max-width:100%;background:#fff;border:1px solid #e0e0e0;border-radius:10px;">
+        <!-- Gạo -->
+        <text x="18" y="55" font-size="18" font-weight="bold" class="vi">Gạo :</text>
+        <text x="18" y="55" font-size="18" font-weight="bold" class="en">Rice:</text>
+        <line x1="115" y1="50" x2="465" y2="50" stroke="#111" stroke-width="2.5"/>
+        <line x1="115" y1="44" x2="115" y2="56" stroke="#111" stroke-width="2.5"/>
+        <line x1="465" y1="44" x2="465" y2="56" stroke="#111" stroke-width="2.5"/>
+        <path d="M115,44 Q290,14 465,44" fill="none" stroke="#111" stroke-width="1.8" stroke-dasharray="4,3"/>
+        <text x="265" y="25" font-size="17" font-weight="bold">346kg</text>
+        <path d="M335,54 Q400,76 465,54" fill="none" stroke="#111" stroke-width="1.8" stroke-dasharray="4,3"/>
+        <text x="376" y="84" font-size="17" font-weight="bold">121kg</text>
+        <!-- Đường gióng -->
+        <line x1="335" y1="50" x2="335" y2="120" stroke="#111" stroke-width="1.8" stroke-dasharray="4,3"/>
+        <!-- Ngô -->
+        <text x="18" y="120" font-size="18" font-weight="bold" class="vi">Ngô :</text>
+        <text x="18" y="120" font-size="18" font-weight="bold" class="en">Corn:</text>
+        <line x1="115" y1="115" x2="335" y2="115" stroke="#111" stroke-width="2.5"/>
+        <line x1="115" y1="109" x2="115" y2="121" stroke="#111" stroke-width="2.5"/>
+        <line x1="335" y1="109" x2="335" y2="121" stroke="#111" stroke-width="2.5"/>
+        <path d="M115,109 Q225,82 335,109" fill="none" stroke="#111" stroke-width="1.8" stroke-dasharray="4,3"/>
+        <text x="208" y="92" font-size="17" font-weight="bold">? kg</text>
+      </svg>
+    </div>
+    <div class="work-box">
+      <label><span class="vi">Đề toán và bài giải của em (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Your word problem and solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b5_c1" class="work-area track-inp" placeholder="Em viết đề toán và lời giải vào đây..."></textarea>
+    </div>
+  </div>
+
+  <!-- Phần II - Bài 6 -->
+  <div class="card" id="card_p2_b6">
+    <div class="ex-head">
+      <span class="vi">Bài 6. Đặt một đề toán theo tóm tắt dưới đây, sau đó giải bài toán đó :</span>
+      <span class="en">Exercise 6. Write a word problem based on the summary below, then solve it:</span>
+    </div>
+    <div style="text-align:center;margin:10px 0;">
+      <svg width="520" height="150" viewBox="0 0 520 150" style="max-width:100%;background:#fff;border:1px solid #e0e0e0;border-radius:10px;">
+        <!-- Dòng 1 -->
+        <text x="20" y="55" font-size="18" font-weight="bold">........ :</text>
+        <line x1="115" y1="50" x2="335" y2="50" stroke="#111" stroke-width="2.5"/>
+        <line x1="115" y1="44" x2="115" y2="56" stroke="#111" stroke-width="2.5"/>
+        <line x1="335" y1="44" x2="335" y2="56" stroke="#111" stroke-width="2.5"/>
+        <path d="M115,44 Q225,15 335,44" fill="none" stroke="#111" stroke-width="1.8" stroke-dasharray="4,3"/>
+        <text x="195" y="25" font-size="17" font-weight="bold" class="vi">126 cây</text>
+        <text x="195" y="25" font-size="17" font-weight="bold" class="en">126 trees</text>
+        <!-- Đường gióng -->
+        <line x1="335" y1="54" x2="335" y2="115" stroke="#111" stroke-width="1.8" stroke-dasharray="4,3"/>
+        <!-- Dòng 2 -->
+        <text x="20" y="115" font-size="18" font-weight="bold">........ :</text>
+        <line x1="115" y1="110" x2="465" y2="110" stroke="#111" stroke-width="2.5"/>
+        <line x1="115" y1="104" x2="115" y2="116" stroke="#111" stroke-width="2.5"/>
+        <line x1="465" y1="104" x2="465" y2="116" stroke="#111" stroke-width="2.5"/>
+        <path d="M115,104 Q290,72 465,104" fill="none" stroke="#111" stroke-width="1.8" stroke-dasharray="4,3"/>
+        <text x="260" y="84" font-size="17" font-weight="bold" class="vi">? cây</text>
+        <text x="260" y="84" font-size="17" font-weight="bold" class="en">? trees</text>
+        <path d="M335,114 Q400,136 465,114" fill="none" stroke="#111" stroke-width="1.8" stroke-dasharray="4,3"/>
+        <text x="372" y="144" font-size="17" font-weight="bold" class="vi">42 cây</text>
+        <text x="372" y="144" font-size="17" font-weight="bold" class="en">42 trees</text>
+      </svg>
+    </div>
+    <div class="work-box">
+      <label><span class="vi">Đề toán và bài giải của em (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Your word problem and solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b6_c1" class="work-area track-inp" placeholder="Em viết đề toán và lời giải vào đây..."></textarea>
+    </div>
+  </div>
+
+  <!-- Phần II - Bài 7 -->
+  <div class="card" id="card_p2_b7">
+    <div class="ex-head"><span class="vi">Bài 7.</span><span class="en">Exercise 7.</span></div>
+    <p>
+      <span class="vi">Khi trừ một số với 282, do sơ suất, một học sinh đã chép nhầm số trừ là 232 nên nhận được kết quả bằng 262. Tìm kết quả đúng của phép trừ đó.</span>
+      <span class="en">When subtracting 282 from a number, by mistake, a student copied the subtrahend as 232 and got the result of 262. Find the correct result of that subtraction.</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b7_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Kết quả đúng của phép trừ là:</span><span class="en">The correct result of the subtraction is:</span></b>
+        <input type="text" id="p2_b7_c1" class="inline-inp wide track-inp" placeholder="494 – 282 = 212 (hoặc 212)">
+        <span id="fb_p2_b7_c1" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b7')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b7" onclick="showAns('p2_b7')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b7"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b7"></div>
+  </div>
+
+  <!-- Phần II - Bài 8 -->
+  <div class="card" id="card_p2_b8">
+    <div class="ex-head"><span class="vi">Bài 8.</span><span class="en">Exercise 8.</span></div>
+    <p>
+      <span class="vi">Khi trừ một số với 361, do sơ suất, một học sinh đã chép nhầm số trừ là 301 đồng thời chép nhầm dấu "–" thành dấu "+" nên nhận được kết quả bằng 897. Tìm kết quả đúng của phép trừ đó.</span>
+      <span class="en">When subtracting 361 from a number, by mistake, a student copied the subtrahend as 301 and also copied the sign "–" as "+" and got the result of 897. Find the correct result of that subtraction.</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b8_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Kết quả đúng của phép trừ là:</span><span class="en">The correct result of the subtraction is:</span></b>
+        <input type="text" id="p2_b8_c1" class="inline-inp wide track-inp" placeholder="596 – 361 = 235 (hoặc 235)">
+        <span id="fb_p2_b8_c1" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b8')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b8" onclick="showAns('p2_b8')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b8"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b8"></div>
+  </div>
+
+  <div class="footer-actions">
+    <button type="button" class="btn btn-submit" onclick="submitAll()"><span class="vi">🏆 Nộp bài</span><span class="en">🏆 Submit</span></button>
+    <button type="button" class="btn btn-reset" onclick="resetAll()"><span class="vi">🔄 Làm lại</span><span class="en">🔄 Start over</span></button>
+  </div>
+
+  <div id="summaryBox"></div>
+</div>
+
+<script>
+const STORAGE_KEY = "baitap_tuan31";
+const LANG_KEY = "baitap_lang";
+const PARENT_PIN = "1234";
+
+// Dữ liệu đáp án từ ảnh 5 - 6
+const ANSWER_KEY = {
+  p1_b1_c1: { kieu: "so", dapan: "104l", alt: ["104","104l","104lít","104lit"] },
+  p1_b1_c2: { kieu: "so", dapan: "231kg", alt: ["231","231kg"] },
+  p1_b1_c3: { kieu: "so", dapan: "120m", alt: ["120","120m","120mét","120met"] },
+  p1_b1_c4: { kieu: "so", dapan: "200km", alt: ["200","200km","200ki-lô-mét"] },
+
+  p1_b2_c1_a: { kieu: "so", dapan: "4", alt: ["4","4tờ"] },
+  p1_b2_c1_b: { kieu: "so", dapan: "2", alt: ["2","2tờ"] },
+  p1_b2_c1_c: {
+    kieu: "multi",
+    ids: ["p1_b2_c1_c1","p1_b2_c1_c2"],
+    combos: [["2","1"]],
+    text: "2 tờ 100 đồng và 1 tờ 200 đồng"
+  },
+  p1_b2_c2: {
+    kieu: "pair_triple",
+    idsA: ["p1_b2_c2_a1","p1_b2_c2_a2","p1_b2_c2_a3"],
+    idsB: ["p1_b2_c2_b1","p1_b2_c2_b2","p1_b2_c2_b3"],
+    expected: ["1,2,1","1,1,3"],
+    text: "a) 1 tờ 500 đồng, 2 tờ 200 đồng và 1 tờ 100 đồng ; b) Hoặc 1 tờ 500 đồng, 1 tờ 200 đồng và 3 tờ 100 đồng"
+  },
+
+  p1_b3_c1: {
+    kieu: "nhom_pt",
+    ids: ["p1_b3_c1_a","p1_b3_c1_b","p1_b3_c1_c","p1_b3_c1_d","p1_b3_c1_e","p1_b3_c1_g"],
+    dapan: ["900-600=300","800-500=300","700-400=300","600-300=300","500-200=300","400-100=300"]
+  },
+  p1_b3_c2: { kieu: "so", dapan: "999 – 111 = 888", alt: ["999-111=888"] },
+  p1_b3_c3: {
+    kieu: "nhom_pt",
+    ids: ["p1_b3_c3_a","p1_b3_c3_b","p1_b3_c3_c","p1_b3_c3_d","p1_b3_c3_e","p1_b3_c3_g","p1_b3_c3_h","p1_b3_c3_i"],
+    dapan: ["999-888=111","888-777=111","777-666=111","666-555=111","555-444=111","444-333=111","333-222=111","222-111=111"]
+  },
+
+  p1_b4_c1: { kieu: "so", dapan: "891 – 11 = 880", alt: ["891-11=880"] },
+  p1_b4_c2: { kieu: "so", dapan: "679 – 333 = 346", alt: ["679-333=346"] },
+  p1_b4_c3: { kieu: "so", dapan: "681 – 111 = 570", alt: ["681-111=570"] },
+  p1_b4_c4: { kieu: "so", dapan: "599 – 31 = 568", alt: ["599-31=568"] },
+
+  p1_b5_c1: { kieu: "so", dapan: "y = 136", alt: ["136","y=136"] },
+  p1_b5_c2: { kieu: "so", dapan: "y = 411", alt: ["411","y=411"] },
+  p1_b5_c3: { kieu: "so", dapan: "y = 403", alt: ["403","y=403"] },
+  p1_b5_c4: { kieu: "so", dapan: "y = 897", alt: ["897","y=897"] },
+  p1_b5_c5: { kieu: "so", dapan: "y = 235", alt: ["235","y=235"] },
+
+  p1_b6_c1: { kieu: "multi", ids: ["p1_b6_c1_1","p1_b6_c1_2"], combos: [["+","-"]], text: "678 + 120 – 226 = 572" },
+  p1_b6_c2: { kieu: "multi", ids: ["p1_b6_c2_1","p1_b6_c2_2"], combos: [["+","-"]], text: "203 + 623 – 305 = 521" },
+  p1_b6_c3: { kieu: "multi", ids: ["p1_b6_c3_1","p1_b6_c3_2"], combos: [["-","-"]], text: "897 – 275 – 301 = 321" },
+  p1_b6_c4: { kieu: "multi", ids: ["p1_b6_c4_1","p1_b6_c4_2"], combos: [["-","+"]], text: "489 – 158 + 602 = 933" },
+  p1_b6_c5: { kieu: "multi", ids: ["p1_b6_c5_1","p1_b6_c5_2"], combos: [["-","+"]], text: "396 – 175 + 655 = 876" },
+
+  p1_b7_c1: { kieu: "multi", ids: ["p1_b7_c1_d1","p1_b7_c1_s","p1_b7_c1_d2","p1_b7_c1_d3"], combos: [["7","+","3","1"]], text: "598 < 278 + 321 < 600" },
+  p1_b7_c2: { kieu: "multi", ids: ["p1_b7_c2_d1","p1_b7_c2_s","p1_b7_c2_d2","p1_b7_c2_d3"], combos: [["5","+","3","7"]], text: "1000 > 625 + 374 > 998" },
+  p1_b7_c3: { kieu: "multi", ids: ["p1_b7_c3_d1","p1_b7_c3_d2","p1_b7_c3_s","p1_b7_c3_d3"], combos: [["6","9","-","6"]], text: "228 < 689 – 460 < 230" },
+  p1_b7_c4: { kieu: "multi", ids: ["p1_b7_c4_d1","p1_b7_c4_s","p1_b7_c4_d2","p1_b7_c4_d3"], combos: [["6","-","2","0"]], text: "618 > 867 – 250 > 616" },
+
+  p2_b1_c1: { kieu: "so", dapan: "999 – 101 = 898", alt: ["999-101=898"] },
+  p2_b2_c1: { kieu: "so", dapan: "901 – 101 = 800", alt: ["901-101=800"] },
+
+  p2_b3_c1: { kieu: "dapso", so: "211", donvi: ["m","mét","met","metre","metres","meter","meters"] },
+  p2_b3_c2: { kieu: "dapso", so: "345", donvi: ["m","mét","met","metre","metres","meter","meters"] },
+
+  p2_b4_c1: { kieu: "dapso", so: "146", donvi: ["lít dầu","lit dau","lít","lit","l","litres of oil","litres","liters","litre","liter"] },
+  p2_b4_c2: { kieu: "dapso", so: "14", textHint: "Can thứ hai nhiều hơn can thứ nhất 14 lít dầu", donvi: ["lít dầu","lit dau","lít","lit","l","litres of oil","litres","liters","litre","liter"] },
+
+  p2_b7_c1: { kieu: "so", dapan: "494 – 282 = 212", alt: ["212","494-282=212","262+232=494;494-282=212"] },
+  p2_b8_c1: { kieu: "so", dapan: "596 – 361 = 235", alt: ["235","596-361=235","897-301=596;596-361=235"] }
+};
+
+const CARD_MAP = {
+  p1_b1: ["p1_b1_c1","p1_b1_c2","p1_b1_c3","p1_b1_c4"],
+  p1_b2: ["p1_b2_c1_a","p1_b2_c1_b","p1_b2_c1_c","p1_b2_c2"],
+  p1_b3: ["p1_b3_c1","p1_b3_c2","p1_b3_c3"],
+  p1_b4: ["p1_b4_c1","p1_b4_c2","p1_b4_c3","p1_b4_c4"],
+  p1_b5: ["p1_b5_c1","p1_b5_c2","p1_b5_c3","p1_b5_c4","p1_b5_c5"],
+  p1_b6: ["p1_b6_c1","p1_b6_c2","p1_b6_c3","p1_b6_c4","p1_b6_c5"],
+  p1_b7: ["p1_b7_c1","p1_b7_c2","p1_b7_c3","p1_b7_c4"],
+  p2_b1: ["p2_b1_c1"],
+  p2_b2: ["p2_b2_c1"],
+  p2_b3: ["p2_b3_c1","p2_b3_c2"],
+  p2_b4: ["p2_b4_c1","p2_b4_c2"],
+  p2_b7: ["p2_b7_c1"],
+  p2_b8: ["p2_b8_c1"]
+};
+
+let state = { inputs: {}, attempts: {} };
+
+function bi(vi, en) {
+  return `<span class="vi">${vi}</span><span class="en">${en}</span>`;
+}
+function curLang() {
+  return document.documentElement.getAttribute("data-lang") || "vi";
+}
+function setLang(lang) {
+  document.documentElement.setAttribute("lang", lang);
+  document.documentElement.setAttribute("data-lang", lang);
+  document.getElementById("btnVi").classList.toggle("active", lang === "vi");
+  document.getElementById("btnEn").classList.toggle("active", lang === "en");
+  try { localStorage.setItem(LANG_KEY, lang); } catch(e) {}
+}
+
+function normMath(str) {
+  return (str || "").toString().toLowerCase()
+    .replace(/[–—−]/g, "-")
+    .replace(/\s+/g, "");
+}
+
+// Grading single item
+function gradeItem(key) {
+  const cfg = ANSWER_KEY[key];
+  if (!cfg) return { score: 0, max: 0 };
+
+  if (cfg.kieu === "so") {
+    const el = document.getElementById(key);
+    const raw = el ? el.value.trim() : "";
+    const fb = document.getElementById(`fb_${key}`);
+    if (!raw) { if (fb) fb.innerHTML = ""; return { score: 0, max: 1, empty: true }; }
+    const nVal = normMath(raw).replace(/^0+(?=\d)/, "");
+    const ok = (cfg.alt || [cfg.dapan]).some(a => normMath(a).replace(/^0+(?=\d)/, "") === nVal);
+    if (fb) {
+      fb.className = "fb " + (ok ? "ok" : "err");
+      fb.innerHTML = ok ? "✔" : "✘";
+    }
+    return { score: ok ? 1 : 0, max: 1 };
+  }
+
+  if (cfg.kieu === "multi") {
+    const fb = document.getElementById(`fb_${key}`);
+    let allEmpty = true;
+    const userVals = cfg.ids.map(id => {
+      const el = document.getElementById(id);
+      const v = el ? el.value.trim() : "";
+      if (v !== "") allEmpty = false;
+      return normMath(v).replace(/^0+(?=\d)/, "");
+    });
+    if (allEmpty) { if (fb) fb.innerHTML = ""; return { score: 0, max: 1, empty: true }; }
+    const ok = cfg.combos.some(combo =>
+      combo.every((expected, idx) => normMath(expected).replace(/^0+(?=\d)/, "") === userVals[idx])
+    );
+    if (fb) {
+      fb.className = "fb " + (ok ? "ok" : "err");
+      fb.innerHTML = ok ? "✔" : "✘";
+    }
+    return { score: ok ? 1 : 0, max: 1 };
+  }
+
+  if (cfg.kieu === "pair_triple") {
+    const vA = cfg.idsA.map(id => (document.getElementById(id)?.value || "").trim().replace(/^0+(?=\d)/, ""));
+    const vB = cfg.idsB.map(id => (document.getElementById(id)?.value || "").trim().replace(/^0+(?=\d)/, ""));
+    const fbA = document.getElementById("fb_p1_b2_c2_a");
+    const fbB = document.getElementById("fb_p1_b2_c2_b");
+    const sA = vA.join(",");
+    const sB = vB.join(",");
+    let sc = 0;
+    const used = new Set();
+
+    if (vA.every(x => x === "")) { if (fbA) fbA.innerHTML = ""; }
+    else if (cfg.expected.includes(sA)) {
+      used.add(sA); sc += 1;
+      if (fbA) { fbA.className = "fb ok"; fbA.innerHTML = "✔"; }
+    } else {
+      if (fbA) { fbA.className = "fb err"; fbA.innerHTML = "✘"; }
+    }
+
+    if (vB.every(x => x === "")) { if (fbB) fbB.innerHTML = ""; }
+    else if (cfg.expected.includes(sB) && !used.has(sB)) {
+      used.add(sB); sc += 1;
+      if (fbB) { fbB.className = "fb ok"; fbB.innerHTML = "✔"; }
+    } else {
+      if (fbB) { fbB.className = "fb err"; fbB.innerHTML = "✘"; }
+    }
+    return { score: sc, max: 2 };
+  }
+
+  if (cfg.kieu === "nhom_pt") {
+    const expected = cfg.dapan.map(normMath);
+    const used = new Set();
+    let sc = 0;
+    let allEmpty = true;
+    cfg.ids.forEach(id => {
+      const el = document.getElementById(id);
+      const raw = el ? el.value.trim() : "";
+      if (raw) allEmpty = false;
+      const nVal = normMath(raw);
+      let ok = false;
+      if (nVal && expected.includes(nVal) && !used.has(nVal)) {
+        ok = true;
+        used.add(nVal);
+        sc += 1;
+      }
+      const itemFb = document.getElementById(`fb_${id}`);
+      if (itemFb) {
+        if (!raw) itemFb.innerHTML = "";
+        else { itemFb.className = "fb " + (ok ? "ok" : "err"); itemFb.innerHTML = ok ? "✔" : "✘"; }
+      }
+    });
+    return { score: sc, max: cfg.ids.length, empty: allEmpty };
+  }
+
+  if (cfg.kieu === "dapso") {
+    const soEl = document.getElementById(`${key}_so`);
+    const dvEl = document.getElementById(`${key}_dv`);
+    const fb = document.getElementById(`fb_${key}`);
+    const rawSo = soEl ? soEl.value.trim() : "";
+    const rawDv = dvEl ? dvEl.value.trim().toLowerCase() : "";
+    if (!rawSo && !rawDv) { if (fb) fb.innerHTML = ""; return { score: 0, max: 1, empty: true }; }
+    const nums = (rawSo.match(/\d+/g) || []).map(x => x.replace(/^0+(?=\d)/, ""));
+    const numOk = nums.includes(cfg.so);
+    const dvOk = cfg.donvi.some(d => rawDv === d.toLowerCase() || rawSo.toLowerCase().includes(d.toLowerCase()));
+    if (!numOk) {
+      if (fb) { fb.className = "fb err"; fb.innerHTML = "✘"; }
+      return { score: 0, max: 1 };
+    }
+    if (dvOk) {
+      if (fb) { fb.className = "fb ok"; fb.innerHTML = "✔"; }
+      return { score: 1, max: 1 };
+    } else {
+      if (fb) {
+        fb.className = "fb warn";
+        fb.innerHTML = "⚠ " + bi("Đúng số rồi, nhớ ghi đơn vị nhé!", "The number is right, remember the unit!");
+      }
+      return { score: 0.5, max: 1 };
+    }
+  }
+  return { score: 0, max: 1 };
+}
+
+function checkCard(cardId) {
+  const keys = CARD_MAP[cardId] || [];
+  let total = 0, max = 0;
+  keys.forEach(k => {
+    const r = gradeItem(k);
+    total += r.score;
+    max += r.max;
+  });
+  const msgEl = document.getElementById(`msg_${cardId}`);
+  const showBtn = document.getElementById(`show_${cardId}`);
+  if (total === max && max > 0) {
+    if (msgEl) { msgEl.style.color = "#2e7d32"; msgEl.innerHTML = bi("🎉 Giỏi quá!", "🎉 Great job!"); }
+  } else {
+    state.attempts[cardId] = (state.attempts[cardId] || 0) + 1;
+    if (msgEl) { msgEl.style.color = "#c62828"; msgEl.innerHTML = bi("💪 Thử lại nhé!", "💪 Try again!"); }
+    if (state.attempts[cardId] >= 2 && showBtn) showBtn.style.display = "inline-block";
+  }
+}
+
+function formatReveal(cardId) {
+  if (cardId === "p2_b7") {
+    return bi(
+      "<b>Bài giải:</b> Số bị trừ là : 262 + 232 = 494<br>Kết quả đúng của phép trừ là : 494 – 282 = 212",
+      "<b>Solution:</b> The minuend is: 262 + 232 = 494<br>The correct result of the subtraction is: 494 – 282 = 212"
+    );
+  }
+  if (cardId === "p2_b8") {
+    return bi(
+      "<b>Bài giải:</b> Số bị trừ là : 897 – 301 = 596<br>Kết quả đúng của phép trừ là : 596 – 361 = 235",
+      "<b>Solution:</b> The minuend is: 897 – 301 = 596<br>The correct result of the subtraction is: 596 – 361 = 235"
+    );
+  }
+  const keys = CARD_MAP[cardId] || [];
+  const lines = keys.map(k => {
+    const c = ANSWER_KEY[k];
+    if (!c) return "";
+    const label = k.replace(/^p\d+_b\d+_?/, "");
+    if (c.kieu === "so") return `<b>${label}:</b> ${c.dapan}`;
+    if (c.kieu === "multi" || c.kieu === "pair_triple") return `<b>${label}:</b> ${c.text}`;
+    if (c.kieu === "nhom_pt") return `<b>${label}:</b> ${c.dapan.join(" ; ")}`;
+    if (c.kieu === "dapso") return `<b>${label}:</b> ${c.textHint ? c.textHint : (c.so + " " + c.donvi[0])}`;
+    return "";
+  });
+  return lines.join("<br>");
+}
+
+function showAns(cardId) {
+  const rev = document.getElementById(`rev_${cardId}`);
+  if (!rev) return;
+  rev.innerHTML = formatReveal(cardId);
+  rev.style.display = "block";
+}
+
+function openParentMode() {
+  const lang = curLang();
+  const pin = prompt(lang === "vi" ? "Nhập mã ba mẹ (mặc định 1234):" : "Enter parent PIN (default 1234):");
+  if (pin === PARENT_PIN) {
+    Object.keys(CARD_MAP).forEach(cid => showAns(cid));
+  } else if (pin !== null) {
+    alert(lang === "vi" ? "Mã không đúng!" : "Incorrect PIN!");
+  }
+}
+
+function fmtScore(n) {
+  const s = (Math.round(n * 10) / 10).toString();
+  return curLang() === "vi" ? s.replace(".", ",") : s;
+}
+
+function submitAll() {
+  let sc = 0, max = 0;
+  Object.keys(CARD_MAP).forEach(cid => {
+    CARD_MAP[cid].forEach(k => {
+      const r = gradeItem(k);
+      sc += r.score;
+      max += r.max;
+    });
+  });
+  const box = document.getElementById("summaryBox");
+  box.style.display = "block";
+  const pct = max ? sc / max : 0;
+  let praise = bi("Cố gắng thêm chút nữa nhé!", "Keep practicing!");
+  if (pct >= 0.9) praise = bi("🌟 Xuất sắc! Con làm bài rất tốt!", "🌟 Excellent! You did a great job!");
+  else if (pct >= 0.7) praise = bi("👍 Khá lắm! Xem lại vài câu chưa đúng nhé!", "👍 Good job! Review a few missed items!");
+
+  box.innerHTML = `
+    <h3 style="margin-top:0;color:#1976d2;">${bi("📊 Kết quả nộp bài", "📊 Submission Result")}</h3>
+    <p style="font-size:24px;font-weight:700;">
+      ${bi("Điểm số:", "Score:")} <span style="color:#2e7d32">${fmtScore(sc)} / ${max}</span>
+    </p>
+    <p>${praise}</p>
+    <p style="font-size:17px;color:#555;">
+      ${bi("Lưu ý: Phần II Bài 5, Bài 6 (sách ghi 'Học sinh tự làm') và phần lời giải tự luận ba mẹ kiểm tra giúp bé nhé.", "Note: Part II Ex 5, Ex 6 (marked 'Students do it themselves') and written solutions should be checked by parents.")}
+    </p>
+  `;
+  try {
+    const hist = JSON.parse(localStorage.getItem(STORAGE_KEY + "_history") || "[]");
+    hist.push({ time: new Date().toISOString(), score: sc, max: max });
+    localStorage.setItem(STORAGE_KEY + "_history", JSON.stringify(hist));
+  } catch(e) {}
+  box.scrollIntoView({ behavior: "smooth" });
+}
+
+function resetAll() {
+  const lang = curLang();
+  if (!confirm(lang === "vi" ? "Con có chắc muốn xóa hết để làm lại từ đầu không?" : "Are you sure you want to clear all answers and start over?")) return;
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  location.reload();
+}
+
+function saveState() {
+  const inputs = {};
+  document.querySelectorAll(".track-inp").forEach(el => { inputs[el.id] = el.value; });
+  state.inputs = inputs;
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const savedLang = localStorage.getItem(LANG_KEY);
+    if (savedLang === "en" || savedLang === "vi") setLang(savedLang);
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (data.inputs) {
+      Object.keys(data.inputs).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = data.inputs[id];
+      });
+    }
+  } catch(e) {}
+}
+
+function updateProgress() {
+  let done = 0, total = 0;
+  document.querySelectorAll(".track-inp").forEach(el => {
+    total++;
+    if (el.value.trim() !== "") done++;
+  });
+  document.getElementById("progCountVi").textContent = `${done}/${total}`;
+  document.getElementById("progCountEn").textContent = `${done}/${total}`;
+  const pct = total ? Math.round((done/total)*100) : 0;
+  document.getElementById("progFill").style.width = pct + "%";
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  loadState();
+  updateProgress();
+  document.querySelectorAll(".track-inp").forEach(el => {
+    el.addEventListener("input", () => { saveState(); updateProgress(); });
+    el.addEventListener("change", () => { saveState(); updateProgress(); });
+  });
+});
+</script>
+</body>
+</html>

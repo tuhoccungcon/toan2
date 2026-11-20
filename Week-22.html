@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="vi" data-lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TUẦN 22 / WEEK 22</title>
+<style>
+:root {
+  --bg: #f4f9ff;
+  --card: #ffffff;
+  --pri: #1976d2;
+  --pri-light: #e3f2fd;
+  --acc: #ff9800;
+  --ok: #2e7d32;
+  --err: #c62828;
+  --warn: #ef6c00;
+  --txt: #212121;
+  --bdr: #bbdefb;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 82px 14px 40px;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 20px; line-height: 1.55;
+  background: var(--bg); color: var(--txt);
+}
+html[data-lang="vi"] .en { display: none !important; }
+html[data-lang="en"] .vi { display: none !important; }
+
+/* Topbar */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: #fff; border-bottom: 3px solid var(--pri);
+  padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.prog-wrap { flex: 1; max-width: 440px; }
+.prog-txt { font-weight: 700; font-size: 17px; color: var(--pri); margin-bottom: 3px; }
+.prog-bar { height: 12px; background: #e0e0e0; border-radius: 6px; overflow: hidden; }
+.prog-fill { height: 100%; width: 0%; background: linear-gradient(90deg,#42a5f5,#1976d2); transition: width 0.25s; }
+.lang-switch { display: flex; gap: 4px; flex-wrap: wrap; }
+.lang-btn {
+  min-height: 48px; padding: 6px 14px; font-size: 18px; font-weight: 700;
+  border: 2px solid var(--pri); background: #fff; color: var(--pri);
+  border-radius: 10px; cursor: pointer;
+}
+.lang-btn.active { background: var(--pri); color: #fff; }
+.parent-btn {
+  min-height: 48px; padding: 6px 12px; font-size: 16px; font-weight: 700;
+  border: 2px solid #6d4c41; background: #efebe9; color: #4e342e;
+  border-radius: 10px; cursor: pointer;
+}
+
+.container { max-width: 960px; margin: 0 auto; }
+h1 { text-align: center; color: var(--pri); font-size: 32px; margin: 12px 0 18px; }
+h2.part-title {
+  background: var(--pri); color: #fff; padding: 10px 16px;
+  border-radius: 12px; font-size: 24px; margin: 24px 0 14px;
+}
+.section-guide {
+  font-style: italic; font-weight: 700; color: #0d47a1;
+  margin: 12px 4px; font-size: 21px;
+}
+
+/* Vocabulary */
+details.vocab {
+  background: #fff8e1; border: 2px solid #ffe082; border-radius: 12px;
+  padding: 10px 16px; margin-bottom: 18px;
+}
+details.vocab summary {
+  font-weight: 700; font-size: 20px; cursor: pointer; color: #e65100;
+}
+.vocab-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 8px 16px; margin-top: 10px; font-size: 18px;
+}
+.vocab-item { background: #fff; padding: 6px 10px; border-radius: 8px; border: 1px solid #ffe082; }
+
+/* Card */
+.card {
+  background: var(--card); border: 2px solid var(--bdr); border-radius: 16px;
+  padding: 16px 18px; margin-bottom: 18px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.04);
+}
+.ex-head { font-weight: 700; font-size: 22px; color: #0d47a1; margin-bottom: 12px; }
+.q-row { margin: 14px 0; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px 18px; }
+
+/* Inputs */
+input.inline-inp {
+  font-size: 20px; padding: 5px 10px; width: 200px; max-width: 100%;
+  border: none; border-bottom: 3px solid var(--pri); background: #f0f7ff;
+  border-radius: 6px 6px 0 0; text-align: center; font-weight: 700; color: #0d47a1;
+}
+input.inline-inp.tiny { width: 85px; }
+input.inline-inp.short { width: 130px; }
+input.inline-inp.wide { width: 280px; }
+input.inline-inp:focus { outline: 2px solid var(--acc); background: #fffde7; }
+
+/* Điền dấu >, <, = (Bài 6, 7) */
+.cmp-row { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 21px; }
+.cmp-select {
+  width: 64px; height: 48px; font-size: 24px; font-weight: 700;
+  text-align: center; border: 2.5px solid var(--pri); border-radius: 10px;
+  background: #fff; color: #0d47a1; cursor: pointer;
+}
+
+/* Đúng / Sai (Bài 8) */
+.tf-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 8px 12px; margin: 8px 0;
+  background: #fafcff; border-radius: 10px; border: 1px solid #e3f2fd;
+}
+.tf-box {
+  display: inline-flex; border: 2px solid var(--pri); border-radius: 10px; overflow: hidden; flex-shrink: 0;
+}
+.tf-btn {
+  min-width: 46px; min-height: 44px; font-size: 19px; font-weight: 700;
+  border: none; background: #fff; color: var(--pri); cursor: pointer;
+}
+.tf-btn + .tf-btn { border-left: 1.5px solid var(--bdr); }
+.tf-btn.active-T { background: #2e7d32; color: #fff; }
+.tf-btn.active-F { background: #c62828; color: #fff; }
+
+/* Tự luận */
+.work-box {
+  background: #f9fbe7; border: 2px dashed #c0ca33; border-radius: 12px;
+  padding: 12px; margin-top: 8px;
+}
+.work-box label { font-weight: 700; font-size: 18px; display: block; margin-bottom: 4px; color: #33691e; }
+.work-area {
+  width: 100%; min-height: 75px; font-size: 19px; padding: 8px;
+  border: 1.5px solid #cddc39; border-radius: 8px; resize: vertical; font-family: inherit;
+}
+.ans-line { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.ans-line input.num-inp {
+  width: 130px; font-size: 20px; padding: 6px 8px; border: 2px solid var(--pri);
+  border-radius: 8px; font-weight: 700; text-align: center;
+}
+.ans-line input.unit-inp {
+  width: 190px; font-size: 20px; padding: 6px 8px; border: 2px solid #64b5f6;
+  border-radius: 8px;
+}
+.summary-table {
+  background: #f5f9ff; border: 1.5px solid #bbdefb; border-radius: 10px;
+  padding: 10px 16px; margin: 8px 0; display: inline-block;
+}
+.summary-table div { margin: 4px 0; }
+
+/* Feedback & Buttons */
+.fb { font-weight: 700; font-size: 18px; margin-left: 6px; }
+.fb.ok { color: var(--ok); }
+.fb.err { color: var(--err); }
+.fb.warn { color: var(--warn); }
+.card-actions { margin-top: 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.btn {
+  min-height: 46px; padding: 8px 16px; font-size: 18px; font-weight: 700;
+  border: none; border-radius: 10px; cursor: pointer;
+}
+.btn-check { background: var(--pri); color: #fff; }
+.btn-show { background: var(--acc); color: #fff; display: none; }
+.card-msg { font-weight: 700; font-size: 18px; }
+.ans-reveal {
+  margin-top: 10px; padding: 10px 12px; background: #fff3e0;
+  border-left: 4px solid var(--acc); border-radius: 8px; font-size: 18px; display: none;
+}
+
+/* Footer actions */
+.footer-actions {
+  display: flex; justify-content: center; gap: 16px; margin: 28px 0; flex-wrap: wrap;
+}
+.btn-submit { background: #2e7d32; color: #fff; font-size: 22px; padding: 12px 28px; min-height: 54px; }
+.btn-reset { background: #d32f2f; color: #fff; font-size: 22px; padding: 12px 28px; min-height: 54px; }
+#summaryBox {
+  background: #fff; border: 3px solid var(--pri); border-radius: 16px;
+  padding: 18px; margin-top: 16px; display: none;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="prog-wrap">
+    <div class="prog-txt">
+      <span class="vi">Tiến độ: <span id="progCountVi">0/0</span> ô</span>
+      <span class="en">Progress: <span id="progCountEn">0/0</span> boxes</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+  </div>
+  <div class="lang-switch">
+    <button type="button" class="lang-btn active" id="btnVi" onclick="setLang('vi')">🇻🇳 Tiếng Việt</button>
+    <button type="button" class="lang-btn" id="btnEn" onclick="setLang('en')">🇬🇧 English</button>
+    <button type="button" class="parent-btn" onclick="openParentMode()">
+      <span class="vi">🔒 Chế độ ba mẹ</span><span class="en">🔒 Parent mode</span>
+    </button>
+  </div>
+</div>
+
+<div class="container">
+  <h1><span class="vi">TUẦN 22</span><span class="en">WEEK 22</span></h1>
+
+  <details class="vocab">
+    <summary><span class="vi">📘 Từ vựng / Vocabulary</span><span class="en">📘 Vocabulary / Từ vựng</span></summary>
+    <div class="vocab-grid">
+      <div class="vocab-item"><b>đường gấp khúc / độ dài</b> – broken line (polygonal chain) / length</div>
+      <div class="vocab-item"><b>đoạn / đoạn thẳng</b> – segment / line segment</div>
+      <div class="vocab-item"><b>ngắn hơn / dài hơn</b> – shorter than / longer than</div>
+      <div class="vocab-item"><b>phép chia / bảng chia 2</b> – division / division table of 2</div>
+      <div class="vocab-item"><b>chia đều / một nửa</b> – divide equally / one half</div>
+      <div class="vocab-item"><b>số liền trước / số tròn chục</b> – the number just before / a round ten</div>
+      <div class="vocab-item"><b>nhỏ nhất / lớn nhất</b> – the smallest / the largest</div>
+      <div class="vocab-item"><b>Đúng (Đ) / Sai (S)</b> – True (T) / False (F)</div>
+      <div class="vocab-item"><b>đề-xi-mét (dm) / xăng-ti-mét (cm)</b> – decimetre (dm) / centimetre (cm)</div>
+      <div class="vocab-item"><b>ki-lô-gam (kg) / lít (l)</b> – kilogram (kg) / litre (l)</div>
+    </div>
+  </details>
+
+  <!-- ==================== PHẦN I ==================== -->
+  <h2 class="part-title">
+    <span class="vi">Phần I. Trắc nghiệm khách quan</span>
+    <span class="en">Part I. Objective questions</span>
+  </h2>
+
+  <div class="section-guide">
+    <span class="vi">Điền chữ hoặc số thích hợp vào chỗ trống.</span>
+    <span class="en">Fill in each blank with a suitable word or number.</span>
+  </div>
+
+  <!-- Phần I - Bài 1 -->
+  <div class="card" id="card_p1_b1">
+    <div class="ex-head"><span class="vi">Bài 1.</span><span class="en">Exercise 1.</span></div>
+    <div style="text-align:center;margin:10px 0;">
+      <!-- Đường gấp khúc ABCD: AB=17cm, BC=15cm, CD=14cm -->
+      <svg width="340" height="190" viewBox="0 0 340 190" style="max-width:100%;background:#fff;border:1px solid #e0e0e0;border-radius:10px;">
+        <polyline points="45,145 160,35 235,160 275,25" fill="none" stroke="#111" stroke-width="2.4"/>
+        <text x="26" y="160" font-size="19" font-weight="bold">A</text>
+        <text x="153" y="25" font-size="19" font-weight="bold">B</text>
+        <text x="230" y="182" font-size="19" font-weight="bold">C</text>
+        <text x="268" y="18" font-size="19" font-weight="bold">D</text>
+        <text x="55" y="88" font-size="17" font-weight="bold">17cm</text>
+        <text x="152" y="108" font-size="17" font-weight="bold">15cm</text>
+        <text x="262" y="96" font-size="17" font-weight="bold">14cm</text>
+      </svg>
+    </div>
+    <div class="q-row">
+      <span class="vi">Độ dài đường gấp khúc ABCD là :</span>
+      <span class="en">The length of broken line ABCD is:</span>
+      <input type="text" id="p1_b1_c1" class="inline-inp short track-inp" placeholder="... cm"><span id="fb_p1_b1_c1" class="fb"></span>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b1')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b1" onclick="showAns('p1_b1')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b1"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b1"></div>
+  </div>
+
+  <!-- Phần I - Bài 2 -->
+  <div class="card" id="card_p1_b2">
+    <div class="ex-head"><span class="vi">Bài 2.</span><span class="en">Exercise 2.</span></div>
+    <p>
+      <span class="vi">Đường gấp khúc ABCD có BC bằng 3dm. Đoạn BC ngắn hơn AB 8cm và dài hơn CD 7cm. Vậy :</span>
+      <span class="en">Broken line ABCD has BC equal to 3dm. Segment BC is 8cm shorter than AB and 7cm longer than CD. So:</span>
+    </p>
+    <div class="q-row">
+      <span class="vi">a) Đoạn AB dài là :</span>
+      <span class="en">a) Segment AB is:</span>
+      <input type="text" id="p1_b2_ca" class="inline-inp tiny track-inp"> cm ;
+      <span id="fb_p1_b2_ca" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">b) Đoạn CD dài là :</span>
+      <span class="en">b) Segment CD is:</span>
+      <input type="text" id="p1_b2_cb" class="inline-inp tiny track-inp"> cm ;
+      <span id="fb_p1_b2_cb" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">c) Đường gấp khúc ABCD dài là :</span>
+      <span class="en">c) Broken line ABCD is:</span>
+      <input type="text" id="p1_b2_cc" class="inline-inp tiny track-inp"> cm.
+      <span id="fb_p1_b2_cc" class="fb"></span>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b2')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b2" onclick="showAns('p1_b2')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b2"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b2"></div>
+  </div>
+
+  <!-- Phần I - Bài 3 -->
+  <div class="card" id="card_p1_b3">
+    <div class="ex-head"><span class="vi">Bài 3.</span><span class="en">Exercise 3.</span></div>
+    <div class="grid-2">
+      <div>
+        1. &nbsp; 1dm : 2 = <input type="text" id="p1_b3_c1" class="inline-inp tiny track-inp"> cm
+        <span id="fb_p1_b3_c1" class="fb"></span>
+      </div>
+      <div>
+        2. &nbsp; 12dm : 2 = <input type="text" id="p1_b3_c2" class="inline-inp tiny track-inp"> cm
+        <span id="fb_p1_b3_c2" class="fb"></span>
+      </div>
+      <div>
+        3. &nbsp; 14kg : 2 = <input type="text" id="p1_b3_c3" class="inline-inp tiny track-inp"> kg
+        <span id="fb_p1_b3_c3" class="fb"></span>
+      </div>
+      <div>
+        4. &nbsp; 18<i>l</i> : 2 = <input type="text" id="p1_b3_c4" class="inline-inp tiny track-inp"> <i>l</i>
+        <span id="fb_p1_b3_c4" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b3')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b3" onclick="showAns('p1_b3')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b3"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b3"></div>
+  </div>
+
+  <!-- Phần I - Bài 4 -->
+  <div class="card" id="card_p1_b4">
+    <div class="ex-head"><span class="vi">Bài 4.</span><span class="en">Exercise 4.</span></div>
+    <div class="q-row">
+      <span class="vi">Tổ Một có 8 học sinh. Một nửa số học sinh của tổ Một tham gia tập văn nghệ. Vậy tổ đó có</span>
+      <span class="en">Group One has 8 students. Half of the students in Group One participate in the art performance practice. So that group has</span>
+      <input type="text" id="p1_b4_c1_1" class="inline-inp tiny track-inp">
+      <span class="vi">học sinh tập văn nghệ và</span>
+      <span class="en">students practicing for the art performance and</span>
+      <input type="text" id="p1_b4_c1_2" class="inline-inp tiny track-inp">
+      <span class="vi">học sinh không tập văn nghệ.</span>
+      <span class="en">students not practicing for the art performance.</span>
+    </div>
+    <p style="font-size:17px;color:#555;margin:6px 0 0;">
+      <span class="vi"><i>(Bài 4 trong sách đáp án ghi: Học sinh tự làm – Ba mẹ kiểm tra giúp bé nhé)</i></span>
+      <span class="en"><i>(Ex 4 in the answer key states: Students do it themselves – Parents, please check)</i></span>
+    </p>
+  </div>
+
+  <!-- Phần I - Bài 5 -->
+  <div class="card" id="card_p1_b5">
+    <div class="ex-head">
+      <span class="vi">Bài 5. Trong bảng chia 2 :</span>
+      <span class="en">Exercise 5. In the division table of 2:</span>
+    </div>
+    <div class="q-row">
+      <span class="vi">1. Phép chia có kết quả nhỏ nhất là :</span>
+      <span class="en">1. The division with the smallest result is:</span>
+      <input type="text" id="p1_b5_c1" class="inline-inp wide track-inp"><span id="fb_p1_b5_c1" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">2. Phép chia có kết quả lớn nhất là :</span>
+      <span class="en">2. The division with the largest result is:</span>
+      <input type="text" id="p1_b5_c2" class="inline-inp wide track-inp"><span id="fb_p1_b5_c2" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">3. Phép chia có kết quả là số liền trước của số tròn chục là :</span>
+      <span class="en">3. The division whose result is the number just before a round ten is:</span>
+      <input type="text" id="p1_b5_c3" class="inline-inp wide track-inp"><span id="fb_p1_b5_c3" class="fb"></span>
+    </div>
+    <div class="q-row">
+      <span class="vi">4. Phép chia có kết quả là số tròn chục là :</span>
+      <span class="en">4. The division whose result is a round ten is:</span>
+      <input type="text" id="p1_b5_c4" class="inline-inp wide track-inp"><span id="fb_p1_b5_c4" class="fb"></span>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b5')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b5" onclick="showAns('p1_b5')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b5"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b5"></div>
+  </div>
+
+  <div class="section-guide">
+    <span class="vi">Điền dấu "&gt;", "&lt;" hoặc "=" vào chỗ trống cho thích hợp.</span>
+    <span class="en">Write "&gt;", "&lt;" or "=" in each blank to make it correct.</span>
+  </div>
+
+  <!-- Phần I - Bài 6 -->
+  <div class="card" id="card_p1_b6">
+    <div class="ex-head"><span class="vi">Bài 6.</span><span class="en">Exercise 6.</span></div>
+    <div class="grid-2">
+      <div class="cmp-row">
+        <span>1. &nbsp; 5 × 7</span>
+        <select id="p1_b6_c1" class="cmp-select track-inp">
+          <option value=""></option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+        </select>
+        <span>7 × 5</span>
+        <span id="fb_p1_b6_c1" class="fb"></span>
+      </div>
+      <div class="cmp-row">
+        <span>2. &nbsp; 14 : 2</span>
+        <select id="p1_b6_c2" class="cmp-select track-inp">
+          <option value=""></option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+        </select>
+        <span>14 + 2</span>
+        <span id="fb_p1_b6_c2" class="fb"></span>
+      </div>
+      <div class="cmp-row">
+        <span>3. &nbsp; 8 – 2</span>
+        <select id="p1_b6_c3" class="cmp-select track-inp">
+          <option value=""></option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+        </select>
+        <span>8 : 2</span>
+        <span id="fb_p1_b6_c3" class="fb"></span>
+      </div>
+      <div class="cmp-row">
+        <span>4. &nbsp; 18 : 2</span>
+        <select id="p1_b6_c4" class="cmp-select track-inp">
+          <option value=""></option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+        </select>
+        <span>16 : 2</span>
+        <span id="fb_p1_b6_c4" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b6')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b6" onclick="showAns('p1_b6')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b6"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b6"></div>
+  </div>
+
+  <!-- Phần I - Bài 7 -->
+  <div class="card" id="card_p1_b7">
+    <div class="ex-head"><span class="vi">Bài 7.</span><span class="en">Exercise 7.</span></div>
+    <div class="grid-2">
+      <div class="cmp-row">
+        <span>1. &nbsp; 18dm : 2</span>
+        <select id="p1_b7_c1" class="cmp-select track-inp">
+          <option value=""></option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+        </select>
+        <span>82cm</span>
+        <span id="fb_p1_b7_c1" class="fb"></span>
+      </div>
+      <div class="cmp-row">
+        <span>2. &nbsp; 2dm × 3</span>
+        <select id="p1_b7_c2" class="cmp-select track-inp">
+          <option value=""></option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+        </select>
+        <span>14cm : 2</span>
+        <span id="fb_p1_b7_c2" class="fb"></span>
+      </div>
+      <div class="cmp-row">
+        <span>3. &nbsp; 5cm × 5</span>
+        <select id="p1_b7_c3" class="cmp-select track-inp">
+          <option value=""></option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+        </select>
+        <span>6dm : 2</span>
+        <span id="fb_p1_b7_c3" class="fb"></span>
+      </div>
+      <div class="cmp-row">
+        <span>4. &nbsp; 10cm × 2</span>
+        <select id="p1_b7_c4" class="cmp-select track-inp">
+          <option value=""></option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+        </select>
+        <span>4dm : 2</span>
+        <span id="fb_p1_b7_c4" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b7')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b7" onclick="showAns('p1_b7')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b7"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b7"></div>
+  </div>
+
+  <!-- Phần I - Bài 8 -->
+  <div class="card" id="card_p1_b8">
+    <div class="ex-head">
+      <span class="vi">Bài 8. <i>Đúng ghi Đ, sai ghi S vào ô trống.</i></span>
+      <span class="en">Exercise 8. <i>Write T for true or F for false in each box.</i></span>
+    </div>
+
+    <div class="tf-row">
+      <span>
+        <span class="vi">a) Có 4 học sinh xếp thành 2 hàng. Vậy mỗi hàng có 4 học sinh.</span>
+        <span class="en">a) 4 students are lined up in 2 rows. So each row has 4 students.</span>
+      </span>
+      <div>
+        <div class="tf-box">
+          <button type="button" class="tf-btn" id="tf_p1_b8_a_D" onclick="selectTF('p1_b8_a','Đ')"><span class="vi">Đ</span><span class="en">T</span></button>
+          <button type="button" class="tf-btn" id="tf_p1_b8_a_S" onclick="selectTF('p1_b8_a','S')"><span class="vi">S</span><span class="en">F</span></button>
+        </div>
+        <span id="fb_p1_b8_a" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="tf-row">
+      <span>
+        <span class="vi">b) Có 12kg gạo chia thành 2 túi. Vậy mỗi túi có 6kg gạo.</span>
+        <span class="en">b) 12kg of rice is divided into 2 bags. So each bag has 6kg of rice.</span>
+      </span>
+      <div>
+        <div class="tf-box">
+          <button type="button" class="tf-btn" id="tf_p1_b8_b_D" onclick="selectTF('p1_b8_b','Đ')"><span class="vi">Đ</span><span class="en">T</span></button>
+          <button type="button" class="tf-btn" id="tf_p1_b8_b_S" onclick="selectTF('p1_b8_b','S')"><span class="vi">S</span><span class="en">F</span></button>
+        </div>
+        <span id="fb_p1_b8_b" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="tf-row">
+      <span>
+        <span class="vi">c) Có 10 lít dầu đổ vào 2 can. Vậy mỗi can có 5 lít dầu.</span>
+        <span class="en">c) 10 litres of oil are poured into 2 cans. So each can has 5 litres of oil.</span>
+      </span>
+      <div>
+        <div class="tf-box">
+          <button type="button" class="tf-btn" id="tf_p1_b8_c_D" onclick="selectTF('p1_b8_c','Đ')"><span class="vi">Đ</span><span class="en">T</span></button>
+          <button type="button" class="tf-btn" id="tf_p1_b8_c_S" onclick="selectTF('p1_b8_c','S')"><span class="vi">S</span><span class="en">F</span></button>
+        </div>
+        <span id="fb_p1_b8_c" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="tf-row">
+      <span>
+        <span class="vi">d) Sợi dây dài 14dm cắt làm hai đoạn. Vậy mỗi đoạn dài 70cm.</span>
+        <span class="en">d) A rope 14dm long is cut into two segments. So each segment is 70cm long.</span>
+      </span>
+      <div>
+        <div class="tf-box">
+          <button type="button" class="tf-btn" id="tf_p1_b8_d_D" onclick="selectTF('p1_b8_d','Đ')"><span class="vi">Đ</span><span class="en">T</span></button>
+          <button type="button" class="tf-btn" id="tf_p1_b8_d_S" onclick="selectTF('p1_b8_d','S')"><span class="vi">S</span><span class="en">F</span></button>
+        </div>
+        <span id="fb_p1_b8_d" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="tf-row">
+      <span>
+        <span class="vi">e) Có 16 quả cam chia đều vào 2 túi. Vậy mỗi túi có 8 quả cam.</span>
+        <span class="en">e) 16 oranges are divided equally into 2 bags. So each bag has 8 oranges.</span>
+      </span>
+      <div>
+        <div class="tf-box">
+          <button type="button" class="tf-btn" id="tf_p1_b8_e_D" onclick="selectTF('p1_b8_e','Đ')"><span class="vi">Đ</span><span class="en">T</span></button>
+          <button type="button" class="tf-btn" id="tf_p1_b8_e_S" onclick="selectTF('p1_b8_e','S')"><span class="vi">S</span><span class="en">F</span></button>
+        </div>
+        <span id="fb_p1_b8_e" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="tf-row">
+      <span>
+        <span class="vi">g) Có 8 lít nước mắm chia đều vào 2 can. Vậy mỗi can có 4 lít nước mắm.</span>
+        <span class="en">g) 8 litres of fish sauce are divided equally into 2 cans. So each can has 4 litres of fish sauce.</span>
+      </span>
+      <div>
+        <div class="tf-box">
+          <button type="button" class="tf-btn" id="tf_p1_b8_g_D" onclick="selectTF('p1_b8_g','Đ')"><span class="vi">Đ</span><span class="en">T</span></button>
+          <button type="button" class="tf-btn" id="tf_p1_b8_g_S" onclick="selectTF('p1_b8_g','S')"><span class="vi">S</span><span class="en">F</span></button>
+        </div>
+        <span id="fb_p1_b8_g" class="fb"></span>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p1_b8')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p1_b8" onclick="showAns('p1_b8')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p1_b8"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p1_b8"></div>
+  </div>
+
+  <!-- ==================== PHẦN II ==================== -->
+  <h2 class="part-title">
+    <span class="vi">Phần II. Tự luận</span>
+    <span class="en">Part II. Written problems</span>
+  </h2>
+
+  <!-- Phần II - Bài 1 -->
+  <div class="card" id="card_p2_b1">
+    <div class="ex-head"><span class="vi">Bài 1.</span><span class="en">Exercise 1.</span></div>
+    <p>
+      <span class="vi">Rổ cam có 18 quả. Cô bán hàng đã bán một nửa rổ cam. Hỏi rổ cam còn lại bao nhiêu quả ?</span>
+      <span class="en">A basket of oranges has 18 oranges. The seller sold half of the basket of oranges. How many oranges are left in the basket?</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b1_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b1_c1_so" class="num-inp track-inp" placeholder="Số / Number">
+        <input type="text" id="p2_b1_c1_dv" class="unit-inp track-inp" placeholder="quả / oranges">
+        <span id="fb_p2_b1_c1" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b1')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b1" onclick="showAns('p2_b1')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b1"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b1"></div>
+  </div>
+
+  <!-- Phần II - Bài 2 -->
+  <div class="card" id="card_p2_b2">
+    <div class="ex-head"><span class="vi">Bài 2.</span><span class="en">Exercise 2.</span></div>
+    <p>
+      <span class="vi">Một đường gấp khúc có 6 đoạn, mỗi đoạn dài 2dm. Tính độ dài đường gấp khúc đó.</span>
+      <span class="en">A broken line has 6 segments, each segment is 2dm long. Find the length of that broken line.</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b2_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b2_c1_so" class="num-inp track-inp" placeholder="Số / Number">
+        <input type="text" id="p2_b2_c1_dv" class="unit-inp track-inp" placeholder="dm">
+        <span id="fb_p2_b2_c1" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b2')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b2" onclick="showAns('p2_b2')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b2"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b2"></div>
+  </div>
+
+  <!-- Phần II - Bài 3 -->
+  <div class="card" id="card_p2_b3">
+    <div class="ex-head"><span class="vi">Bài 3.</span><span class="en">Exercise 3.</span></div>
+    <p>
+      <span class="vi">Một đường gấp khúc dài 14dm gồm 2 đoạn dài như nhau. Hỏi mỗi đoạn dài bao nhiêu xăng-ti-mét ?</span>
+      <span class="en">A broken line 14dm long consists of 2 segments of equal length. How many centimetres long is each segment?</span>
+    </p>
+    <div class="work-box">
+      <label><span class="vi">Bài giải (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b3_c1" class="work-area track-inp"></textarea>
+      <div class="ans-line">
+        <b><span class="vi">Đáp số:</span><span class="en">Answer:</span></b>
+        <input type="text" id="p2_b3_c1_so" class="num-inp track-inp" placeholder="Số / Number">
+        <input type="text" id="p2_b3_c1_dv" class="unit-inp track-inp" placeholder="cm">
+        <span id="fb_p2_b3_c1" class="fb"></span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn btn-check" onclick="checkCard('p2_b3')"><span class="vi">Kiểm tra</span><span class="en">Check</span></button>
+      <button type="button" class="btn btn-show" id="show_p2_b3" onclick="showAns('p2_b3')"><span class="vi">Xem đáp án</span><span class="en">Show answer</span></button>
+      <span class="card-msg" id="msg_p2_b3"></span>
+    </div>
+    <div class="ans-reveal" id="rev_p2_b3"></div>
+  </div>
+
+  <div class="section-guide">
+    <span class="vi">Đặt một đề toán theo tóm tắt dưới đây.</span>
+    <span class="en">Write a word problem based on the summary below.</span>
+  </div>
+
+  <!-- Phần II - Bài 4 -->
+  <div class="card" id="card_p2_b4">
+    <div class="ex-head"><span class="vi">Bài 4.</span><span class="en">Exercise 4.</span></div>
+    <div class="summary-table">
+      <div><span class="vi"><b>Có :</b> &nbsp; 12 quyển vở</span><span class="en"><b>Have:</b> &nbsp; 12 notebooks</span></div>
+      <div><span class="vi"><b>Chia đều cho :</b> &nbsp; 2 học sinh</span><span class="en"><b>Divided equally between:</b> &nbsp; 2 students</span></div>
+      <div><span class="vi"><b>Mỗi học sinh :</b> &nbsp; ? quyển vở</span><span class="en"><b>Each student:</b> &nbsp; ? notebooks</span></div>
+    </div>
+    <div class="work-box">
+      <label><span class="vi">Đề toán và bài giải của em (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Your word problem and solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b4_c1" class="work-area track-inp" placeholder="Em viết đề toán vào đây..."></textarea>
+    </div>
+  </div>
+
+  <!-- Phần II - Bài 5 -->
+  <div class="card" id="card_p2_b5">
+    <div class="ex-head"><span class="vi">Bài 5.</span><span class="en">Exercise 5.</span></div>
+    <div class="summary-table">
+      <div><span class="vi"><b>Có :</b> &nbsp; 8 túi</span><span class="en"><b>Have:</b> &nbsp; 8 bags</span></div>
+      <div><span class="vi"><b>Mỗi túi :</b> &nbsp; 5kg</span><span class="en"><b>Each bag:</b> &nbsp; 5kg</span></div>
+      <div><span class="vi"><b>Tất cả :</b> &nbsp; ? kg</span><span class="en"><b>In total:</b> &nbsp; ? kg</span></div>
+    </div>
+    <div class="work-box">
+      <label><span class="vi">Đề toán và bài giải của em (Ba mẹ xem lại phần bài giải nhé):</span><span class="en">Your word problem and solution (Parents, please check the solution):</span></label>
+      <textarea id="work_p2_b5_c1" class="work-area track-inp" placeholder="Em viết đề toán vào đây..."></textarea>
+    </div>
+  </div>
+
+  <div class="footer-actions">
+    <button type="button" class="btn btn-submit" onclick="submitAll()"><span class="vi">🏆 Nộp bài</span><span class="en">🏆 Submit</span></button>
+    <button type="button" class="btn btn-reset" onclick="resetAll()"><span class="vi">🔄 Làm lại</span><span class="en">🔄 Start over</span></button>
+  </div>
+
+  <div id="summaryBox"></div>
+</div>
+
+<script>
+const STORAGE_KEY = "baitap_tuan22";
+const LANG_KEY = "baitap_lang";
+const PARENT_PIN = "1234";
+
+// Dữ liệu đáp án từ ảnh 4 - 5
+const ANSWER_KEY = {
+  p1_b1_c1: { kieu: "so", dapan: "46cm", alt: ["46","46cm","46xăng-ti-mét"] },
+
+  p1_b2_ca: { kieu: "so", dapan: "AB = 38cm", alt: ["38","38cm","ab=38cm"] },
+  p1_b2_cb: { kieu: "so", dapan: "CD = 23cm", alt: ["23","23cm","cd=23cm"] },
+  p1_b2_cc: { kieu: "so", dapan: "91cm", alt: ["91","91cm","đườnggấpkhúcabcddài91cm"] },
+
+  p1_b3_c1: { kieu: "so", dapan: "5cm", alt: ["5","5cm"] },
+  p1_b3_c2: { kieu: "so", dapan: "60cm", alt: ["60","60cm"] },
+  p1_b3_c3: { kieu: "so", dapan: "7kg", alt: ["7","7kg"] },
+  p1_b3_c4: { kieu: "so", dapan: "9l", alt: ["9","9l","9lít","9lit"] },
+
+  p1_b5_c1: { kieu: "so", dapan: "2 : 2 = 1", alt: ["2:2=1","2/2=1","2÷2=1"] },
+  p1_b5_c2: { kieu: "so", dapan: "20 : 2 = 10", alt: ["20:2=10","20/2=10","20÷2=10"] },
+  p1_b5_c3: { kieu: "so", dapan: "18 : 2 = 9", alt: ["18:2=9","18/2=9","18÷2=9"] },
+  p1_b5_c4: { kieu: "so", dapan: "20 : 2 = 10", alt: ["20:2=10","20/2=10","20÷2=10"] },
+
+  p1_b6_c1: { kieu: "so", dapan: "=", alt: ["="] },
+  p1_b6_c2: { kieu: "so", dapan: "<", alt: ["<"] },
+  p1_b6_c3: { kieu: "so", dapan: ">", alt: [">"] },
+  p1_b6_c4: { kieu: "so", dapan: ">", alt: [">"] },
+
+  p1_b7_c1: { kieu: "so", dapan: ">", alt: [">"] },
+  p1_b7_c2: { kieu: "so", dapan: ">", alt: [">"] },
+  p1_b7_c3: { kieu: "so", dapan: "<", alt: ["<"] },
+  p1_b7_c4: { kieu: "so", dapan: "=", alt: ["="] },
+
+  p1_b8_a: { kieu: "dungsai", dapan: "S" },
+  p1_b8_b: { kieu: "dungsai", dapan: "S" },
+  p1_b8_c: { kieu: "dungsai", dapan: "S" },
+  p1_b8_d: { kieu: "dungsai", dapan: "S" },
+  p1_b8_e: { kieu: "dungsai", dapan: "Đ" },
+  p1_b8_g: { kieu: "dungsai", dapan: "Đ" },
+
+  p2_b1_c1: { kieu: "dapso", so: "9", donvi: ["quả","qua","quả cam","qua cam","cam","oranges","orange"] },
+  p2_b2_c1: { kieu: "dapso", so: "12", donvi: ["dm","đề-xi-mét","de-xi-met","decimetre","decimetres","decimeter","decimeters"] },
+  p2_b3_c1: { kieu: "dapso", so: "70", donvi: ["cm","xăng-ti-mét","xang-ti-met","centimetre","centimetres","centimeter","centimeters"] }
+};
+
+const CARD_MAP = {
+  p1_b1: ["p1_b1_c1"],
+  p1_b2: ["p1_b2_ca","p1_b2_cb","p1_b2_cc"],
+  p1_b3: ["p1_b3_c1","p1_b3_c2","p1_b3_c3","p1_b3_c4"],
+  p1_b5: ["p1_b5_c1","p1_b5_c2","p1_b5_c3","p1_b5_c4"],
+  p1_b6: ["p1_b6_c1","p1_b6_c2","p1_b6_c3","p1_b6_c4"],
+  p1_b7: ["p1_b7_c1","p1_b7_c2","p1_b7_c3","p1_b7_c4"],
+  p1_b8: ["p1_b8_a","p1_b8_b","p1_b8_c","p1_b8_d","p1_b8_e","p1_b8_g"],
+  p2_b1: ["p2_b1_c1"],
+  p2_b2: ["p2_b2_c1"],
+  p2_b3: ["p2_b3_c1"]
+};
+
+let state = { inputs: {}, tf: {}, attempts: {} };
+
+function bi(vi, en) {
+  return `<span class="vi">${vi}</span><span class="en">${en}</span>`;
+}
+function curLang() {
+  return document.documentElement.getAttribute("data-lang") || "vi";
+}
+function setLang(lang) {
+  document.documentElement.setAttribute("lang", lang);
+  document.documentElement.setAttribute("data-lang", lang);
+  document.getElementById("btnVi").classList.toggle("active", lang === "vi");
+  document.getElementById("btnEn").classList.toggle("active", lang === "en");
+  try { localStorage.setItem(LANG_KEY, lang); } catch(e) {}
+}
+
+function normMath(str) {
+  return (str || "").toString().toLowerCase()
+    .replace(/[×⋅*]/g, "x")
+    .replace(/[÷/]/g, ":")
+    .replace(/[–—−]/g, "-")
+    .replace(/\s+/g, "");
+}
+
+// True / False (Đ / S)
+function selectTF(qId, val) {
+  state.tf[qId] = (state.tf[qId] === val) ? "" : val;
+  updateTFUI(qId);
+  saveState();
+  updateProgress();
+}
+
+function updateTFUI(qId) {
+  const v = state.tf[qId] || "";
+  const btnD = document.getElementById(`tf_${qId}_D`);
+  const btnS = document.getElementById(`tf_${qId}_S`);
+  if (btnD) btnD.classList.toggle("active-T", v === "Đ");
+  if (btnS) btnS.classList.toggle("active-F", v === "S");
+}
+
+// Grading single item
+function gradeItem(key) {
+  const cfg = ANSWER_KEY[key];
+  if (!cfg) return { score: 0, max: 0 };
+
+  if (cfg.kieu === "so") {
+    const el = document.getElementById(key);
+    const raw = el ? el.value.trim() : "";
+    const fb = document.getElementById(`fb_${key}`);
+    if (!raw) { if (fb) fb.innerHTML = ""; return { score: 0, max: 1, empty: true }; }
+    const nVal = normMath(raw).replace(/^0+(?=\d)/, "");
+    const ok = (cfg.alt || [cfg.dapan]).some(a => normMath(a).replace(/^0+(?=\d)/, "") === nVal);
+    if (fb) {
+      fb.className = "fb " + (ok ? "ok" : "err");
+      fb.innerHTML = ok ? "✔" : "✘";
+    }
+    return { score: ok ? 1 : 0, max: 1 };
+  }
+
+  if (cfg.kieu === "dungsai") {
+    const val = state.tf[key] || "";
+    const fb = document.getElementById(`fb_${key}`);
+    if (!val) { if (fb) fb.innerHTML = ""; return { score: 0, max: 1, empty: true }; }
+    const ok = val === cfg.dapan;
+    if (fb) {
+      fb.className = "fb " + (ok ? "ok" : "err");
+      fb.innerHTML = ok ? "✔" : "✘";
+    }
+    return { score: ok ? 1 : 0, max: 1 };
+  }
+
+  if (cfg.kieu === "dapso") {
+    const soEl = document.getElementById(`${key}_so`);
+    const dvEl = document.getElementById(`${key}_dv`);
+    const fb = document.getElementById(`fb_${key}`);
+    const rawSo = soEl ? soEl.value.trim() : "";
+    const rawDv = dvEl ? dvEl.value.trim().toLowerCase() : "";
+    if (!rawSo && !rawDv) { if (fb) fb.innerHTML = ""; return { score: 0, max: 1, empty: true }; }
+    const nums = (rawSo.match(/\d+/g) || []).map(x => x.replace(/^0+(?=\d)/, ""));
+    const numOk = nums.includes(cfg.so);
+    const dvOk = cfg.donvi.some(d => rawDv === d.toLowerCase() || rawSo.toLowerCase().includes(d.toLowerCase()));
+    if (!numOk) {
+      if (fb) { fb.className = "fb err"; fb.innerHTML = "✘"; }
+      return { score: 0, max: 1 };
+    }
+    if (dvOk) {
+      if (fb) { fb.className = "fb ok"; fb.innerHTML = "✔"; }
+      return { score: 1, max: 1 };
+    } else {
+      if (fb) {
+        fb.className = "fb warn";
+        fb.innerHTML = "⚠ " + bi("Đúng số rồi, nhớ ghi đơn vị nhé!", "The number is right, remember the unit!");
+      }
+      return { score: 0.5, max: 1 };
+    }
+  }
+  return { score: 0, max: 1 };
+}
+
+function checkCard(cardId) {
+  const keys = CARD_MAP[cardId] || [];
+  let total = 0, max = 0;
+  keys.forEach(k => {
+    const r = gradeItem(k);
+    total += r.score;
+    max += r.max;
+  });
+  const msgEl = document.getElementById(`msg_${cardId}`);
+  const showBtn = document.getElementById(`show_${cardId}`);
+  if (total === max && max > 0) {
+    if (msgEl) { msgEl.style.color = "#2e7d32"; msgEl.innerHTML = bi("🎉 Giỏi quá!", "🎉 Great job!"); }
+  } else {
+    state.attempts[cardId] = (state.attempts[cardId] || 0) + 1;
+    if (msgEl) { msgEl.style.color = "#c62828"; msgEl.innerHTML = bi("💪 Thử lại nhé!", "💪 Try again!"); }
+    if (state.attempts[cardId] >= 2 && showBtn) showBtn.style.display = "inline-block";
+  }
+}
+
+function formatReveal(cardId) {
+  const keys = CARD_MAP[cardId] || [];
+  const lines = keys.map(k => {
+    const c = ANSWER_KEY[k];
+    if (!c) return "";
+    const label = k.split("_").pop();
+    if (c.kieu === "so") return `<b>${label}:</b> ${c.dapan}`;
+    if (c.kieu === "dungsai") {
+      const enVal = c.dapan === "Đ" ? "T" : "F";
+      return `<b>${label})</b> <span class="vi">${c.dapan}</span><span class="en">${enVal}</span>`;
+    }
+    if (c.kieu === "dapso") return `<b>Đáp số / Answer:</b> ${c.so} ${c.donvi[0]}`;
+    return "";
+  });
+  return lines.join(" &nbsp;|&nbsp; ");
+}
+
+function showAns(cardId) {
+  const rev = document.getElementById(`rev_${cardId}`);
+  if (!rev) return;
+  rev.innerHTML = formatReveal(cardId);
+  rev.style.display = "block";
+}
+
+function openParentMode() {
+  const lang = curLang();
+  const pin = prompt(lang === "vi" ? "Nhập mã ba mẹ (mặc định 1234):" : "Enter parent PIN (default 1234):");
+  if (pin === PARENT_PIN) {
+    Object.keys(CARD_MAP).forEach(cid => showAns(cid));
+  } else if (pin !== null) {
+    alert(lang === "vi" ? "Mã không đúng!" : "Incorrect PIN!");
+  }
+}
+
+function fmtScore(n) {
+  const s = (Math.round(n * 10) / 10).toString();
+  return curLang() === "vi" ? s.replace(".", ",") : s;
+}
+
+function submitAll() {
+  let sc = 0, max = 0;
+  Object.keys(CARD_MAP).forEach(cid => {
+    CARD_MAP[cid].forEach(k => {
+      const r = gradeItem(k);
+      sc += r.score;
+      max += r.max;
+    });
+  });
+  const box = document.getElementById("summaryBox");
+  box.style.display = "block";
+  const pct = max ? sc / max : 0;
+  let praise = bi("Cố gắng thêm chút nữa nhé!", "Keep practicing!");
+  if (pct >= 0.9) praise = bi("🌟 Xuất sắc! Con làm bài rất tốt!", "🌟 Excellent! You did a great job!");
+  else if (pct >= 0.7) praise = bi("👍 Khá lắm! Xem lại vài câu chưa đúng nhé!", "👍 Good job! Review a few missed items!");
+
+  box.innerHTML = `
+    <h3 style="margin-top:0;color:#1976d2;">${bi("📊 Kết quả nộp bài", "📊 Submission Result")}</h3>
+    <p style="font-size:24px;font-weight:700;">
+      ${bi("Điểm số:", "Score:")} <span style="color:#2e7d32">${fmtScore(sc)} / ${max}</span>
+    </p>
+    <p>${praise}</p>
+    <p style="font-size:17px;color:#555;">
+      ${bi("Lưu ý: Phần I Bài 4, Phần II Bài 4, Bài 5 (sách ghi 'Học sinh tự làm') và phần lời giải tự luận ba mẹ kiểm tra giúp bé nhé.", "Note: Part I Ex 4, Part II Ex 4, Ex 5 (marked 'Students do it themselves') and written solutions should be checked by parents.")}
+    </p>
+  `;
+  try {
+    const hist = JSON.parse(localStorage.getItem(STORAGE_KEY + "_history") || "[]");
+    hist.push({ time: new Date().toISOString(), score: sc, max: max });
+    localStorage.setItem(STORAGE_KEY + "_history", JSON.stringify(hist));
+  } catch(e) {}
+  box.scrollIntoView({ behavior: "smooth" });
+}
+
+function resetAll() {
+  const lang = curLang();
+  if (!confirm(lang === "vi" ? "Con có chắc muốn xóa hết để làm lại từ đầu không?" : "Are you sure you want to clear all answers and start over?")) return;
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  location.reload();
+}
+
+function saveState() {
+  const inputs = {};
+  document.querySelectorAll(".track-inp").forEach(el => { inputs[el.id] = el.value; });
+  state.inputs = inputs;
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const savedLang = localStorage.getItem(LANG_KEY);
+    if (savedLang === "en" || savedLang === "vi") setLang(savedLang);
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (data.inputs) {
+      Object.keys(data.inputs).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = data.inputs[id];
+      });
+    }
+    if (data.tf) {
+      state.tf = data.tf;
+      Object.keys(state.tf).forEach(qId => updateTFUI(qId));
+    }
+  } catch(e) {}
+}
+
+function updateProgress() {
+  let done = 0, total = 0;
+  document.querySelectorAll(".track-inp").forEach(el => {
+    total++;
+    if (el.value.trim() !== "") done++;
+  });
+  // 6 ý Đ/S của Bài 8 Phần I
+  total += 6;
+  ["p1_b8_a","p1_b8_b","p1_b8_c","p1_b8_d","p1_b8_e","p1_b8_g"].forEach(k => { if (state.tf[k]) done++; });
+
+  document.getElementById("progCountVi").textContent = `${done}/${total}`;
+  document.getElementById("progCountEn").textContent = `${done}/${total}`;
+  const pct = total ? Math.round((done/total)*100) : 0;
+  document.getElementById("progFill").style.width = pct + "%";
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  loadState();
+  updateProgress();
+  document.querySelectorAll(".track-inp").forEach(el => {
+    el.addEventListener("input", () => { saveState(); updateProgress(); });
+    el.addEventListener("change", () => { saveState(); updateProgress(); });
+  });
+});
+</script>
+</body>
+</html>

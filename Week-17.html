@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="vi" data-lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài tập toán lớp 2 - Tuần 17 / Grade 2 Math - Week 17</title>
+<script>/* nhớ ngôn ngữ đã chọn, chạy sớm để không bị nháy */try{var l=localStorage.getItem("baitap_lang");if(l==="en"||l==="vi"){document.documentElement.setAttribute("data-lang",l);document.documentElement.setAttribute("lang",l);}}catch(e){}</script>
+<style>
+/* ===== Giao diện chung ===== */
+:root{--bg:#fff7e6;--card:#ffffff;--ink:#2b2b3a;--main:#4f8cff;--main2:#2f6fe0;--ok:#1e9e5a;--warn:#d99a00;--bad:#d9434e;--line:#cfd8ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Roboto,Arial,sans-serif;font-size:21px;line-height:1.75;background:var(--bg);color:var(--ink)}
+header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:3px solid var(--main);padding:6px 14px 8px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+header h1{margin:0;font-size:28px;text-align:center;color:var(--main2)}
+.tien{height:14px;background:#e7edf9;border-radius:99px;overflow:hidden;margin-top:4px}
+#bar{height:100%;width:0;background:linear-gradient(90deg,#4f8cff,#37c38a);transition:width .3s}
+#tiendo{display:block;text-align:center;font-size:16px;color:#556}
+main{max-width:880px;margin:0 auto;padding:12px 14px 60px}
+.luuy{font-size:16px;color:#667;text-align:center;margin:6px 0 0}
+h2.phan{margin:26px 0 6px;font-size:26px;color:#1b3a8c}
+p.hd{margin:12px 2px 8px;font-weight:700;font-style:italic}
+.bai{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 18px 14px;margin:14px 0;box-shadow:0 3px 0 rgba(79,140,255,.12)}
+.bai h3{margin:0 0 4px;font-size:22px;color:#1b3a8c}
+.bai p{margin:4px 0}
+.dong{margin:6px 0;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.dong .so{font-weight:700;min-width:28px}
+.blk{display:block}
+/* ===== Ô nhập ===== */
+.slot{display:inline-flex;flex-wrap:wrap;align-items:center;gap:4px 8px;vertical-align:middle}
+.slot.blk{display:flex;width:100%}
+.in,.ta{font:inherit;font-size:22px;border:none;border-bottom:3px dashed #8aa4d6;background:#f4f8ff;border-radius:8px 8px 0 0;padding:2px 8px;color:#143;outline:none}
+.in:focus,.ta:focus{background:#e6f0ff;border-bottom-color:var(--main2)}
+.w-s{width:84px}.w-m{width:170px}.w-l{width:300px;max-width:100%}.w-xl{width:540px;max-width:100%}
+.ta{width:100%;border:2px dashed #8aa4d6;border-radius:12px;padding:8px 10px;line-height:1.5;resize:vertical}
+.giai label,.dapso{font-weight:700}
+.giai{margin-top:8px}
+.dapso{margin-top:8px;display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.dsb,.ch,.daub{font:inherit;cursor:pointer;border:3px solid #9db4e3;background:#fff;color:#234;border-radius:12px;min-width:52px;min-height:52px;padding:2px 12px}
+.dsb.on{background:#fff0b8;border-color:#e0a100;font-weight:700}
+.daub{width:56px;font-size:30px;font-weight:700;border-radius:10px}
+.daub.on{background:#fff0b8;border-color:#e0a100}
+.choices{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.ch{text-align:left;border-radius:14px;padding:4px 16px;border-color:#cdd8f0}
+.ch.on{border:4px solid #e0334c;border-radius:999px;background:#fff1f3;font-weight:700}
+/* ===== Dấu chấm điểm ===== */
+.mk{font-weight:700;font-size:22px}
+.mk small{font-size:15px;font-weight:400;margin-left:4px}
+.slot.ok .in,.slot.ok .ta{border-color:var(--ok);background:#e8f8ef}.slot.ok .mk{color:var(--ok)}
+.slot.gan .in,.slot.gan .ta{border-color:var(--warn);background:#fff8e1}.slot.gan .mk{color:var(--warn)}
+.slot.sai .in,.slot.sai .ta{border-color:var(--bad);background:#fdeceb}.slot.sai .mk{color:var(--bad)}
+.slot.ok .dsb.on,.slot.ok .ch.on,.slot.ok .daub.on{outline:3px solid var(--ok)}
+.slot.sai .dsb.on,.slot.sai .ch.on,.slot.sai .daub.on{outline:3px solid var(--bad)}
+.slot.gan .daub.on{outline:3px solid var(--warn)}
+.dapan-slot,.dapan-note{display:none;color:#0b6b3a;background:#e6f7ee;border-radius:8px;padding:0 8px;font-size:18px;font-weight:600}
+.dapan-note{padding:6px 10px;margin-top:8px}
+body.phuhuynh .dapan-slot,.bai.lo .dapan-slot{display:inline-block}
+body.phuhuynh .dapan-note,.bai.lo .dapan-note{display:block}
+/* ===== Nút bấm ===== */
+.btn{font:inherit;font-weight:700;cursor:pointer;border:none;border-radius:14px;padding:8px 20px;min-height:52px;background:var(--main);color:#fff;box-shadow:0 4px 0 var(--main2)}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--main2)}
+.btn.phu{background:#8a93a8;box-shadow:0 4px 0 #6b748a}
+.btn.nop{background:#25b36b;box-shadow:0 4px 0 #168a50;font-size:24px;padding:10px 30px}
+.btn.lam{background:#f08a24;box-shadow:0 4px 0 #c46c10}
+.btn[hidden]{display:none}
+.chan{margin-top:10px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.tb{font-size:18px;font-weight:600}
+.hanh{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:26px 0 10px}
+#ketqua{display:none;background:#fff;border:3px solid #25b36b;border-radius:18px;padding:12px 20px;margin:14px 0}
+#ketqua h2{margin:4px 0;color:#168a50}
+#ketqua .diem{font-size:28px;font-weight:700}
+#ketqua ul{margin:6px 0 6px 22px;padding:0;font-size:19px}
+.small{font-size:17px;color:#556}
+/* ===== Hình vẽ ===== */
+.hinh{max-width:100%}
+.ngang{display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+.sodo7{position:relative;width:100%;max-width:460px;aspect-ratio:400/130}
+.sodo7 svg{position:absolute;inset:0;width:100%;height:100%}
+.sodo7 .lb{position:absolute;left:0;display:flex;align-items:center;gap:4px}
+.board{position:relative;width:200px;height:308px;background:#fffdf5;border:2px solid #e3d9b8;border-radius:10px;touch-action:none}
+.board svg,.board canvas{position:absolute;inset:0;width:100%;height:100%}
+.board canvas{touch-action:none;cursor:crosshair}
+.mini{width:260px;max-width:100%}
+@media(max-width:560px){body{font-size:19px}.bai{padding:10px 12px}.w-xl{width:100%}}
+.cauhoi{border-top:2px dashed var(--line);margin-top:10px;padding-top:6px}
+/* ----- Bài nối ----- */
+.noi{position:relative;display:grid;grid-template-columns:minmax(170px,290px) minmax(50px,150px) minmax(110px,150px);max-width:620px;margin:8px 0}
+.noi-col{display:flex;flex-direction:column}
+.noi .noi-l,.noi .noi-r{display:flex;align-items:center;gap:8px;min-height:50px;padding:2px 12px;border:2px solid #333;background:#fff;margin-top:-2px;cursor:pointer;user-select:none}
+.noi .noi-col>:first-child{margin-top:0}
+.noi .noi-l.mau{cursor:default;background:#f2f2f2}
+.noi .noi-l.sel{background:#fff0b8;border-color:#e0a100}
+.noi .noi-r:hover{background:#eef4ff}
+.noi .noi-l.ok{background:#e8f8ef}.noi .noi-l.sai{background:#fdeceb}
+.noi-svg{position:absolute;left:0;top:0;pointer-events:none;overflow:visible}
+.noi-svg line{stroke:#2f6fe0;stroke-width:3;stroke-linecap:round}
+.noi-svg line.mau{stroke:#333;stroke-width:2}
+.noi-svg line.ok{stroke:#1e9e5a}.noi-svg line.sai{stroke:#d9434e}
+
+/* ===== Song ngữ Việt - Anh ===== */
+html[data-lang="vi"] .en{display:none!important}
+html[data-lang="en"] .vi{display:none!important}
+header .hd-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px 12px}
+header .hd-top h1{text-align:left}
+.lang{display:inline-flex;border:3px solid var(--main);border-radius:14px;overflow:hidden}
+.lg{font:inherit;font-size:17px;font-weight:700;min-height:48px;padding:2px 14px;border:none;background:#fff;color:var(--main2);cursor:pointer}
+.lg.on{background:var(--main);color:#fff}
+.dong{align-items:flex-start}
+.dong > .so + span{flex:1 1 240px;min-width:0}
+.tuvung{margin:10px 0;background:#fff;border:2px solid var(--line);border-radius:14px;padding:4px 14px}
+.tuvung summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}
+.tuvung ul{columns:2 260px;margin:4px 0 8px 18px;padding:0;font-size:19px;line-height:1.6}
+
+/* ===== Sơ đồ mũi tên (Bài 1) ===== */
+.sodo{align-items:center!important}
+.chuoi{--n:clamp(38px,9.5vw,72px);display:flex;align-items:center;flex:1 1 0;min-width:0;margin:24px 0 8px}
+.nd{position:relative;flex:0 0 var(--n);width:var(--n);height:var(--n);display:inline-block}
+.nd svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.nd svg *{fill:#fff;stroke:#222;stroke-width:2.5;stroke-linejoin:round}
+.nd .slot,.nd .nv{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);flex-wrap:nowrap;margin:0}
+.nd.tri .slot,.nd.tri .nv{top:64%}
+.nd .nv{font-size:clamp(15px,4vw,22px);font-weight:700}
+.nd .in.w-n{width:calc(var(--n)*.6);min-width:0;text-align:center;padding:0;background:transparent;border-bottom:2px dashed #8aa4d6;border-radius:0;font-size:clamp(14px,3.8vw,22px);font-weight:700}
+.nd .in.w-n::placeholder{color:#8aa4d6}
+.nd .mk{position:absolute;left:100%;top:-18px;font-size:18px;white-space:nowrap}
+.nd .mk small{display:none}
+.nd .dapan-slot{position:absolute;top:100%;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:15px;padding:0 6px}
+.nd .slot.ok .in{background:#e8f8ef}.nd .slot.sai .in{background:#fdeceb}
+.ar{position:relative;flex:1 1 0;min-width:24px;height:var(--n)}
+.ar::before{content:"";position:absolute;left:0;right:7px;top:50%;height:2px;background:#222}
+.ar::after{content:"";position:absolute;right:0;top:calc(50% - 5px);border-left:8px solid #222;border-top:5px solid transparent;border-bottom:5px solid transparent}
+.ar b{position:absolute;left:50%;top:calc(50% - 26px);transform:translateX(-50%);font-size:clamp(12px,3.3vw,17px);white-space:nowrap}
+.fig{width:min(100%,300px);height:auto;margin:6px 0 10px}
+.tt{margin:2px 0 2px 14px}
+</style>
+</head>
+<body>
+<header>
+  <div class="hd-top">
+    <h1><span class="vi">TUẦN 17</span><span class="en">WEEK 17</span></h1>
+    <div class="lang" role="group" aria-label="Ngôn ngữ / Language">
+      <button type="button" class="lg on" data-l="vi" aria-pressed="true">🇻🇳 Tiếng Việt</button>
+      <button type="button" class="lg" data-l="en" aria-pressed="false">🇬🇧 English</button>
+    </div>
+  </div>
+  <div class="tien"><div id="bar"></div></div>
+  <span id="tiendo"></span>
+</header>
+<main>
+<details class="tuvung"><summary><span class="vi">📘 Từ vựng</span><span class="en">📘 Vocabulary</span></summary>
+<ul>
+  <li>tuần – week</li>
+  <li>tháng – month</li>
+  <li>ngày – day / date</li>
+  <li>thứ hai / thứ ba – Monday / Tuesday</li>
+  <li>tuần sau – next week</li>
+  <li>tuần sau nữa – the week after next</li>
+  <li>tam giác – triangle</li>
+  <li>tứ giác – quadrilateral</li>
+  <li>tóm tắt – summary</li>
+  <li>lít (l) – litre (l)</li>
+  <li>ki-lô-gam (kg) – kilogram (kg)</li>
+  <li>mét (m) – metre (m)</li>
+</ul></details>
+<p class="luuy"><span class="vi">Khi gõ phép tính, dấu trừ em gõ là “-”, dấu cộng là “+”.</span><span class="en">When you type a calculation, use “-” for minus and “+” for plus.</span></p>
+
+<h2 class="phan"><span class="vi">Phần I. Trắc nghiệm khách quan</span><span class="en">Part I. Objective questions</span></h2>
+
+<section class="bai" data-bai="p1_b1" data-ten-vi="Phần I - Bài 1" data-ten-en="Part I - Exercise 1">
+  <p><b><span class="vi">Bài 1.</span><span class="en">Exercise 1.</span></b> <b><i><span class="vi">Số ?</span><span class="en">Write the missing number.</span></i></b></p>
+  <div class="dong sodo"><span class="so">1.</span><div class="chuoi"><span class="nd circle"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46"/></svg><span class="slot" data-id="p1_b1_c1" data-kind="text" data-w="n" data-num="1" data-ph="?"></span></span><span class="ar"><b>+ 16</b></span><span class="nd star"><svg viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 57.6,16.9 71.3,5.9 71.2,23.4 88.3,19.4 80.6,35.2 97.8,39.1 84.0,50.0 97.8,60.9 80.6,64.8 88.3,80.6 71.2,76.6 71.3,94.1 57.6,83.1 50.0,99.0 42.4,83.1 28.7,94.1 28.8,76.6 11.7,80.6 19.4,64.8 2.2,60.9 16.0,50.0 2.2,39.1 19.4,35.2 11.7,19.4 28.8,23.4 28.7,5.9 42.4,16.9"/></svg><span class="slot" data-id="p1_b1_c1_n2" data-kind="text" data-w="n" data-num="1" data-nocount="1"></span></span><span class="ar"><b>– 25</b></span><span class="nd tri"><svg viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,6 96,92 4,92"/></svg><span class="slot" data-id="p1_b1_c1_n3" data-kind="text" data-w="n" data-num="1" data-nocount="1"></span></span><span class="ar"><b>+ 37</b></span><span class="nd sq"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="6" y="6" width="88" height="88"/></svg><span class="slot" data-id="p1_b1_c1_n4" data-kind="text" data-w="n" data-num="1" data-nocount="1"></span></span><span class="ar"><b>– 39</b></span><span class="nd circle"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46"/></svg><b class="nv">16</b></span></div></div>
+  <div class="dong sodo"><span class="so">2.</span><div class="chuoi"><span class="nd tri"><svg viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,6 96,92 4,92"/></svg><span class="slot" data-id="p1_b1_c2" data-kind="text" data-w="n" data-num="1" data-ph="?"></span></span><span class="ar"><b>+ 28</b></span><span class="nd sq"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="6" y="6" width="88" height="88"/></svg><span class="slot" data-id="p1_b1_c2_n2" data-kind="text" data-w="n" data-num="1" data-nocount="1"></span></span><span class="ar"><b>– 27</b></span><span class="nd star"><svg viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 57.6,16.9 71.3,5.9 71.2,23.4 88.3,19.4 80.6,35.2 97.8,39.1 84.0,50.0 97.8,60.9 80.6,64.8 88.3,80.6 71.2,76.6 71.3,94.1 57.6,83.1 50.0,99.0 42.4,83.1 28.7,94.1 28.8,76.6 11.7,80.6 19.4,64.8 2.2,60.9 16.0,50.0 2.2,39.1 19.4,35.2 11.7,19.4 28.8,23.4 28.7,5.9 42.4,16.9"/></svg><span class="slot" data-id="p1_b1_c2_n3" data-kind="text" data-w="n" data-num="1" data-nocount="1"></span></span><span class="ar"><b>+ 19</b></span><span class="nd circle"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46"/></svg><span class="slot" data-id="p1_b1_c2_n4" data-kind="text" data-w="n" data-num="1" data-nocount="1"></span></span><span class="ar"><b>– 17</b></span><span class="nd sq"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="6" y="6" width="88" height="88"/></svg><b class="nv">18</b></span></div></div>
+</section>
+
+<p class="hd"><span class="vi">Điền chữ hoặc số thích hợp vào chỗ trống.</span><span class="en">Fill in each blank with a suitable word or number.</span></p>
+
+<section class="bai" data-bai="p1_b2" data-ten-vi="Phần I - Bài 2" data-ten-en="Part I - Exercise 2">
+  <p><b><span class="vi">Bài 2.</span><span class="en">Exercise 2.</span></b> <span class="vi">Thứ ba tuần này là ngày 2 tháng 5. Vậy :</span><span class="en">Tuesday this week is 2 May. So:</span></p>
+  <div class="dong"><span class="so">1.</span><span><span class="vi">Thứ hai tuần sau là ngày</span><span class="en">Monday of next week is on the date:</span> <span class="slot" data-id="p1_b2_c1" data-kind="text" data-w="m"></span></span></div>
+  <div class="dong"><span class="so">2.</span><span><span class="vi">Thứ ba tuần sau là ngày</span><span class="en">Tuesday of next week is on the date:</span> <span class="slot" data-id="p1_b2_c2" data-kind="text" data-w="m"></span></span></div>
+  <div class="dong"><span class="so">3.</span><span><span class="vi">Thứ ba tuần sau nữa là ngày</span><span class="en">Tuesday of the week after next is on the date:</span> <span class="slot" data-id="p1_b2_c3" data-kind="text" data-w="m"></span></span></div>
+</section>
+
+<section class="bai" data-bai="p1_b3" data-ten-vi="Phần I - Bài 3" data-ten-en="Part I - Exercise 3">
+  <p><b><span class="vi">Bài 3.</span><span class="en">Exercise 3.</span></b> <span class="vi">Một ngày thứ hai nào đó trùng vào ngày 8 của tháng đó. Vậy :</span><span class="en">A certain Monday falls on the 8th of that month. So:</span></p>
+  <div class="dong"><span class="so">1.</span><span><span class="vi">Thứ hai đầu tiên của tháng đó là ngày</span><span class="en">The first Monday of that month is on the date:</span> <span class="slot" data-id="p1_b3_c1" data-kind="text" data-w="s" data-num="1"></span></span></div>
+  <div class="dong"><span class="so">2.</span><span><span class="vi">Thứ hai tiếp theo của thứ hai ngày 8 là ngày</span><span class="en">The next Monday after the Monday of the 8th is on the date:</span> <span class="slot" data-id="p1_b3_c2" data-kind="text" data-w="s" data-num="1"></span></span></div>
+</section>
+
+<section class="bai" data-bai="p1_b4" data-ten-vi="Phần I - Bài 4" data-ten-en="Part I - Exercise 4">
+  <h3><span class="vi">Bài 4.</span><span class="en">Exercise 4.</span></h3>
+  <div class="dong"><span class="so">1.</span><span><span class="vi">Bố đi công tác 2 tuần lễ. Bố đi từ thứ hai ngày 5 tháng 7. Vậy bố về vào</span><span class="en">Dad goes on a business trip for 2 weeks. Dad leaves on Monday, 5 July. So Dad comes back on</span> <span class="slot" data-id="p1_b4_c1_a" data-kind="text" data-w="m"></span> <span class="vi">ngày</span><span class="en">; the date is</span> <span class="slot" data-id="p1_b4_c1_b" data-kind="text" data-w="m"></span></span></div>
+  <div class="dong"><span class="so">2.</span><span><span class="vi">Mẹ về quê từ ngày 3 tháng 6. Mẹ về quê 1 tuần. Vậy mẹ trở về vào ngày</span><span class="en">Mom goes back to her hometown from 3 June. Mom stays there for 1 week. So Mom comes back on the date:</span> <span class="slot" data-id="p1_b4_c2" data-kind="text" data-w="m"></span></span></div>
+</section>
+
+<section class="bai" data-bai="p1_b5" data-ten-vi="Phần I - Bài 5" data-ten-en="Part I - Exercise 5">
+  <p><b><span class="vi">Bài 5.</span><span class="en">Exercise 5.</span></b> <b><i><span class="vi">Nối theo mẫu.</span><span class="en">Match (follow the example).</span></i></b></p>
+  <p class="small"><span class="vi">(Bấm vào phép tính bên trái, rồi bấm vào kết quả bên phải để nối. Bấm lại cùng kết quả để bỏ nối.)</span><span class="en">(Tap a calculation on the left, then tap a result on the right to connect them. Tap the same result again to remove the link.)</span></p>
+  <div class="noi">
+    <div class="noi-col">
+      <div class="noi-l mau" data-mau="2">a) 42 + 19 – 45 =</div>
+      <span class="slot noi-l" data-id="p1_b5_b" data-kind="noi">b) 95 – 18 – 57 =</span>
+      <span class="slot noi-l" data-id="p1_b5_c" data-kind="noi">c) 46 – 37 + 17 =</span>
+      <span class="slot noi-l" data-id="p1_b5_d" data-kind="noi">d) 43 + 58 – 65 =</span>
+      <span class="slot noi-l" data-id="p1_b5_e" data-kind="noi">e) 87 – 39 – 33 =</span>
+    </div>
+    <div></div>
+    <div class="noi-col">
+      <div class="noi-r" data-key="1">1) 26</div>
+      <div class="noi-r" data-key="2">2) 16</div>
+      <div class="noi-r" data-key="3">3) 15</div>
+      <div class="noi-r" data-key="4">4) 36</div>
+      <div class="noi-r" data-key="5">5) 20</div>
+    </div>
+    <svg class="noi-svg" aria-hidden="true"></svg>
+  </div>
+  <div class="chan"><button class="btn phu noi-xoa" type="button"><span class="vi">Xóa nối</span><span class="en">Clear links</span></button></div>
+</section>
+
+<section class="bai" data-bai="p1_b6" data-ten-vi="Phần I - Bài 6" data-ten-en="Part I - Exercise 6">
+  <p><b><span class="vi">Bài 6.</span><span class="en">Exercise 6.</span></b> <b><i><span class="vi">Khoanh vào chữ đặt trước đáp án đúng.</span><span class="en">Circle the letter in front of the correct answer.</span></i></b></p>
+  <div class="ngang">
+    <div>
+      <p><span class="so">1.</span> <span class="vi">Hình bên có :</span><span class="en">The figure shown has:</span></p>
+      <span class="slot" data-id="p1_b6_c1" data-kind="choice"><span class="choices"><button type="button" class="ch" data-v="A">A. <span class="vi">3 tam giác</span><span class="en">3 triangles</span></button><button type="button" class="ch" data-v="B">B. <span class="vi">4 tam giác</span><span class="en">4 triangles</span></button><button type="button" class="ch" data-v="C">C. <span class="vi">5 tam giác</span><span class="en">5 triangles</span></button></span></span>
+    </div>
+    <svg class="hinh fig" viewBox="75 238 490 195" role="img" aria-label="Figure 1">
+      <g fill="none" stroke="#222" stroke-width="2.5" stroke-linejoin="round">
+        <polygon points="88,422 205,250 437,250 555,422"/>
+        <line x1="205" y1="250" x2="247" y2="422"/><line x1="437" y1="250" x2="247" y2="422"/><line x1="437" y1="250" x2="420" y2="422"/>
+      </g></svg>
+  </div>
+  <div class="ngang">
+    <div>
+      <p><span class="so">2.</span> <span class="vi">Hình bên có :</span><span class="en">The figure shown has:</span></p>
+      <span class="slot" data-id="p1_b6_c2" data-kind="choice"><span class="choices"><button type="button" class="ch" data-v="A">A. <span class="vi">11 tứ giác</span><span class="en">11 quadrilaterals</span></button><button type="button" class="ch" data-v="B">B. <span class="vi">6 tứ giác</span><span class="en">6 quadrilaterals</span></button><button type="button" class="ch" data-v="C">C. <span class="vi">3 tứ giác.</span><span class="en">3 quadrilaterals.</span></button></span></span>
+    </div>
+    <svg class="hinh fig" viewBox="75 525 490 195" role="img" aria-label="Figure 2">
+      <g fill="none" stroke="#222" stroke-width="2.5" stroke-linejoin="round">
+        <polygon points="92,708 205,538 440,538 555,708"/>
+        <line x1="303" y1="538" x2="92" y2="708"/><line x1="303" y1="538" x2="555" y2="708"/><line x1="159" y1="607" x2="487" y2="607"/>
+      </g></svg>
+  </div>
+</section>
+
+<h2 class="phan"><span class="vi">Phần II. Tự luận</span><span class="en">Part II. Written problems</span></h2>
+
+<section class="bai" data-bai="p2_b1" data-ten-vi="Phần II - Bài 1" data-ten-en="Part II - Exercise 1">
+  <p><b><span class="vi">Bài 1.</span><span class="en">Exercise 1.</span></b> <span class="vi">Có 67<i>l</i> dầu đựng trong hai thùng. Sau khi chuyển 8<i>l</i> từ thùng thứ nhất sang thùng thứ hai thì thùng thứ hai có 33<i>l</i>. Hỏi trước khi chuyển :</span><span class="en">There are 67 <i>l</i> of oil in two containers. After 8 <i>l</i> is moved from the first container to the second container, the second container has 33 <i>l</i>. Before the move:</span></p>
+  <div class="cauhoi">
+    <p><span class="vi">1. Thùng thứ hai có bao nhiêu lít dầu ?</span><span class="en">1. How many litres of oil did the second container have?</span></p>
+    <div class="giai"><label><span class="vi">Bài giải</span><span class="en">Solution</span></label><span class="slot blk" data-id="p2_b1_c1_giai" data-kind="ta" data-rows="3" data-nocount="1"></span></div>
+    <div class="dapso"><span class="vi">Đáp số:</span><span class="en">Answer:</span> <span class="slot" data-id="p2_b1_c1" data-kind="text" data-w="xl"></span></div>
+  </div>
+  <div class="cauhoi">
+    <p><span class="vi">2. Thùng thứ nhất có bao nhiêu lít dầu ?</span><span class="en">2. How many litres of oil did the first container have?</span></p>
+    <div class="giai"><label><span class="vi">Bài giải</span><span class="en">Solution</span></label><span class="slot blk" data-id="p2_b1_c2_giai" data-kind="ta" data-rows="3" data-nocount="1"></span></div>
+    <div class="dapso"><span class="vi">Đáp số:</span><span class="en">Answer:</span> <span class="slot" data-id="p2_b1_c2" data-kind="text" data-w="xl"></span></div>
+  </div>
+</section>
+
+<section class="bai" data-bai="p2_b2" data-ten-vi="Phần II - Bài 2" data-ten-en="Part II - Exercise 2">
+  <p><b><span class="vi">Bài 2.</span><span class="en">Exercise 2.</span></b> <span class="vi">Có hai can đựng nước mắm. Sau khi đổ 19<i>l</i> từ can thứ nhất sang can thứ hai thì mỗi can đều có 37<i>l</i>. Hỏi lúc đầu :</span><span class="en">There are two cans of fish sauce. After 19 <i>l</i> is poured from the first can into the second can, each can has 37 <i>l</i>. At first:</span></p>
+  <div class="cauhoi">
+    <p><span class="vi">1. Can thứ nhất có bao nhiêu lít nước mắm ?</span><span class="en">1. How many litres of fish sauce did the first can have?</span></p>
+    <div class="giai"><label><span class="vi">Bài giải</span><span class="en">Solution</span></label><span class="slot blk" data-id="p2_b2_c1_giai" data-kind="ta" data-rows="3" data-nocount="1"></span></div>
+    <div class="dapso"><span class="vi">Đáp số:</span><span class="en">Answer:</span> <span class="slot" data-id="p2_b2_c1" data-kind="text" data-w="xl"></span></div>
+  </div>
+  <div class="cauhoi">
+    <p><span class="vi">2. Can thứ hai có bao nhiêu lít nước mắm ?</span><span class="en">2. How many litres of fish sauce did the second can have?</span></p>
+    <div class="giai"><label><span class="vi">Bài giải</span><span class="en">Solution</span></label><span class="slot blk" data-id="p2_b2_c2_giai" data-kind="ta" data-rows="3" data-nocount="1"></span></div>
+    <div class="dapso"><span class="vi">Đáp số:</span><span class="en">Answer:</span> <span class="slot" data-id="p2_b2_c2" data-kind="text" data-w="xl"></span></div>
+  </div>
+</section>
+
+<section class="bai" data-bai="p2_b3" data-ten-vi="Phần II - Bài 3" data-ten-en="Part II - Exercise 3">
+  <p><b><span class="vi">Bài 3.</span><span class="en">Exercise 3.</span></b> <span class="vi">Có hai rổ đựng táo. Sau khi chuyển 12 quả táo từ rổ thứ nhất sang rổ thứ hai thì rổ thứ nhất nhiều hơn rổ thứ hai 6 quả. Hỏi lúc đầu, rổ nào nhiều táo hơn ? Nhiều hơn bao nhiêu quả ?</span><span class="en">There are two baskets of apples. After 12 apples are moved from the first basket to the second basket, the first basket has 6 more than the second basket. At first, which basket had more apples? How many more apples?</span></p>
+  <div class="giai"><label><span class="vi">Bài giải</span><span class="en">Solution</span></label><span class="slot blk" data-id="p2_b3_giai" data-kind="ta" data-rows="4" data-nocount="1"></span></div>
+  <div class="dapso"><span class="vi">Đáp số:</span><span class="en">Answer:</span> <span class="slot" data-id="p2_b3_c1" data-kind="text" data-w="xl"></span></div>
+</section>
+
+<section class="bai" data-bai="p2_b4" data-ten-vi="Phần II - Bài 4" data-ten-en="Part II - Exercise 4">
+  <p><b><span class="vi">Bài 4.</span><span class="en">Exercise 4.</span></b> <span class="vi">Một cửa hàng có 98kg ngô. Buổi sáng cửa hàng bán được 27kg, buổi chiều bán được 16kg. Hỏi :</span><span class="en">A shop has 98 kg of corn. In the morning the shop sold 27 kg, in the afternoon it sold 16 kg. Questions:</span></p>
+  <div class="cauhoi">
+    <p><span class="vi">1. Sau buổi sáng cửa hàng còn bao nhiêu ki-lô-gam ngô ?</span><span class="en">1. After the morning, how many kilograms of corn does the shop have left?</span></p>
+    <div class="giai"><label><span class="vi">Bài giải</span><span class="en">Solution</span></label><span class="slot blk" data-id="p2_b4_c1_giai" data-kind="ta" data-rows="3" data-nocount="1"></span></div>
+    <div class="dapso"><span class="vi">Đáp số:</span><span class="en">Answer:</span> <span class="slot" data-id="p2_b4_c1" data-kind="text" data-w="xl"></span></div>
+  </div>
+  <div class="cauhoi">
+    <p><span class="vi">2. Sau buổi chiều cửa hàng còn lại bao nhiêu ki-lô-gam ngô ?</span><span class="en">2. After the afternoon, how many kilograms of corn are left in the shop?</span></p>
+    <div class="giai"><label><span class="vi">Bài giải</span><span class="en">Solution</span></label><span class="slot blk" data-id="p2_b4_c2_giai" data-kind="ta" data-rows="3" data-nocount="1"></span></div>
+    <div class="dapso"><span class="vi">Đáp số:</span><span class="en">Answer:</span> <span class="slot" data-id="p2_b4_c2" data-kind="text" data-w="xl"></span></div>
+  </div>
+</section>
+
+<section class="bai" data-bai="p2_b5" data-ten-vi="Phần II - Bài 5" data-ten-en="Part II - Exercise 5">
+  <p><b><span class="vi">Bài 5.</span><span class="en">Exercise 5.</span></b> <span class="vi">Đặt một đề toán theo tóm tắt dưới đây rồi giải bài toán đó.</span><span class="en">Make up a word problem from the summary below, then solve it.</span></p>
+  <p class="tt"><span class="vi">Gà trống : 17 con</span><span class="en">Roosters: 17</span></p>
+  <p class="tt"><span class="vi">Gà trống nhiều hơn gà mái : 5 con</span><span class="en">There are 5 more roosters than hens</span></p>
+  <p class="tt"><span class="vi">Gà mái :</span><span class="en">Hens:</span> <span class="slot" data-id="p2_b5_c1" data-kind="text" data-w="m" data-num="1" data-nocount="1"></span> <span class="vi">con ?</span><span class="en">?</span></p>
+  <div class="giai"><label><span class="vi">Bài làm</span><span class="en">Your work</span></label><span class="slot blk" data-id="p2_b5_giai" data-kind="ta" data-rows="5"></span></div>
+</section>
+
+<section class="bai" data-bai="p2_b6" data-ten-vi="Phần II - Bài 6" data-ten-en="Part II - Exercise 6">
+  <p><b><span class="vi">Bài 6.</span><span class="en">Exercise 6.</span></b> <span class="vi">Đặt một đề toán theo tóm tắt sau rồi giải bài toán đó :</span><span class="en">Make up a word problem from the following summary, then solve it:</span></p>
+  <p class="tt"><span class="vi">Vải xanh : 38m</span><span class="en">Blue fabric: 38 m</span></p>
+  <p class="tt"><span class="vi">Vải xanh ngắn hơn vải hoa : 6m</span><span class="en">Blue fabric is 6 m shorter than patterned fabric</span></p>
+  <p class="tt"><span class="vi">Vải hoa :</span><span class="en">Patterned fabric:</span> <span class="slot" data-id="p2_b6_c1" data-kind="text" data-w="s" data-num="1" data-nocount="1"></span> <span class="vi">m ?</span><span class="en">m ?</span></p>
+  <div class="giai"><label><span class="vi">Bài làm</span><span class="en">Your work</span></label><span class="slot blk" data-id="p2_b6_giai" data-kind="ta" data-rows="5"></span></div>
+</section>
+
+<section class="bai" data-bai="p2_b7" data-ten-vi="Phần II - Bài 7" data-ten-en="Part II - Exercise 7">
+  <p><b><span class="vi">Bài 7.</span><span class="en">Exercise 7.</span></b> <span class="vi">Can đựng 21<i>l</i> sữa. Lần đầu rót đầy bình 3<i>l</i>, lần sau rót đầy bình 5<i>l</i>. Hỏi :</span><span class="en">A can holds 21 <i>l</i> of milk. The first time, milk is poured to fill a 3 <i>l</i> bottle; the second time, to fill a 5 <i>l</i> bottle. Questions:</span></p>
+  <div class="cauhoi">
+    <p><span class="vi">1. Sau lần rót đầu tiên, trong can còn lại bao nhiêu lít sữa ?</span><span class="en">1. After the first pouring, how many litres of milk are left in the can?</span></p>
+    <div class="giai"><label><span class="vi">Bài giải</span><span class="en">Solution</span></label><span class="slot blk" data-id="p2_b7_c1_giai" data-kind="ta" data-rows="3" data-nocount="1"></span></div>
+    <div class="dapso"><span class="vi">Đáp số:</span><span class="en">Answer:</span> <span class="slot" data-id="p2_b7_c1" data-kind="text" data-w="xl"></span></div>
+  </div>
+  <div class="cauhoi">
+    <p><span class="vi">2. Sau lần rót thứ hai, trong can còn lại bao nhiêu lít sữa ?</span><span class="en">2. After the second pouring, how many litres of milk are left in the can?</span></p>
+    <div class="giai"><label><span class="vi">Bài giải</span><span class="en">Solution</span></label><span class="slot blk" data-id="p2_b7_c2_giai" data-kind="ta" data-rows="3" data-nocount="1"></span></div>
+    <div class="dapso"><span class="vi">Đáp số:</span><span class="en">Answer:</span> <span class="slot" data-id="p2_b7_c2" data-kind="text" data-w="xl"></span></div>
+  </div>
+</section>
+
+<div class="hanh">
+  <button class="btn nop" id="btnNop" type="button"><span class="vi">Nộp bài</span><span class="en">Submit</span></button>
+  <button class="btn lam" id="btnLam" type="button"><span class="vi">Làm lại</span><span class="en">Start over</span></button>
+  <button class="btn phu" id="btnPhu" type="button" hidden><span class="vi">Chế độ ba mẹ</span><span class="en">Parent mode</span></button>
+</div>
+<div id="ketqua"></div>
+</main>
+
+<!-- ================= SCRIPT 1: DỮ LIỆU + HÀM CHẤM (không đụng tới giao diện) ================= -->
+<script id="logic">
+var KEY_STORE = "baitap_tuan17";
+var LANG_KEY = "baitap_lang"; /* khóa ghi nhớ ngôn ngữ, dùng chung mọi tuần */
+var MA_BA_ME = "1234"; /* mã vào chế độ ba mẹ, đổi ở đây */
+
+/* ANSWER_KEY: lấy từ ảnh đáp án (ảnh 4-5). Sửa tay được; xóa hết các mục để tắt chế độ chấm.
+   kieu: so | chu | ngay | dungsai | chon | noi | dapso
+   Chấp nhận đáp án gõ bằng tiếng Việt HOẶC tiếng Anh ở mọi chế độ.
+   donvi: phần tử đầu là cách viết tiếng Việt, phần tử cuối là cách viết tiếng Anh dùng để hiển thị. */
+var ANSWER_KEY = {
+  p1_b1_c1:{kieu:"so",dapan:"27"}, p1_b1_c2:{kieu:"so",dapan:"15"},
+  p1_b2_c1:{kieu:"ngay",d:8,m:5}, p1_b2_c2:{kieu:"ngay",d:9,m:5}, p1_b2_c3:{kieu:"ngay",d:16,m:5},
+  p1_b3_c1:{kieu:"so",dapan:"1"}, p1_b3_c2:{kieu:"so",dapan:"15"},
+  p1_b4_c1_a:{kieu:"chu",dapan:"thứ hai",en:["Monday","Mon"],them:["thứ 2","hai","t2"]},
+  p1_b4_c1_b:{kieu:"ngay",d:19,m:7}, p1_b4_c2:{kieu:"ngay",d:10,m:6},
+  p1_b5_b:{kieu:"noi",dapan:"5"}, p1_b5_c:{kieu:"noi",dapan:"1"}, p1_b5_d:{kieu:"noi",dapan:"4"}, p1_b5_e:{kieu:"noi",dapan:"3"},
+  p1_b6_c1:{kieu:"chon",dapan:"C"}, p1_b6_c2:{kieu:"chon",dapan:"A"},
+  p2_b1_c1:{kieu:"dapso",tu:[],so:"25",donvi:["lít","l","liter","liters","litre","litres"]},
+  p2_b1_c2:{kieu:"dapso",tu:[],so:"42",donvi:["lít","l","liter","liters","litre","litres"]},
+  p2_b2_c1:{kieu:"dapso",tu:[],so:"56",donvi:["lít","l","liter","liters","litre","litres"]},
+  p2_b2_c2:{kieu:"dapso",tu:[],so:"18",donvi:["lít","l","liter","liters","litre","litres"]},
+  p2_b3_c1:{kieu:"dapso",tu:[["thứ nhất","thứ 1","rổ 1","first","1st","basket 1"]],so:"30",donvi:["quả","apple","apples"],
+            hien:["Rổ thứ nhất nhiều hơn rổ thứ hai 30 quả","The first basket has 30 more apples than the second basket"]},
+  p2_b4_c1:{kieu:"dapso",tu:[],so:"71",donvi:["kg","ki-lô-gam","ki lô gam","kilo","kilos","kilogram","kilograms"]},
+  p2_b4_c2:{kieu:"dapso",tu:[],so:"55",donvi:["kg","ki-lô-gam","ki lô gam","kilo","kilos","kilogram","kilograms"]},
+  p2_b7_c1:{kieu:"dapso",tu:[],so:"18",donvi:["lít","l","liter","liters","litre","litres"]},
+  p2_b7_c2:{kieu:"dapso",tu:[],so:"13",donvi:["lít","l","liter","liters","litre","litres"]}
+};
+/* Ghi chú đáp án cho các bài không chấm tự động (chỉ hiện ở chế độ ba mẹ): { mã_bài: [tiếng Việt, English] } */
+var ANSWER_NOTES = {};
+var HAS_KEY = Object.keys(ANSWER_KEY).length > 0;
+/* Tên tháng tiếng Anh để hiển thị và để chấp nhận khi bé gõ "19 July", "July 19th" */
+var MONTH_EN = ["","January","February","March","April","May","June","July","August","September","October","November","December"];
+var MONTHS = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12,
+              jan:1,feb:2,mar:3,apr:4,jun:6,jul:7,aug:8,sep:9,sept:9,oct:10,nov:11,dec:12};
+
+/* ----- Ngôn ngữ: mọi chữ có hai bản vi / en, CSS ẩn bản không dùng ----- */
+function getLang(){ return document.documentElement.getAttribute("data-lang") === "en" ? "en" : "vi"; }
+function bi(vi, en){ return '<span class="vi">' + vi + '</span><span class="en">' + en + '</span>'; }
+function tx(vi, en){ return getLang() === "en" ? en : vi; } /* cho alert / confirm / prompt */
+function numOf(v){ var n = Number(String(v).replace(",", ".")); return isNaN(n) ? 0 : n; }
+function fmtEn(x){ return (Math.round(numOf(x) * 2) / 2).toString(); }
+function fmtVi(x){ return fmtEn(x).replace(".", ","); }
+
+/* ----- Trạng thái bài làm (giá trị lưu không phụ thuộc ngôn ngữ: Đ/S, số, chữ bé gõ) ----- */
+var S = {v:{}, att:{}};
+try {
+  var raw = localStorage.getItem(KEY_STORE);
+  if (raw) { S = JSON.parse(raw); if (!S.v) S.v = {}; if (!S.att) S.att = {}; }
+} catch (e) {}
+function save(){ try { localStorage.setItem(KEY_STORE, JSON.stringify(S)); } catch (e) {} }
+
+/* ----- Chuẩn hóa chuỗi ----- */
+function nfc(s){ return (s||"").toString().normalize("NFC"); }
+function cleanText(s){ return nfc(s).toLowerCase().replace(/[.,;:!?]+$/,"").replace(/\s+/g," ").trim(); }
+function noAccent(s){ return cleanText(s).normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/g,"d"); }
+function normExpr(s){ return nfc(s).toLowerCase().replace(/[–−—‒]/g,"-").replace(/\s+/g,"").replace(/[.=]+$/,""); }
+function parseExpr(s){
+  var m = normExpr(s).match(/^(\d+)([+\-])(\d+)(?:=(\d+))?$/);
+  return m ? {a:+m[1], op:m[2], b:+m[3], r:(m[4]===undefined?null:+m[4])} : null;
+}
+function sameExpr(inp, exp){
+  var x = parseExpr(inp), y = parseExpr(exp);
+  if (!x || !y || x.op !== y.op) return false;
+  if (y.r !== null && x.r !== null && x.r !== y.r) return false;
+  if (x.op === "+") return (x.a===y.a && x.b===y.b) || (x.a===y.b && x.b===y.a); /* phép cộng đổi chỗ được */
+  return x.a===y.a && x.b===y.b; /* phép trừ phải đúng thứ tự */
+}
+function fmtExpr(e){ return e.replace(/-/g," – ").replace(/\+/g," + ").replace(/=/g," = "); }
+
+function parseDate(s){
+  var low = cleanText(s).replace(/(\d)(st|nd|rd|th)\b/g, "$1");
+  var nums = (low.match(/\d+/g) || []).map(Number);
+  var words = low.match(/[a-z]+/g) || [], mon = null;
+  words.forEach(function(w){ if (MONTHS[w]) mon = MONTHS[w]; });
+  if (mon !== null) return nums.length >= 1 ? {d:nums[0], m:mon} : null;
+  if (nums.length >= 2) return {d:nums[0], m:nums[1]};
+  return null;
+}
+
+/* Chữ hiển thị đáp án đúng theo ngôn ngữ (ở chế độ ba mẹ / sau khi bấm "Xem đáp án") */
+function fmtAns(k, lang){
+  var en = lang === "en";
+  switch (k.kieu){
+    case "phep": return fmtExpr(k.dapan);
+    case "chu": return en && k.en && k.en.length ? k.en[0] : k.dapan;
+    case "dungsai": return en ? (k.dapan === "Đ" ? "T" : "F") : k.dapan;
+    case "noi": return k.dapan + ")";
+    case "ngay": return en ? (k.d + " " + MONTH_EN[k.m]) : (k.d + " tháng " + k.m);
+    case "dapso":
+      if (k.hien) return en ? k.hien[1] : k.hien[0];
+      var u = (k.donvi && k.donvi.length) ? (en ? k.donvi[k.donvi.length - 1] : k.donvi[0]) : "";
+      return k.so + (u ? " " + u : "");
+    default: return k.dapan;
+  }
+}
+
+/* ----- Chấm một ô: trả về {st: dung|gan|sai|trong, sc, msg:[vi,en]} ----- */
+function gradeCell(id){
+  var k = ANSWER_KEY[id]; if (!k) return null;
+  var val = (S.v[id] || "").toString();
+  if (!val.trim()) return {st:"trong", sc:0};
+  var ok = false, t, low, na, nums, okNum, okTu, okDv, acc;
+  switch (k.kieu){
+    case "so":
+      t = val.replace(/\s/g,"").replace(/^y=/i,"").replace(/[.,;]+$/,"").replace(/(\d)(st|nd|rd|th)$/i,"$1");
+      ok = (/^\d+$/.test(t) && /^\d+$/.test(k.dapan)) ? Number(t) === Number(k.dapan) : cleanText(t) === cleanText(k.dapan);
+      return ok ? {st:"dung",sc:1} : {st:"sai",sc:0};
+    case "chu":
+      acc = [k.dapan].concat(k.en || []).concat(k.them || []);
+      if (acc.some(function(a){ return cleanText(val) === cleanText(a); })) return {st:"dung",sc:1};
+      if (noAccent(val) === noAccent(k.dapan)) return {st:"gan",sc:0.5,msg:["Đúng chữ rồi, nhớ gõ dấu nhé!","The word is right, remember the accent marks!"]};
+      return {st:"sai",sc:0};
+    case "phep":
+      return sameExpr(val, k.dapan) ? {st:"dung",sc:1} : {st:"sai",sc:0};
+    case "ngay":
+      t = parseDate(val);
+      return (t && t.d === k.d && t.m === k.m) ? {st:"dung",sc:1} : {st:"sai",sc:0};
+    case "dungsai": case "chon": case "noi":
+      return val === k.dapan ? {st:"dung",sc:1} : {st:"sai",sc:0};
+    case "dapso":
+      low = cleanText(val); na = noAccent(val);
+      nums = (val.match(/\d+/g) || []).map(Number);
+      okNum = nums.indexOf(Number(k.so)) >= 0;
+      okTu = (k.tu || []).every(function(gr){ return gr.some(function(w){ return low.indexOf(cleanText(w)) >= 0 || na.indexOf(noAccent(w)) >= 0; }); });
+      okDv = !k.donvi || !k.donvi.length || k.donvi.some(function(u){ return low.indexOf(cleanText(u)) >= 0 || na.indexOf(noAccent(u)) >= 0; });
+      if (okNum && okTu && okDv) return {st:"dung",sc:1};
+      if (okNum && okTu) return {st:"gan",sc:0.5,msg:["Đúng số rồi, nhớ ghi đơn vị nhé!","The number is right, remember the unit!"]};
+      return {st:"sai",sc:0};
+  }
+  return {st:"sai",sc:0};
+}
+</script>
+
+<!-- ================= SCRIPT 2: GIAO DIỆN ================= -->
+<script>
+(function(){
+  var SL = {}, NOIS = [];
+  var slots = Array.prototype.slice.call(document.querySelectorAll(".slot"));
+  var cards = Array.prototype.slice.call(document.querySelectorAll(".bai"));
+  var langBtns = Array.prototype.slice.call(document.querySelectorAll(".lg"));
+  var phu = document.getElementById("btnPhu");
+
+  function redrawNoi(){ NOIS.forEach(function(f){ f(); }); }
+
+  /* ----- Nút chuyển ngôn ngữ: đổi ngay, không tải lại, không mất bài ----- */
+  function refreshPhuBtn(){
+    var on = document.body.classList.contains("phuhuynh");
+    phu.innerHTML = on ? bi("Tắt chế độ ba mẹ", "Exit parent mode") : bi("Chế độ ba mẹ", "Parent mode");
+  }
+  function applyLang(l, persist){
+    var h = document.documentElement;
+    h.setAttribute("data-lang", l); h.setAttribute("lang", l);
+    langBtns.forEach(function(b){
+      var on = b.dataset.l === l;
+      b.classList.toggle("on", on); b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    if (persist){ try { localStorage.setItem(LANG_KEY, l); } catch (e) {} }
+    updateProgress(); refreshPhuBtn(); redrawNoi();
+  }
+  langBtns.forEach(function(b){ b.addEventListener("click", function(){ applyLang(b.dataset.l, true); }); });
+
+  function setVal(id, v){
+    S.v[id] = v; save();
+    var s = SL[id]; if (s) clearMark(s);
+    updateProgress();
+  }
+  function clearMark(s){
+    s.classList.remove("ok","gan","sai");
+    var m = s.querySelector(".mk"); if (m) m.innerHTML = "";
+  }
+  function showMark(s, r){
+    clearMark(s);
+    var m = s.querySelector(".mk"); if (!m || !r) return;
+    var msg = r.msg ? "<small>" + bi(r.msg[0], r.msg[1]) + "</small>" : "";
+    if (r.st === "dung"){ s.classList.add("ok"); m.textContent = "✔"; }
+    else if (r.st === "gan"){ s.classList.add("gan"); m.innerHTML = "⚠" + msg; }
+    else if (r.st === "sai"){ s.classList.add("sai"); m.innerHTML = "✘" + msg; }
+    redrawNoi();
+  }
+
+  /* ----- Tạo ô nhập theo loại (mỗi ô chỉ có MỘT bản, dùng chung cho hai ngôn ngữ) ----- */
+  slots.forEach(function(slot){
+    var id = slot.dataset.id, kind = slot.dataset.kind;
+    SL[id] = slot;
+    if (kind === "text"){
+      var i = document.createElement("input");
+      i.type = "text"; i.className = "in w-" + (slot.dataset.w || "m");
+      i.setAttribute("autocomplete","off"); i.setAttribute("autocapitalize","off"); i.spellcheck = false;
+      if (slot.dataset.ph) i.placeholder = slot.dataset.ph;
+      if (slot.dataset.num) i.inputMode = "numeric";
+      i.value = S.v[id] || "";
+      i.addEventListener("input", function(){ setVal(id, i.value); });
+      slot.appendChild(i);
+    } else if (kind === "ta"){
+      var t = document.createElement("textarea");
+      t.className = "ta"; t.rows = +(slot.dataset.rows || 4); t.spellcheck = false;
+      t.value = S.v[id] || "";
+      t.addEventListener("input", function(){ setVal(id, t.value); });
+      slot.appendChild(t);
+    } else if (kind === "ds"){
+      ["Đ","S"].forEach(function(l){
+        var b = document.createElement("button"); b.type = "button"; b.className = "dsb"; b.dataset.v = l;
+        b.innerHTML = bi(l, l === "Đ" ? "T" : "F"); /* hiển thị Đ/S hoặc T/F, giá trị lưu vẫn là Đ/S */
+        b.addEventListener("click", function(){ setVal(id, S.v[id] === l ? "" : l); sync(slot); });
+        slot.appendChild(b);
+      });
+      sync(slot);
+    } else if (kind === "choice"){
+      Array.prototype.forEach.call(slot.querySelectorAll(".ch"), function(b){
+        b.addEventListener("click", function(){ setVal(id, S.v[id] === b.dataset.v ? "" : b.dataset.v); sync(slot); });
+      });
+      sync(slot);
+    }
+    var mk = document.createElement("span"); mk.className = "mk"; slot.appendChild(mk);
+    if (ANSWER_KEY[id]){
+      var da = document.createElement("span"); da.className = "dapan-slot";
+      da.innerHTML = bi("Đáp án: " + fmtAns(ANSWER_KEY[id], "vi"), "Answer: " + fmtAns(ANSWER_KEY[id], "en"));
+      slot.appendChild(da);
+    }
+  });
+
+  function sync(slot){
+    var id = slot.dataset.id, v = S.v[id] || "";
+    Array.prototype.forEach.call(slot.querySelectorAll(".dsb,.ch"), function(b){ b.classList.toggle("on", b.dataset.v === v); });
+  }
+
+  /* ----- Bài nối: bấm phép tính bên trái rồi bấm kết quả bên phải ----- */
+  function initNoi(wrap){
+    var svg = wrap.querySelector(".noi-svg");
+    var lefts = Array.prototype.slice.call(wrap.querySelectorAll(".noi-l"));
+    var rights = Array.prototype.slice.call(wrap.querySelectorAll(".noi-r"));
+    var sel = null;
+    function pt(el, side){
+      var a = el.getBoundingClientRect(), b = wrap.getBoundingClientRect();
+      return {x:(side === "r" ? a.right : a.left) - b.left, y:(a.top + a.bottom)/2 - b.top};
+    }
+    function draw(){
+      var b = wrap.getBoundingClientRect(), h = "";
+      svg.setAttribute("width", b.width); svg.setAttribute("height", b.height);
+      svg.setAttribute("viewBox", "0 0 " + b.width + " " + b.height);
+      lefts.forEach(function(l){
+        var key = l.dataset.mau || (l.dataset.id ? S.v[l.dataset.id] : "");
+        if (!key) return;
+        var r = rights.filter(function(x){ return x.dataset.key === key; })[0]; if (!r) return;
+        var p = pt(l, "r"), q = pt(r, "l");
+        var cls = l.dataset.mau ? "mau" : (l.classList.contains("ok") ? "ok" : (l.classList.contains("sai") ? "sai" : ""));
+        h += '<line class="' + cls + '" x1="' + p.x + '" y1="' + p.y + '" x2="' + q.x + '" y2="' + q.y + '"/>';
+      });
+      svg.innerHTML = h;
+    }
+    lefts.forEach(function(l){
+      if (l.dataset.mau) return;
+      l.addEventListener("click", function(){
+        sel = (sel === l) ? null : l;
+        lefts.forEach(function(x){ x.classList.toggle("sel", x === sel); });
+      });
+    });
+    rights.forEach(function(r){
+      r.addEventListener("click", function(){
+        if (!sel) return;
+        var id = sel.dataset.id;
+        setVal(id, S.v[id] === r.dataset.key ? "" : r.dataset.key);
+        sel.classList.remove("sel"); sel = null; draw();
+      });
+    });
+    var xoa = wrap.parentNode.querySelector(".noi-xoa");
+    if (xoa) xoa.addEventListener("click", function(){
+      lefts.forEach(function(l){ if (l.dataset.id) setVal(l.dataset.id, ""); l.classList.remove("sel"); });
+      sel = null; draw();
+    });
+    NOIS.push(draw); draw();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".noi"), initNoi);
+  window.addEventListener("resize", redrawNoi);
+  window.addEventListener("load", redrawNoi);
+
+  /* ----- Thanh tiến độ ----- */
+  function updateProgress(){
+    var all = slots.filter(function(s){ return !s.dataset.nocount; });
+    var done = all.filter(function(s){ return (S.v[s.dataset.id] || "").toString().trim() !== ""; }).length;
+    document.getElementById("bar").style.width = (all.length ? done*100/all.length : 0) + "%";
+    document.getElementById("tiendo").innerHTML = bi("Đã làm " + done + " / " + all.length + " ô", "Done " + done + " / " + all.length + " boxes");
+  }
+
+  /* ----- Chấm theo từng bài ----- */
+  function keyedSlots(card){ return Array.prototype.slice.call(card.querySelectorAll(".slot")).filter(function(s){ return ANSWER_KEY[s.dataset.id]; }); }
+  function checkCard(card){
+    var r = {sc:0, n:0, wrong:0, empty:0, near:0};
+    keyedSlots(card).forEach(function(s){
+      var g = gradeCell(s.dataset.id); showMark(s, g);
+      r.n++; r.sc += g.sc;
+      if (g.st === "sai") r.wrong++; else if (g.st === "trong") r.empty++; else if (g.st === "gan") r.near++;
+    });
+    return r;
+  }
+
+  cards.forEach(function(card){
+    var bai = card.dataset.bai, n = keyedSlots(card).length;
+    var note = ANSWER_NOTES[bai];
+    if (note){ var dn = document.createElement("div"); dn.className = "dapan-note"; dn.innerHTML = bi("Đáp án: " + note[0], "Answer: " + note[1]); card.appendChild(dn); }
+    if (!HAS_KEY || !n) return;
+    var f = document.createElement("div"); f.className = "chan";
+    f.innerHTML = '<button type="button" class="btn kt">' + bi("Kiểm tra", "Check") + '</button>' +
+                  '<button type="button" class="btn phu xem" hidden>' + bi("Xem đáp án", "Show answer") + '</button><span class="tb"></span>';
+    card.appendChild(f);
+    var tb = f.querySelector(".tb"), xem = f.querySelector(".xem");
+    f.querySelector(".kt").addEventListener("click", function(){
+      var r = checkCard(card);
+      var giai = card.querySelector(".giai") ? bi(" Ba mẹ xem lại phần bài giải nhé.", " Parents, please check the solution.") : "";
+      if (!r.wrong && !r.empty && !r.near){ tb.style.color = "#1e9e5a"; tb.innerHTML = bi("Giỏi quá! Đúng hết rồi 🎉", "Great job! All correct 🎉") + giai; return; }
+      S.att[bai] = (S.att[bai] || 0) + 1; save();
+      tb.style.color = "#c0392b";
+      if (r.empty) tb.innerHTML = bi("Em còn ô chưa điền nhé!", "Some boxes are still empty!");
+      else if (!r.wrong) tb.innerHTML = bi("Gần đúng rồi, xem dấu ⚠ nhé!", "Almost there, look at the ⚠ marks!");
+      else tb.innerHTML = S.att[bai] >= 2 ? bi("Vẫn còn chỗ chưa đúng. Bấm “Xem đáp án” nhé.", "Still some mistakes. Tap “Show answer”.")
+                                           : bi("Thử lại nhé! Có chỗ chưa đúng.", "Try again! Something isn't right yet.");
+      if (S.att[bai] >= 2){ xem.hidden = false; }
+    });
+    xem.addEventListener("click", function(){ card.classList.add("lo"); });
+    if ((S.att[bai] || 0) >= 2) xem.hidden = false;
+  });
+
+  /* ----- Nộp bài ----- */
+  function dstr(iso){ var d = new Date(iso); return bi(d.toLocaleString("vi-VN"), d.toLocaleString("en-GB")); }
+  document.getElementById("btnNop").addEventListener("click", function(){
+    var box = document.getElementById("ketqua"), html = "", tong = 0, diem = 0, chuaLam = 0, reviewList = [], rows = [];
+    cards.forEach(function(card){
+      var ten = bi(card.dataset.tenVi, card.dataset.tenEn), ks = keyedSlots(card);
+      if (HAS_KEY && ks.length){
+        var r = checkCard(card); tong += r.n; diem += r.sc; chuaLam += r.empty;
+        var icon = (r.sc === r.n) ? "✔" : (r.sc === 0 ? "✘" : "⚠");
+        rows.push("<li>" + ten + ": " + bi(fmtVi(r.sc) + "/" + r.n, fmtEn(r.sc) + "/" + r.n) + " " + icon +
+                  (r.empty ? " " + bi("(còn " + r.empty + " ô chưa điền)", "(" + r.empty + " empty)") : "") + "</li>");
+      } else {
+        var any = Array.prototype.slice.call(card.querySelectorAll(".slot")).some(function(s){ return (S.v[s.dataset.id] || "").toString().trim() !== ""; });
+        if (HAS_KEY) reviewList.push(ten + (any ? "" : bi(" (chưa làm)", " (not done)")));
+        else rows.push("<li>" + ten + ": " + (any ? bi("đã làm", "done") : bi("chưa làm", "not done")) + "</li>");
+      }
+    });
+    var truoc = []; try { truoc = JSON.parse(localStorage.getItem(KEY_STORE + "_ketqua") || "[]"); } catch (e) {}
+    if (HAS_KEY){
+      var tl = tong ? diem/tong : 0;
+      var khen = tl >= 0.9 ? bi("Tuyệt vời! 🎉", "Excellent! 🎉")
+               : (tl >= 0.6 ? bi("Giỏi lắm! Cố gắng thêm nhé 👍", "Well done! Keep going 👍")
+                            : bi("Cố gắng lên, em xem lại các bài chưa đúng nhé 💪", "Keep trying, look at the exercises that are not right yet 💪"));
+      html += "<h2>" + bi("Kết quả", "Results") + "</h2><p class='diem'>" +
+              bi("Điểm: " + fmtVi(diem) + " / " + tong + " ô", "Score: " + fmtEn(diem) + " / " + tong + " boxes") + " &nbsp; " + khen + "</p>";
+      if (chuaLam) html += "<p>" + bi("Còn " + chuaLam + " ô chưa điền.", chuaLam + " boxes are still empty.") + "</p>";
+      html += "<ul>" + rows.join("") + "</ul>";
+      if (reviewList.length) html += "<p class='small'>" + bi("Ba mẹ xem lại cùng bé (không chấm tự động): ", "Parents, please review with your child (not auto-graded): ") + reviewList.join("; ") + ".</p>";
+      if (truoc.length){
+        html += "<p class='small'>" + bi("Các lần nộp trước: ", "Previous submissions: ") + truoc.slice(-3).map(function(x){
+          var d = x.iso ? dstr(x.iso) : (x.t || "");
+          return d + " – " + bi(fmtVi(x.diem) + "/" + x.tong, fmtEn(x.diem) + "/" + x.tong);
+        }).join(" | ") + "</p>";
+      }
+      truoc.push({iso:new Date().toISOString(), diem:diem, tong:tong});
+      try { localStorage.setItem(KEY_STORE + "_ketqua", JSON.stringify(truoc.slice(-20))); } catch (e) {}
+    } else {
+      html += "<h2>" + bi("Bài đã làm", "Work done") + "</h2><ul>" + rows.join("") + "</ul>";
+    }
+    box.innerHTML = html; box.style.display = "block"; box.scrollIntoView({behavior:"smooth", block:"start"});
+  });
+
+  /* ----- Làm lại ----- */
+  document.getElementById("btnLam").addEventListener("click", function(){
+    if (confirm(tx("Em có chắc muốn xóa hết bài làm để làm lại không?", "Are you sure you want to erase all your work and start over?"))){
+      S = {v:{}, att:{}}; save(); location.reload();
+    }
+  });
+
+  /* ----- Chế độ ba mẹ ----- */
+  if (HAS_KEY){ phu.hidden = false; }
+  phu.addEventListener("click", function(){
+    if (document.body.classList.contains("phuhuynh")){ document.body.classList.remove("phuhuynh"); refreshPhuBtn(); return; }
+    var m = prompt(tx("Nhập mã của ba mẹ:", "Enter the parents' code:"));
+    if (m === MA_BA_ME){ document.body.classList.add("phuhuynh"); refreshPhuBtn(); }
+    else if (m !== null) alert(tx("Mã chưa đúng.", "Wrong code."));
+  });
+
+  applyLang(getLang(), false);
+  setTimeout(redrawNoi, 50);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài tập toán lớp 2 - Tuần 10</title>
+<style>
+/* ===== Giao diện chung ===== */
+:root{--bg:#fff7e6;--card:#ffffff;--ink:#2b2b3a;--main:#4f8cff;--main2:#2f6fe0;--ok:#1e9e5a;--warn:#d99a00;--bad:#d9434e;--line:#cfd8ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Roboto,Arial,sans-serif;font-size:21px;line-height:1.75;background:var(--bg);color:var(--ink)}
+header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:3px solid var(--main);padding:6px 14px 8px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+header h1{margin:0;font-size:28px;text-align:center;color:var(--main2)}
+.tien{height:14px;background:#e7edf9;border-radius:99px;overflow:hidden;margin-top:4px}
+#bar{height:100%;width:0;background:linear-gradient(90deg,#4f8cff,#37c38a);transition:width .3s}
+#tiendo{display:block;text-align:center;font-size:16px;color:#556}
+main{max-width:880px;margin:0 auto;padding:12px 14px 60px}
+.luuy{font-size:16px;color:#667;text-align:center;margin:6px 0 0}
+h2.phan{margin:26px 0 6px;font-size:26px;color:#1b3a8c}
+p.hd{margin:12px 2px 8px;font-weight:700;font-style:italic}
+.bai{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 18px 14px;margin:14px 0;box-shadow:0 3px 0 rgba(79,140,255,.12)}
+.bai h3{margin:0 0 4px;font-size:22px;color:#1b3a8c}
+.bai p{margin:4px 0}
+.dong{margin:6px 0;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.dong .so{font-weight:700;min-width:28px}
+.blk{display:block}
+/* ===== Ô nhập ===== */
+.slot{display:inline-flex;flex-wrap:wrap;align-items:center;gap:4px 8px;vertical-align:middle}
+.slot.blk{display:flex;width:100%}
+.in,.ta{font:inherit;font-size:22px;border:none;border-bottom:3px dashed #8aa4d6;background:#f4f8ff;border-radius:8px 8px 0 0;padding:2px 8px;color:#143;outline:none}
+.in:focus,.ta:focus{background:#e6f0ff;border-bottom-color:var(--main2)}
+.w-s{width:84px}.w-m{width:170px}.w-l{width:300px;max-width:100%}.w-xl{width:540px;max-width:100%}
+.ta{width:100%;border:2px dashed #8aa4d6;border-radius:12px;padding:8px 10px;line-height:1.5;resize:vertical}
+.giai label,.dapso{font-weight:700}
+.giai{margin-top:8px}
+.dapso{margin-top:8px;display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.dsb,.ch,.daub{font:inherit;cursor:pointer;border:3px solid #9db4e3;background:#fff;color:#234;border-radius:12px;min-width:52px;min-height:52px;padding:2px 12px}
+.dsb.on{background:#fff0b8;border-color:#e0a100;font-weight:700}
+.daub{width:56px;font-size:30px;font-weight:700;border-radius:10px}
+.daub.on{background:#fff0b8;border-color:#e0a100}
+.choices{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.ch{text-align:left;border-radius:14px;padding:4px 16px;border-color:#cdd8f0}
+.ch.on{border:4px solid #e0334c;border-radius:999px;background:#fff1f3;font-weight:700}
+/* ===== Dấu chấm điểm ===== */
+.mk{font-weight:700;font-size:22px}
+.mk small{font-size:15px;font-weight:400;margin-left:4px}
+.slot.ok .in,.slot.ok .ta{border-color:var(--ok);background:#e8f8ef}.slot.ok .mk{color:var(--ok)}
+.slot.gan .in,.slot.gan .ta{border-color:var(--warn);background:#fff8e1}.slot.gan .mk{color:var(--warn)}
+.slot.sai .in,.slot.sai .ta{border-color:var(--bad);background:#fdeceb}.slot.sai .mk{color:var(--bad)}
+.slot.ok .dsb.on,.slot.ok .ch.on,.slot.ok .daub.on{outline:3px solid var(--ok)}
+.slot.sai .dsb.on,.slot.sai .ch.on,.slot.sai .daub.on{outline:3px solid var(--bad)}
+.slot.gan .daub.on{outline:3px solid var(--warn)}
+.dapan-slot,.dapan-note{display:none;color:#0b6b3a;background:#e6f7ee;border-radius:8px;padding:0 8px;font-size:18px;font-weight:600}
+.dapan-note{padding:6px 10px;margin-top:8px}
+body.phuhuynh .dapan-slot,.bai.lo .dapan-slot{display:inline-block}
+body.phuhuynh .dapan-note,.bai.lo .dapan-note{display:block}
+/* ===== Nút bấm ===== */
+.btn{font:inherit;font-weight:700;cursor:pointer;border:none;border-radius:14px;padding:8px 20px;min-height:52px;background:var(--main);color:#fff;box-shadow:0 4px 0 var(--main2)}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--main2)}
+.btn.phu{background:#8a93a8;box-shadow:0 4px 0 #6b748a}
+.btn.nop{background:#25b36b;box-shadow:0 4px 0 #168a50;font-size:24px;padding:10px 30px}
+.btn.lam{background:#f08a24;box-shadow:0 4px 0 #c46c10}
+.btn[hidden]{display:none}
+.chan{margin-top:10px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.tb{font-size:18px;font-weight:600}
+.hanh{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:26px 0 10px}
+#ketqua{display:none;background:#fff;border:3px solid #25b36b;border-radius:18px;padding:12px 20px;margin:14px 0}
+#ketqua h2{margin:4px 0;color:#168a50}
+#ketqua .diem{font-size:28px;font-weight:700}
+#ketqua ul{margin:6px 0 6px 22px;padding:0;font-size:19px}
+.small{font-size:17px;color:#556}
+/* ===== Hình vẽ ===== */
+.hinh{max-width:100%}
+.ngang{display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+.sodo7{position:relative;width:100%;max-width:460px;aspect-ratio:400/130}
+.sodo7 svg{position:absolute;inset:0;width:100%;height:100%}
+.sodo7 .lb{position:absolute;left:0;display:flex;align-items:center;gap:4px}
+.board{position:relative;width:200px;height:308px;background:#fffdf5;border:2px solid #e3d9b8;border-radius:10px;touch-action:none}
+.board svg,.board canvas{position:absolute;inset:0;width:100%;height:100%}
+.board canvas{touch-action:none;cursor:crosshair}
+.mini{width:260px;max-width:100%}
+@media(max-width:560px){body{font-size:19px}.bai{padding:10px 12px}.w-xl{width:100%}}
+</style>
+</head>
+<body>
+<header>
+  <h1>TUẦN 10</h1>
+  <div class="tien"><div id="bar"></div></div>
+  <span id="tiendo">Đã làm 0 / 0 ô</span>
+</header>
+<main>
+<p class="luuy">Khi gõ phép tính, dấu trừ em gõ là “-”, dấu cộng là “+”.</p>
+
+<!-- ================= PHẦN I ================= -->
+<h2 class="phan">Phần I. Trắc nghiệm khách quan</h2>
+<p class="hd">Điền chữ hoặc số thích hợp vào chỗ trống.</p>
+
+<section class="bai" data-bai="p1_b1" data-ten="Phần I - Bài 1">
+  <h3>Bài 1. <span style="font-weight:400;color:inherit;font-size:21px">Giá trị thích hợp của y để :</span></h3>
+  <div class="dong"><span class="so">1.</span> 38 + y = 23 + 47 là : <span class="slot" data-id="p1_b1_c1" data-kind="text" data-w="m" data-num="1"></span></div>
+  <div class="dong"><span class="so">2.</span> y + 42 = 90 – 19 là : <span class="slot" data-id="p1_b1_c2" data-kind="text" data-w="m" data-num="1"></span></div>
+  <div class="dong"><span class="so">3.</span> 37 + y = 91 – 16 – 15 là : <span class="slot" data-id="p1_b1_c3" data-kind="text" data-w="m" data-num="1"></span></div>
+  <div class="dong"><span class="so">4.</span> 54 + y = 43 + 47 là : <span class="slot" data-id="p1_b1_c4" data-kind="text" data-w="m" data-num="1"></span></div>
+</section>
+
+<section class="bai" data-bai="p1_b2" data-ten="Phần I - Bài 2">
+  <h3>Bài 2.</h3>
+  <div class="dong"><span class="so">1.</span><span>Hiệu của hai số có hai chữ số, có hàng đơn vị bằng 1 bằng 80. Vậy phép trừ đó là : <span class="slot" data-id="p1_b2_c1" data-kind="text" data-w="l"></span></span></div>
+  <div class="dong"><span class="so">2.</span><span>Hiệu của số tròn chục với số có hai chữ số bằng 75. Vậy phép trừ đó là : <span class="slot" data-id="p1_b2_c2" data-kind="text" data-w="l"></span></span></div>
+  <div class="dong"><span class="so">3.</span><span>Hiệu của số tròn chục với số có hai chữ số bằng 68. Vậy phép trừ đó là :</span></div>
+  <div class="dong" style="padding-left:36px"><span>a) <span class="slot" data-id="p1_b2_c3_a" data-kind="text" data-w="m"></span></span> <span>b) <span class="slot" data-id="p1_b2_c3_b" data-kind="text" data-w="m"></span></span></div>
+  <div class="dong"><span class="so">4.</span><span>Hiệu của số có hai chữ số giống nhau với số tròn chục bằng 58. Vậy phép trừ đó là : <span class="slot" data-id="p1_b2_c4" data-kind="text" data-w="l"></span></span></div>
+</section>
+
+<section class="bai" data-bai="p1_b3" data-ten="Phần I - Bài 3">
+  <h3>Bài 3.</h3>
+  <div class="dong"><span class="so">1.</span><span>Hiệu của hai số có hai chữ số giống nhau bằng 88 . Vậy phép trừ đó là : <span class="slot" data-id="p1_b3_c1" data-kind="text" data-w="l"></span></span></div>
+  <div class="dong"><span class="so">2.</span><span>Hiệu của số có hai chữ số giống nhau với số lớn nhất có một chữ số là số tròn chục. Vậy phép trừ đó là : <span class="slot" data-id="p1_b3_c2" data-kind="text" data-w="l"></span></span></div>
+  <div class="dong"><span class="so">3.</span><span>Khi trừ 30 với số liền trước của số tròn chục ta được hiệu là số có hai chữ số. Vậy phép trừ đó là :</span></div>
+  <div class="dong" style="padding-left:36px"><span>a) <span class="slot" data-id="p1_b3_c3_a" data-kind="text" data-w="m"></span></span> <span>b) <span class="slot" data-id="p1_b3_c3_b" data-kind="text" data-w="m"></span></span></div>
+  <div class="dong"><span class="so">4.</span><span>Khi trừ 20 với của số liền trước của số tròn chục ta được hiệu là số liền sau của số tròn chục. Vậy phép trừ đó là : <span class="slot" data-id="p1_b3_c4" data-kind="text" data-w="l"></span></span></div>
+  <div class="dong"><span class="so">5.</span><span>Khi trừ 30 với số liền sau một số tròn chục ta được số liền trước của số tròn chục khác. Vậy phép trừ đó là :</span></div>
+  <div class="dong" style="padding-left:36px"><span>a) <span class="slot" data-id="p1_b3_c5_a" data-kind="text" data-w="m"></span></span> <span>b) <span class="slot" data-id="p1_b3_c5_b" data-kind="text" data-w="m"></span></span></div>
+</section>
+
+<section class="bai" data-bai="p1_b4" data-ten="Phần I - Bài 4">
+  <p><b>Bài 4.</b> <b>Điền dấu phép tính "+" hoặc "–" vào ô trống cho thích hợp.</b></p>
+  <div class="dong"><span class="so">1.</span> 71 <span class="slot" data-id="p1_b4_c1_a" data-kind="dau"></span> 52 <span class="slot" data-id="p1_b4_c1_b" data-kind="dau"></span> 21 = 40</div>
+  <div class="dong"><span class="so">2.</span> 90 <span class="slot" data-id="p1_b4_c2_a" data-kind="dau"></span> 38 <span class="slot" data-id="p1_b4_c2_b" data-kind="dau"></span> 18 = 70</div>
+  <div class="dong"><span class="so">3.</span> 33 <span class="slot" data-id="p1_b4_c3_a" data-kind="dau"></span> 47 <span class="slot" data-id="p1_b4_c3_b" data-kind="dau"></span> 24 = 56</div>
+  <div class="dong"><span class="so">4.</span> 24 <span class="slot" data-id="p1_b4_c4_a" data-kind="dau"></span> 57 <span class="slot" data-id="p1_b4_c4_b" data-kind="dau"></span> 39 = 42</div>
+</section>
+
+<p class="hd">Điền chữ hoặc số thích hợp vào chỗ trống.</p>
+
+<section class="bai" data-bai="p1_b5" data-ten="Phần I - Bài 5">
+  <p><b>Bài 5.</b> Có hai can đựng dầu. Can thứ nhất đựng nhiều hơn can thứ hai 12 lít. Người bán hàng vừa bán 21 lít dầu từ can thứ nhất. Vậy lúc này số dầu trong can thứ nhất <span class="slot" data-id="p1_b5_c1" data-kind="text" data-w="m"></span> can thứ hai và <span class="slot" data-id="p1_b5_c2" data-kind="text" data-w="s"></span> hơn <span class="slot" data-id="p1_b5_c3" data-kind="text" data-w="s" data-num="1"></span> lít.</p>
+</section>
+
+<section class="bai" data-bai="p1_b6" data-ten="Phần I - Bài 6">
+  <p><b>Bài 6.</b> Có hai thùng đựng nước mắm. Thùng thứ nhất đựng ít hơn thùng thứ hai 15 lít. Người bán hàng đổ thêm vào thùng thứ nhất 21 lít. Vậy lúc này số nước mắm trong thùng thứ nhất <span class="slot" data-id="p1_b6_c1" data-kind="text" data-w="m"></span> hơn thùng thứ hai và <span class="slot" data-id="p1_b6_c2" data-kind="text" data-w="s" data-num="1"></span> lít.</p>
+</section>
+
+<section class="bai" data-bai="p1_b7" data-ten="Phần I - Bài 7">
+  <p><b>Bài 7.</b> <b>Đúng ghi Đ, sai ghi S vào ô trống.</b></p>
+  <div class="dong"><span class="so">1.</span><span>Số 4 trong số 40 có giá trị bằng 4 đơn vị</span> <span class="slot" data-id="p1_b7_c1" data-kind="ds"></span></div>
+  <div class="dong"><span class="so">2.</span><span>Số 4 trong số 40 có giá trị bằng 40 đơn vị</span> <span class="slot" data-id="p1_b7_c2" data-kind="ds"></span></div>
+  <div class="dong"><span class="so">3.</span><span>Số 7 trong số 74 có giá trị bằng 74 đơn vị</span> <span class="slot" data-id="p1_b7_c3" data-kind="ds"></span></div>
+  <div class="dong"><span class="so">4.</span><span>Số 1 trong số 100 có giá trị bằng 1 đơn vị</span> <span class="slot" data-id="p1_b7_c4" data-kind="ds"></span></div>
+  <div class="dong"><span class="so">5.</span><span>Số 1 trong số 100 có giá trị bằng 10 đơn vị</span> <span class="slot" data-id="p1_b7_c5" data-kind="ds"></span></div>
+  <div class="dong"><span class="so">6.</span><span>Số 1 trong số 100 có giá trị bằng 100 đơn vị</span> <span class="slot" data-id="p1_b7_c6" data-kind="ds"></span></div>
+</section>
+
+<section class="bai" data-bai="p1_b8" data-ten="Phần I - Bài 8">
+  <p><b>Bài 8.</b> Một phép trừ có số bị trừ, số trừ và hiệu số đều bằng nhau. Vậy phép trừ đó là : <span class="slot" data-id="p1_b8_c1" data-kind="text" data-w="l"></span></p>
+</section>
+
+<section class="bai" data-bai="p1_b9" data-ten="Phần I - Bài 9">
+  <p><b>Bài 9.</b> <b><i>Khoanh vào chữ đặt trước câu trả lời đúng.</i></b></p>
+  <div class="ngang">
+    <div>
+      <p>Trong hình bên có :</p>
+      <span class="slot" data-id="p1_b9_c1" data-kind="choice">
+        <span class="choices">
+          <button type="button" class="ch" data-v="A">A. 2 đoạn thẳng</button>
+          <button type="button" class="ch" data-v="B">B. 4 đoạn thẳng</button>
+          <button type="button" class="ch" data-v="C">C. 6 đoạn thẳng.</button>
+        </span>
+      </span>
+    </div>
+    <!-- Hình 2 đường thẳng cắt nhau tại O -->
+    <svg class="hinh" width="230" height="200" viewBox="0 0 230 200" role="img" aria-label="Hình hai đường thẳng cắt nhau tại O">
+      <line x1="70" y1="5" x2="160" y2="185" stroke="#222" stroke-width="2"/>
+      <line x1="25" y1="160" x2="205" y2="30" stroke="#222" stroke-width="2"/>
+      <g font-size="20" fill="#222" font-family="Arial">
+        <text x="56" y="16">C</text><text x="210" y="36">B</text><text x="8" y="176">A</text><text x="166" y="196">D</text><text x="124" y="84">O</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ================= PHẦN II ================= -->
+<h2 class="phan">Phần II. Tự luận</h2>
+
+<section class="bai" data-bai="p2_b1" data-ten="Phần II - Bài 1">
+  <p><b>Bài 1.</b> Có hai thùng đựng dầu. Sau khi bán 18 lít từ thùng thứ hai thì thùng thứ hai còn nhiều hơn thùng thứ nhất hai chục lít. Hỏi lúc đầu thùng thứ nhất có ít hơn thùng thứ hai bao nhiêu lít dầu ?</p>
+  <div class="giai"><label>Bài giải</label><span class="slot blk" data-id="p2_b1_giai" data-kind="ta" data-rows="4" data-nocount="1"></span></div>
+  <div class="dapso">Đáp số: <span class="slot" data-id="p2_b1_c1" data-kind="text" data-w="xl"></span></div>
+</section>
+
+<section class="bai" data-bai="p2_b2" data-ten="Phần II - Bài 2">
+  <p><b>Bài 2.</b> Nhà Hiền nuôi một đàn gà. Sáng nay mẹ mua thêm ba chục gà con thì số gà con nhiều hơn gà mái 18 con. Hỏi trước khi mẹ mua thêm thì số gà nào nhiều hơn ? Nhiều hơn bao nhiêu con ?</p>
+  <div class="giai"><label>Bài giải</label><span class="slot blk" data-id="p2_b2_giai" data-kind="ta" data-rows="4" data-nocount="1"></span></div>
+  <div class="dapso">Đáp số: <span class="slot" data-id="p2_b2_c1" data-kind="text" data-w="xl"></span></div>
+</section>
+
+<section class="bai" data-bai="p2_b3" data-ten="Phần II - Bài 3">
+  <p><b>Bài 3.</b> Kéo dài đoạn thẳng AB thêm 17cm thì đoạn thẳng AB ngắn hơn đoạn thẳng CD 13cm. Hỏi trước khi kéo dài thì đoạn thẳng CD dài hơn đoạn thẳng AB bao nhiêu đề-xi-mét ?</p>
+  <div class="giai"><label>Bài giải</label><span class="slot blk" data-id="p2_b3_giai" data-kind="ta" data-rows="4" data-nocount="1"></span></div>
+  <div class="dapso">Đáp số: <span class="slot" data-id="p2_b3_c1" data-kind="text" data-w="xl"></span></div>
+</section>
+
+<section class="bai" data-bai="p2_b4" data-ten="Phần II - Bài 4">
+  <p><b>Bài 4.</b> Sáng nay mẹ mua thêm ba chục ki-lô-gam gạo tẻ thì số gạo tẻ trong nhà Huyền nhiều hơn gạo nếp 14kg. Hỏi trước khi mẹ mua thì gạo nào nhiều hơn ? Nhiều hơn bao nhiêu ki-lô-gam ?</p>
+  <div class="giai"><label>Bài giải</label><span class="slot blk" data-id="p2_b4_giai" data-kind="ta" data-rows="4" data-nocount="1"></span></div>
+  <div class="dapso">Đáp số: <span class="slot" data-id="p2_b4_c1" data-kind="text" data-w="xl"></span></div>
+</section>
+
+<section class="bai" data-bai="p2_b5" data-ten="Phần II - Bài 5">
+  <p><b>Bài 5.</b> Có hai cuộn dây điện. Sau khi chú thợ điện cắt 81dm từ cuộn dây thứ nhất để lắp đặt đường điện trong nhà thì cuộn dây thứ hai dài hơn cuộn dây thứ nhất 75dm. Hỏi trước khi cắt cuộn nào dài hơn ? Dài hơn bao nhiêu xăng-ti-mét ?</p>
+  <div class="giai"><label>Bài giải</label><span class="slot blk" data-id="p2_b5_giai" data-kind="ta" data-rows="4" data-nocount="1"></span></div>
+  <div class="dapso">Đáp số: <span class="slot" data-id="p2_b5_c1" data-kind="text" data-w="xl"></span></div>
+</section>
+
+<section class="bai" data-bai="p2_b6" data-ten="Phần II - Bài 6">
+  <p><b>Bài 6.</b> Đặt một đề toán theo sơ đồ dưới đây :</p>
+  <!-- Sơ đồ đoạn thẳng: Loại 1 = 36 lít; Loại 2 = ? lít, dài hơn 14 lít -->
+  <svg class="hinh" width="440" viewBox="0 0 440 120" role="img" aria-label="Sơ đồ Loại 1 và Loại 2" style="max-width:100%;height:auto">
+    <g font-family="Arial" font-size="16" fill="#222">
+      <text x="20" y="36">Loại 1 :</text><text x="20" y="80">Loại 2 :</text>
+      <text x="170" y="22">36 lít</text><text x="214" y="46">? lít</text><text x="300" y="112">14 lít</text>
+    </g>
+    <g stroke="#222" stroke-width="1.6" fill="none">
+      <line x1="110" y1="32" x2="270" y2="32"/><line x1="110" y1="26" x2="110" y2="38"/><line x1="270" y1="26" x2="270" y2="38"/>
+      <line x1="110" y1="76" x2="270" y2="76"/><line x1="110" y1="70" x2="110" y2="82"/>
+      <line x1="270" y1="76" x2="345" y2="76" stroke-dasharray="4 4"/><line x1="345" y1="70" x2="345" y2="82"/>
+      <line x1="270" y1="32" x2="270" y2="76" stroke-dasharray="3 3"/>
+      <path d="M110 70 Q227 50 345 70" stroke-dasharray="4 4"/>
+      <path d="M270 84 Q307 98 345 84" stroke-dasharray="3 3"/>
+    </g>
+  </svg>
+  <div class="giai"><label>Bài làm</label><span class="slot blk" data-id="p2_b6_giai" data-kind="ta" data-rows="4"></span></div>
+</section>
+
+<section class="bai" data-bai="p2_b7" data-ten="Phần II - Bài 7">
+  <p><b>Bài 7.</b> Đặt một đề toán theo sơ đồ dưới đây :</p>
+  <!-- Sơ đồ: đoạn 80kg, một phần 16kg; đoạn dưới ngắn hơn -->
+  <div class="sodo7">
+    <svg viewBox="0 0 400 130" role="img" aria-label="Sơ đồ đoạn 80kg và 16kg">
+      <g stroke="#222" stroke-width="1.6" fill="none">
+        <line x1="110" y1="46" x2="330" y2="46"/><line x1="110" y1="40" x2="110" y2="52"/><line x1="330" y1="40" x2="330" y2="52"/>
+        <line x1="290" y1="40" x2="290" y2="52"/>
+        <path d="M110 38 Q220 14 330 38" stroke-dasharray="4 4"/>
+        <path d="M290 56 Q310 70 330 56" stroke-dasharray="3 3"/>
+        <line x1="110" y1="100" x2="290" y2="100"/><line x1="110" y1="94" x2="110" y2="106"/><line x1="290" y1="94" x2="290" y2="106"/>
+        <line x1="290" y1="52" x2="290" y2="100" stroke-dasharray="3 3"/>
+      </g>
+      <g font-family="Arial" font-size="15" fill="#222"><text x="205" y="18">80kg</text><text x="296" y="82">16kg</text></g>
+    </svg>
+    <span class="lb" style="top:20%"><span class="slot" data-id="p2_b7_nhan1" data-kind="text" data-w="s" data-nocount="1"></span>:</span>
+    <span class="lb" style="top:62%"><span class="slot" data-id="p2_b7_nhan2" data-kind="text" data-w="s" data-nocount="1"></span>:</span>
+  </div>
+  <div class="giai"><label>Bài làm</label><span class="slot blk" data-id="p2_b7_giai" data-kind="ta" data-rows="4"></span></div>
+</section>
+
+<section class="bai" data-bai="p2_b8" data-ten="Phần II - Bài 8">
+  <p><b>Bài 8.</b> Khi cộng số liền sau với số liền trước của một số tròn chục ta được tổng bằng 100. Tìm phép cộng đó.</p>
+  <div class="giai"><label>Bài giải</label><span class="slot blk" data-id="p2_b8_giai" data-kind="ta" data-rows="3" data-nocount="1"></span></div>
+  <div class="dapso">Đáp số: <span class="slot" data-id="p2_b8_c1" data-kind="text" data-w="l"></span></div>
+</section>
+
+<section class="bai" data-bai="p2_b9" data-ten="Phần II - Bài 9">
+  <p><b>Bài 9.</b> Cho 4 mảnh gỗ hình tam giác :</p>
+  <svg class="hinh mini" width="120" viewBox="0 0 70 110" role="img" aria-label="Mảnh gỗ hình tam giác">
+    <polygon points="10,5 10,100 55,100" fill="#fffdf5" stroke="#222" stroke-width="1.8"/>
+  </svg>
+  <p>Hãy ghép 4 mảnh gỗ đó để được hình tam giác :</p>
+  <p class="small">(Em dùng ngón tay hoặc bút vẽ các đường chia hình tam giác thành 4 mảnh.)</p>
+  <span class="slot blk" data-id="p2_b9_c1" data-kind="draw"></span>
+  <span class="dapan-note" id="dapan_b9">
+    Đáp án (hình mẫu):
+    <svg width="130" height="200" viewBox="0 0 130 200" style="vertical-align:middle;background:#fff;border-radius:8px">
+      <polygon points="20,10 20,190 110,190" fill="none" stroke="#222" stroke-width="2"/>
+      <g stroke="#0b6b3a" stroke-width="2"><line x1="20" y1="100" x2="65" y2="100"/><line x1="65" y1="100" x2="65" y2="190"/><line x1="20" y1="100" x2="65" y2="190"/></g>
+    </svg>
+  </span>
+</section>
+
+<section class="bai" data-bai="p2_b10" data-ten="Phần II - Bài 10">
+  <p><b>Bài 10.</b> Trên bàn có 13 que diêm. Hai bạn Hoà và Mai lần lượt mỗi người lấy từ 1 đến 2 que. Ai lấy được que cuối cùng là người thua cuộc. Mai lấy trước. Hỏi bạn Hoà phải chọn cách đi như thế nào để chắc chắn mình thắng cuộc ?</p>
+  <div class="giai"><label>Bài giải</label><span class="slot blk" data-id="p2_b10_giai" data-kind="ta" data-rows="5"></span></div>
+</section>
+
+<div class="hanh">
+  <button class="btn nop" id="btnNop" type="button">Nộp bài</button>
+  <button class="btn lam" id="btnLam" type="button">Làm lại</button>
+  <button class="btn phu" id="btnPhu" type="button" hidden>Chế độ ba mẹ</button>
+</div>
+<div id="ketqua"></div>
+</main>
+
+<!-- ================= SCRIPT 1: DỮ LIỆU + HÀM CHẤM (không đụng tới giao diện) ================= -->
+<script id="logic">
+var KEY_STORE = "baitap_tuan10";
+var MA_BA_ME = "1234"; /* mã vào chế độ ba mẹ, đổi ở đây */
+
+/* ANSWER_KEY: lấy từ ảnh đáp án (ảnh 5-6). Sửa tay được; xóa hết các mục để tắt chế độ chấm.
+   kieu: so | chu | phep | phepnhom | dau | dungsai | chon | dapso */
+var ANSWER_KEY = {
+  p1_b1_c1:{kieu:"so",dapan:"32"}, p1_b1_c2:{kieu:"so",dapan:"29"}, p1_b1_c3:{kieu:"so",dapan:"23"}, p1_b1_c4:{kieu:"so",dapan:"36"},
+  p1_b2_c1:{kieu:"phep",dapan:"91-11=80"}, p1_b2_c2:{kieu:"phep",dapan:"90-15=75"},
+  p1_b2_c3_a:{kieu:"phepnhom",dapan:["80-12=68","90-22=68"]}, p1_b2_c3_b:{kieu:"phepnhom",dapan:["80-12=68","90-22=68"]},
+  p1_b2_c4:{kieu:"phep",dapan:"88-30=58"},
+  p1_b3_c1:{kieu:"phep",dapan:"99-11=88"}, p1_b3_c2:{kieu:"phep",dapan:"99-9=90"},
+  p1_b3_c3_a:{kieu:"phepnhom",dapan:["30-19=11","30-9=21"]}, p1_b3_c3_b:{kieu:"phepnhom",dapan:["30-19=11","30-9=21"]},
+  p1_b3_c4:{kieu:"phep",dapan:"20-9=11"},
+  p1_b3_c5_a:{kieu:"phepnhom",dapan:["30-11=19","30-21=9"]}, p1_b3_c5_b:{kieu:"phepnhom",dapan:["30-11=19","30-21=9"]},
+  p1_b4_c1_a:{kieu:"dau",dapan:"-"}, p1_b4_c1_b:{kieu:"dau",dapan:"+"},
+  p1_b4_c2_a:{kieu:"dau",dapan:"-"}, p1_b4_c2_b:{kieu:"dau",dapan:"+"},
+  p1_b4_c3_a:{kieu:"dau",dapan:"+"}, p1_b4_c3_b:{kieu:"dau",dapan:"-"},
+  p1_b4_c4_a:{kieu:"dau",dapan:"+"}, p1_b4_c4_b:{kieu:"dau",dapan:"-"},
+  p1_b5_c1:{kieu:"chu",dapan:"ít hơn"}, p1_b5_c2:{kieu:"chu",dapan:"ít"}, p1_b5_c3:{kieu:"so",dapan:"9"},
+  p1_b6_c1:{kieu:"chu",dapan:"nhiều"}, p1_b6_c2:{kieu:"so",dapan:"6"},
+  p1_b7_c1:{kieu:"dungsai",dapan:"S"}, p1_b7_c2:{kieu:"dungsai",dapan:"Đ"}, p1_b7_c3:{kieu:"dungsai",dapan:"S"},
+  p1_b7_c4:{kieu:"dungsai",dapan:"S"}, p1_b7_c5:{kieu:"dungsai",dapan:"S"}, p1_b7_c6:{kieu:"dungsai",dapan:"Đ"},
+  p1_b8_c1:{kieu:"phep",dapan:"0-0=0"},
+  p1_b9_c1:{kieu:"chon",dapan:"C"},
+  p2_b1_c1:{kieu:"dapso",tu:[],so:"38",donvi:["lít"]},
+  p2_b2_c1:{kieu:"dapso",tu:[["gà mái"]],so:"12",donvi:["con"]},
+  p2_b3_c1:{kieu:"dapso",tu:[],so:"3",donvi:["dm","đề-xi-mét","đề xi mét"]},
+  p2_b4_c1:{kieu:"dapso",tu:[["gạo nếp"]],so:"16",donvi:["kg","ki-lô-gam","ki lô gam"]},
+  p2_b5_c1:{kieu:"dapso",tu:[["thứ nhất","thứ 1","cuộn 1"]],so:"60",donvi:["cm","xăng-ti-mét","xăng ti mét"]},
+  p2_b8_c1:{kieu:"phep",dapan:"49+51=100"}
+};
+/* Ghi chú đáp án cho các bài không chấm tự động (chỉ hiện ở chế độ ba mẹ) */
+var ANSWER_NOTES = {
+  p2_b6:"Học sinh tự làm.",
+  p2_b7:"Học sinh tự làm.",
+  p2_b10:"Mỗi lần Hoà lấy số que bằng 3 trừ đi số Mai vừa lấy. Sau 4 lần thì trên bàn còn lại 1 que. Đến lượt Mai lấy."
+};
+/* Các ô a) b) được phép trả lời theo thứ tự nào cũng được, nhưng 2 ý phải khác nhau */
+var NHOM = [["p1_b2_c3_a","p1_b2_c3_b"],["p1_b3_c3_a","p1_b3_c3_b"],["p1_b3_c5_a","p1_b3_c5_b"]];
+var HAS_KEY = Object.keys(ANSWER_KEY).length > 0;
+
+/* ----- Trạng thái bài làm ----- */
+var S = {v:{}, att:{}};
+try {
+  var raw = localStorage.getItem(KEY_STORE);
+  if (raw) { S = JSON.parse(raw); if (!S.v) S.v = {}; if (!S.att) S.att = {}; }
+} catch (e) {}
+function save(){ try { localStorage.setItem(KEY_STORE, JSON.stringify(S)); } catch (e) {} }
+
+/* ----- Chuẩn hóa chuỗi ----- */
+function nfc(s){ return (s||"").toString().normalize("NFC"); }
+function cleanText(s){ return nfc(s).toLowerCase().replace(/[.,;:!?]+$/,"").replace(/\s+/g," ").trim(); }
+function noAccent(s){ return cleanText(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d"); }
+function normExpr(s){ return nfc(s).toLowerCase().replace(/[–−—‒]/g,"-").replace(/\s+/g,"").replace(/[.=]+$/,""); }
+function parseExpr(s){
+  var m = normExpr(s).match(/^(\d+)([+\-])(\d+)(?:=(\d+))?$/);
+  return m ? {a:+m[1], op:m[2], b:+m[3], r:(m[4]===undefined?null:+m[4])} : null;
+}
+function sameExpr(inp, exp){
+  var x = parseExpr(inp), y = parseExpr(exp);
+  if (!x || !y || x.op !== y.op) return false;
+  if (y.r !== null && x.r !== null && x.r !== y.r) return false;
+  if (x.op === "+") return (x.a===y.a && x.b===y.b) || (x.a===y.b && x.b===y.a); /* phép cộng đổi chỗ được */
+  return x.a===y.a && x.b===y.b; /* phép trừ phải đúng thứ tự */
+}
+function fmtExpr(e){ return e.replace(/-/g," – ").replace(/\+/g," + ").replace(/=/g," = "); }
+function fmtAns(k){
+  switch (k.kieu){
+    case "phep": return fmtExpr(k.dapan);
+    case "phepnhom": return k.dapan.map(fmtExpr).join("  hoặc  ");
+    case "dau": return k.dapan === "-" ? "–" : "+";
+    case "dapso": return k.tu.map(function(g){return g[0];}).concat([k.so + (k.donvi && k.donvi[0] ? " " + k.donvi[0] : "")]).join(", ");
+    default: return k.dapan;
+  }
+}
+
+/* ----- Chấm một ô: trả về {st: dung|gan|sai|trong, sc, msg} ----- */
+function gradeCell(id){
+  var k = ANSWER_KEY[id]; if (!k) return null;
+  var val = (S.v[id] || "").toString();
+  if (!val.trim()) return {st:"trong", sc:0};
+  var ok = false, t;
+  switch (k.kieu){
+    case "so":
+      t = val.replace(/\s/g,"").replace(/^y=/i,"").replace(/[.,;]+$/,"");
+      ok = (/^\d+$/.test(t) && /^\d+$/.test(k.dapan)) ? Number(t) === Number(k.dapan) : cleanText(t) === cleanText(k.dapan);
+      return ok ? {st:"dung",sc:1} : {st:"sai",sc:0};
+    case "chu":
+      if (cleanText(val) === cleanText(k.dapan)) return {st:"dung",sc:1};
+      if (noAccent(val) === noAccent(k.dapan)) return {st:"gan",sc:0.5,msg:"Đúng chữ rồi, nhớ gõ dấu nhé!"};
+      return {st:"sai",sc:0};
+    case "phep":
+      return sameExpr(val, k.dapan) ? {st:"dung",sc:1} : {st:"sai",sc:0};
+    case "phepnhom":
+      ok = k.dapan.some(function(d){ return sameExpr(val, d); });
+      if (ok){
+        for (var g = 0; g < NHOM.length; g++){
+          var idx = NHOM[g].indexOf(id);
+          if (idx > 0){
+            for (var j = 0; j < idx; j++){
+              if (sameExpr(S.v[NHOM[g][j]] || "", val) || sameExpr(val, S.v[NHOM[g][j]] || "")) return {st:"sai",sc:0,msg:"Hai ý phải khác nhau"};
+            }
+          }
+        }
+      }
+      return ok ? {st:"dung",sc:1} : {st:"sai",sc:0};
+    case "dau": case "dungsai": case "chon":
+      return val === k.dapan ? {st:"dung",sc:1} : {st:"sai",sc:0};
+    case "dapso":
+      var low = cleanText(val), na = noAccent(val);
+      var nums = (val.match(/\d+/g) || []).map(Number);
+      var okNum = nums.indexOf(Number(k.so)) >= 0;
+      var okTu = (k.tu || []).every(function(gr){ return gr.some(function(w){ return low.indexOf(cleanText(w)) >= 0 || na.indexOf(noAccent(w)) >= 0; }); });
+      var okDv = !k.donvi || !k.donvi.length || k.donvi.some(function(u){ return low.indexOf(cleanText(u)) >= 0 || na.indexOf(noAccent(u)) >= 0; });
+      if (okNum && okTu && okDv) return {st:"dung",sc:1};
+      if (okNum && okTu) return {st:"gan",sc:0.5,msg:"Đúng số rồi, nhớ ghi đơn vị nhé!"};
+      return {st:"sai",sc:0};
+  }
+  return {st:"sai",sc:0};
+}
+</script>
+
+<!-- ================= SCRIPT 2: GIAO DIỆN ================= -->
+<script>
+(function(){
+  var SL = {};
+  var slots = Array.prototype.slice.call(document.querySelectorAll(".slot"));
+  var cards = Array.prototype.slice.call(document.querySelectorAll(".bai"));
+
+  function setVal(id, v){
+    S.v[id] = v; save();
+    var s = SL[id]; if (s) clearMark(s);
+    updateProgress();
+  }
+  function clearMark(s){
+    s.classList.remove("ok","gan","sai");
+    var m = s.querySelector(".mk"); if (m) m.innerHTML = "";
+  }
+  function showMark(s, r){
+    clearMark(s);
+    var m = s.querySelector(".mk"); if (!m || !r) return;
+    if (r.st === "dung"){ s.classList.add("ok"); m.textContent = "✔"; }
+    else if (r.st === "gan"){ s.classList.add("gan"); m.innerHTML = "⚠<small>" + (r.msg||"") + "</small>"; }
+    else if (r.st === "sai"){ s.classList.add("sai"); m.innerHTML = "✘" + (r.msg ? "<small>"+r.msg+"</small>" : ""); }
+  }
+
+  /* ----- Tạo ô nhập theo loại ----- */
+  slots.forEach(function(slot){
+    var id = slot.dataset.id, kind = slot.dataset.kind;
+    SL[id] = slot;
+    if (kind === "text"){
+      var i = document.createElement("input");
+      i.type = "text"; i.className = "in w-" + (slot.dataset.w || "m");
+      i.setAttribute("autocomplete","off"); i.setAttribute("autocapitalize","off"); i.spellcheck = false;
+      if (slot.dataset.num) i.inputMode = "numeric";
+      i.value = S.v[id] || "";
+      i.addEventListener("input", function(){ setVal(id, i.value); });
+      slot.appendChild(i);
+    } else if (kind === "ta"){
+      var t = document.createElement("textarea");
+      t.className = "ta"; t.rows = +(slot.dataset.rows || 4); t.spellcheck = false;
+      t.value = S.v[id] || "";
+      t.addEventListener("input", function(){ setVal(id, t.value); });
+      slot.appendChild(t);
+    } else if (kind === "ds"){
+      ["Đ","S"].forEach(function(l){
+        var b = document.createElement("button"); b.type = "button"; b.className = "dsb"; b.dataset.v = l; b.textContent = l;
+        b.addEventListener("click", function(){ setVal(id, S.v[id] === l ? "" : l); sync(slot); });
+        slot.appendChild(b);
+      });
+      sync(slot);
+    } else if (kind === "dau"){
+      var d = document.createElement("button"); d.type = "button"; d.className = "daub"; d.setAttribute("aria-label","Chọn dấu + hoặc –");
+      d.addEventListener("click", function(){
+        var cur = S.v[id] || "";
+        setVal(id, cur === "" ? "+" : (cur === "+" ? "-" : ""));
+        sync(slot);
+      });
+      slot.appendChild(d); sync(slot);
+    } else if (kind === "choice"){
+      Array.prototype.forEach.call(slot.querySelectorAll(".ch"), function(b){
+        b.addEventListener("click", function(){ setVal(id, S.v[id] === b.dataset.v ? "" : b.dataset.v); sync(slot); });
+      });
+      sync(slot);
+    } else if (kind === "draw"){
+      initDraw(slot);
+    }
+    var mk = document.createElement("span"); mk.className = "mk"; slot.appendChild(mk);
+    if (ANSWER_KEY[id]){
+      var da = document.createElement("span"); da.className = "dapan-slot"; da.textContent = "Đáp án: " + fmtAns(ANSWER_KEY[id]); slot.appendChild(da);
+    }
+  });
+
+  function sync(slot){
+    var id = slot.dataset.id, v = S.v[id] || "";
+    Array.prototype.forEach.call(slot.querySelectorAll(".dsb,.ch"), function(b){ b.classList.toggle("on", b.dataset.v === v); });
+    var d = slot.querySelector(".daub");
+    if (d){ d.textContent = v === "+" ? "+" : (v === "-" ? "–" : ""); d.classList.toggle("on", v !== ""); }
+  }
+
+  /* ----- Khung vẽ cho Phần II, Bài 9 ----- */
+  function initDraw(slot){
+    var id = slot.dataset.id;
+    var board = document.createElement("div"); board.className = "board";
+    board.innerHTML = '<svg viewBox="0 0 130 200" aria-label="Hình tam giác lớn"><polygon points="20,10 20,190 110,190" fill="none" stroke="#222" stroke-width="2"/></svg><canvas width="400" height="616"></canvas>';
+    var cv = board.querySelector("canvas"), ctx = cv.getContext("2d");
+    ctx.lineWidth = 7; ctx.lineCap = "round"; ctx.strokeStyle = "#e0334c";
+    function load(){
+      if (!S.v[id]) return;
+      var im = new Image(); im.onload = function(){ ctx.drawImage(im, 0, 0); }; im.src = S.v[id];
+    }
+    load();
+    var drawing = false;
+    function pos(e){ var r = cv.getBoundingClientRect(); return {x:(e.clientX-r.left)*cv.width/r.width, y:(e.clientY-r.top)*cv.height/r.height}; }
+    cv.addEventListener("pointerdown", function(e){ drawing = true; cv.setPointerCapture(e.pointerId); var p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x+0.1, p.y+0.1); ctx.stroke(); e.preventDefault(); });
+    cv.addEventListener("pointermove", function(e){ if (!drawing) return; var p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); });
+    function end(){ if (!drawing) return; drawing = false; try { setVal(id, cv.toDataURL("image/png")); } catch (er) {} }
+    cv.addEventListener("pointerup", end); cv.addEventListener("pointercancel", end);
+    var xoa = document.createElement("button"); xoa.type = "button"; xoa.className = "btn phu"; xoa.textContent = "Xóa nét vẽ"; xoa.style.marginTop = "8px";
+    xoa.addEventListener("click", function(){ ctx.clearRect(0,0,cv.width,cv.height); setVal(id, ""); });
+    slot.appendChild(board); slot.appendChild(xoa);
+  }
+
+  /* ----- Thanh tiến độ ----- */
+  function updateProgress(){
+    var all = slots.filter(function(s){ return !s.dataset.nocount; });
+    var done = all.filter(function(s){ return (S.v[s.dataset.id] || "").toString().trim() !== ""; }).length;
+    document.getElementById("bar").style.width = (all.length ? done*100/all.length : 0) + "%";
+    document.getElementById("tiendo").textContent = "Đã làm " + done + " / " + all.length + " ô";
+  }
+
+  /* ----- Chấm theo từng bài ----- */
+  function keyedSlots(card){ return Array.prototype.slice.call(card.querySelectorAll(".slot")).filter(function(s){ return ANSWER_KEY[s.dataset.id]; }); }
+  function checkCard(card){
+    var r = {sc:0, n:0, wrong:0, empty:0, near:0};
+    keyedSlots(card).forEach(function(s){
+      var g = gradeCell(s.dataset.id); showMark(s, g);
+      r.n++; r.sc += g.sc;
+      if (g.st === "sai") r.wrong++; else if (g.st === "trong") r.empty++; else if (g.st === "gan") r.near++;
+    });
+    return r;
+  }
+  function fmtNum(x){ return (Math.round(x*2)/2).toString().replace(".",","); }
+
+  cards.forEach(function(card){
+    var bai = card.dataset.bai, n = keyedSlots(card).length;
+    var note = ANSWER_NOTES[bai];
+    if (note){ var dn = document.createElement("div"); dn.className = "dapan-note"; dn.textContent = "Đáp án: " + note; card.appendChild(dn); }
+    if (!HAS_KEY || !n) return;
+    var f = document.createElement("div"); f.className = "chan";
+    f.innerHTML = '<button type="button" class="btn kt">Kiểm tra</button><button type="button" class="btn phu xem" hidden>Xem đáp án</button><span class="tb"></span>';
+    card.appendChild(f);
+    var tb = f.querySelector(".tb"), xem = f.querySelector(".xem");
+    f.querySelector(".kt").addEventListener("click", function(){
+      var r = checkCard(card);
+      var giai = card.querySelector(".giai") ? " Ba mẹ xem lại phần bài giải nhé." : "";
+      if (!r.wrong && !r.empty && !r.near){ tb.style.color = "#1e9e5a"; tb.textContent = "Giỏi quá! Đúng hết rồi 🎉" + giai; return; }
+      S.att[bai] = (S.att[bai] || 0) + 1; save();
+      tb.style.color = "#c0392b";
+      if (r.empty) tb.textContent = "Em còn ô chưa điền nhé!";
+      else if (!r.wrong) tb.textContent = "Gần đúng rồi, xem dấu ⚠ nhé!";
+      else tb.textContent = S.att[bai] >= 2 ? "Vẫn còn chỗ chưa đúng. Bấm “Xem đáp án” nhé." : "Thử lại nhé! Có chỗ chưa đúng.";
+      if (S.att[bai] >= 2){ xem.hidden = false; }
+    });
+    xem.addEventListener("click", function(){ card.classList.add("lo"); });
+    if ((S.att[bai] || 0) >= 2) xem.hidden = false;
+  });
+
+  /* ----- Nộp bài ----- */
+  document.getElementById("btnNop").addEventListener("click", function(){
+    var box = document.getElementById("ketqua"), html = "", tong = 0, diem = 0, chuaLam = 0, reviewList = [];
+    var rows = [];
+    cards.forEach(function(card){
+      var ten = card.dataset.ten, ks = keyedSlots(card);
+      if (HAS_KEY && ks.length){
+        var r = checkCard(card); tong += r.n; diem += r.sc; chuaLam += r.empty;
+        var icon = (r.sc === r.n) ? "✔" : (r.sc === 0 ? "✘" : "⚠");
+        rows.push("<li>" + ten + ": " + fmtNum(r.sc) + "/" + r.n + " " + icon + (r.empty ? " (còn " + r.empty + " ô chưa điền)" : "") + "</li>");
+      } else {
+        var any = Array.prototype.slice.call(card.querySelectorAll(".slot")).some(function(s){ return (S.v[s.dataset.id] || "").toString().trim() !== ""; });
+        if (HAS_KEY) reviewList.push(ten + (any ? "" : " (chưa làm)"));
+        else rows.push("<li>" + ten + ": " + (any ? "đã làm" : "chưa làm") + "</li>");
+      }
+    });
+    var truoc = []; try { truoc = JSON.parse(localStorage.getItem(KEY_STORE + "_ketqua") || "[]"); } catch (e) {}
+    if (HAS_KEY){
+      var tl = tong ? diem/tong : 0;
+      var khen = tl >= 0.9 ? "Tuyệt vời! 🎉" : (tl >= 0.6 ? "Giỏi lắm! Cố gắng thêm nhé 👍" : "Cố gắng lên, em xem lại các bài chưa đúng nhé 💪");
+      html += "<h2>Kết quả</h2><p class='diem'>Điểm: " + fmtNum(diem) + " / " + tong + " ô &nbsp; " + khen + "</p>";
+      if (chuaLam) html += "<p>Còn " + chuaLam + " ô chưa điền.</p>";
+      html += "<ul>" + rows.join("") + "</ul>";
+      if (reviewList.length) html += "<p class='small'>Ba mẹ xem lại cùng bé (không chấm tự động): " + reviewList.join("; ") + ".</p>";
+      if (truoc.length){ html += "<p class='small'>Các lần nộp trước: " + truoc.slice(-3).map(function(x){ return x.t + " – " + x.diem + "/" + x.tong; }).join(" | ") + "</p>"; }
+      truoc.push({t:new Date().toLocaleString("vi-VN"), diem:fmtNum(diem), tong:tong});
+      try { localStorage.setItem(KEY_STORE + "_ketqua", JSON.stringify(truoc.slice(-20))); } catch (e) {}
+    } else {
+      html += "<h2>Bài đã làm</h2><ul>" + rows.join("") + "</ul>";
+    }
+    box.innerHTML = html; box.style.display = "block"; box.scrollIntoView({behavior:"smooth", block:"start"});
+  });
+
+  /* ----- Làm lại ----- */
+  document.getElementById("btnLam").addEventListener("click", function(){
+    if (confirm("Em có chắc muốn xóa hết bài làm để làm lại không?")){
+      S = {v:{}, att:{}}; save(); location.reload();
+    }
+  });
+
+  /* ----- Chế độ ba mẹ ----- */
+  var phu = document.getElementById("btnPhu");
+  if (HAS_KEY){ phu.hidden = false; }
+  phu.addEventListener("click", function(){
+    if (document.body.classList.contains("phuhuynh")){ document.body.classList.remove("phuhuynh"); phu.textContent = "Chế độ ba mẹ"; return; }
+    var m = prompt("Nhập mã của ba mẹ:");
+    if (m === MA_BA_ME){ document.body.classList.add("phuhuynh"); phu.textContent = "Tắt chế độ ba mẹ"; }
+    else if (m !== null) alert("Mã chưa đúng.");
+  });
+
+  updateProgress();
+})();
+</script>
+</body>
+</html>
